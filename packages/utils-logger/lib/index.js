@@ -21,6 +21,7 @@ const Loggers = new Map()
 
 const LEVEL = bunyan.resolveLevel(Config.get('level'))
 const SRC = Config.get('src') === true
+const PREFIX = Config.get('prefix')
 
 const options = {
   serializers: { err: serializers.err },
@@ -62,13 +63,14 @@ function createLogger (opts = {}) {
   if (lo.isString(opts)) opts = { name: opts }
   if (!opts.name) opts.name = 'process'
   if (!lo.isString(opts.name)) opts.name = 'process'
+  if (PREFIX) opts.name = `${PREFIX}:${opts.name}`
 
   if (Loggers.has(opts.name)) return Loggers.get(opts.name)
 
   const instanceOptions = lo.mergeWith({}, options, { ...opts }, customizer)
   const instance = bunyan.createLogger(instanceOptions)
 
-  Loggers.set(options.name, instance)
+  Loggers.set(opts.name, instance)
 
   return instance
 }
