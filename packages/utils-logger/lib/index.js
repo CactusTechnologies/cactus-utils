@@ -30,7 +30,7 @@ const options = {
 
 // ──────────────────────────────  Add Streams  ────────────────────────────────
 
-if (Config.get('logs.streams.pretty')) {
+if (Config.get('streams.pretty')) {
   options.streams.push({
     level: LEVEL,
     stream: require('./streams/pretty')
@@ -42,7 +42,7 @@ if (Config.get('logs.streams.pretty')) {
   })
 }
 
-if (Config.get('logs.streams.cloudWatch')) {
+if (Config.get('streams.cloudWatch')) {
   options.streams.push({
     type: 'raw',
     level: LEVEL,
