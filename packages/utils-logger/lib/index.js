@@ -6,20 +6,25 @@
  */
 
 /* Dependencies */
-const Config = require('config')
+const Config = require('config').get('logs')
 const lo = require('lodash')
 const bunyan = require('bunyan')
 const serializers = require('./serializers')
 
+/**
+ * A singleton holding all loggers
+ * @type {Map}
+ */
+const Loggers = new Map()
+
 // ───────────────────────────────  Configure  ─────────────────────────────────
 
+const LEVEL = bunyan.resolveLevel(Config.get('level'))
+const SRC = Config.get('src') === true
+
 const options = {
-  serializers: {
-    err: serializers.err
-  },
-
-  src: Boolean(Config.get('logs.src')),
-
+  serializers: { err: serializers.err },
+  src: SRC,
   streams: []
 }
 
@@ -27,12 +32,12 @@ const options = {
 
 if (Config.get('logs.streams.pretty')) {
   options.streams.push({
-    level: parseLevel(Config.get('logs.level')),
+    level: LEVEL,
     stream: require('./streams/pretty')
   })
 } else {
   options.streams.push({
-    level: parseLevel(Config.get('logs.level')),
+    level: LEVEL,
     stream: process.stdout
   })
 }
@@ -40,7 +45,7 @@ if (Config.get('logs.streams.pretty')) {
 if (Config.get('logs.streams.cloudWatch')) {
   options.streams.push({
     type: 'raw',
-    level: parseLevel(Config.get('logs.level')),
+    level: LEVEL,
     stream: require('./streams/cloud-watch')
   })
 }
@@ -53,25 +58,28 @@ if (Config.get('logs.streams.cloudWatch')) {
  * @param  {String} name Logger Name
  * @return {BunyanInstance}
  */
-function createLogger (opt = 'process') {
-  if (lo.isString(opt)) opt = { name: opt }
-  if (!opt.name) opt.name = 'process'
-  opt.name = `${Config.get('logs.prefix')}:${opt.name}`
-  return bunyan.createLogger(Object.assign({}, options, opt))
+function createLogger (opts = {}) {
+  if (lo.isString(opts)) opts = { name: opts }
+  if (!opts.name) opts.name = 'process'
+  if (!lo.isString(opts.name)) opts.name = 'process'
+
+  if (Loggers.has(opts.name)) return Loggers.get(opts.name)
+
+  const instanceOptions = lo.mergeWith({}, options, { ...opts }, customizer)
+  const instance = bunyan.createLogger(instanceOptions)
+
+  Loggers.set(options.name, instance)
+
+  return instance
 }
 
 // ────────────────────────────────  Exports  ──────────────────────────────────
 
 module.exports = createLogger
 module.exports.Serializers = serializers
-
+module.exports.Loggers = Loggers
 // ────────────────────────────────  Private  ──────────────────────────────────
 
-/** Parses the level to a bunyan lvl */
-function parseLevel (level = 30) {
-  try {
-    return bunyan.resolveLevel(level)
-  } catch (e) {
-    return 30
-  }
+function customizer (objValue, srcValue) {
+  if (lo.isArray(objValue)) return lo.union(objValue, srcValue)
 }
