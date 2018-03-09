@@ -1,12 +1,12 @@
 <!--@h1([pkg.name])-->
 
-# @cactus-technologies/lab100-emails
+# @cactus-technologies/lab100-logger
 
 <!--/@-->
 
 <!--@pkg.description-->
 
-Email Comunication templates.
+Customized Logger for the Lab100 ecosystem
 
 <!--/@-->
 
@@ -15,7 +15,7 @@ Email Comunication templates.
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/lab100-emails
+npm install --save @cactus-technologies/lab100-logger
 ```
 
 <!--/@-->
