@@ -1,0 +1,14 @@
+{
+    "folders": [
+        {
+            "folder_exclude_patterns": ["output"],
+            "name": "lab100-uuid",
+            "path": "."
+        },
+        {
+            "name": "Notes",
+            "path": "../lab100-notes"
+        }
+    ],
+    "settings": {}
+}
