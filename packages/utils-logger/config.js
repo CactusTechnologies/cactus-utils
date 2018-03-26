@@ -1,6 +1,6 @@
 const Config = {}
 
-Config.prefix = 'lab100'
+Config.prefix = false
 Config.level = 'info'
 Config.src = false
 
@@ -12,23 +12,21 @@ Config.streams = {
 }
 
 Config.pretty = {
-  strict: false,
-  depth: 4,
-  maxArrayLength: 100,
   colors: 2,
   timeStamps: false
 }
 
 Config.cloudWatch = {
   logGroupName: 'lab100-logs',
-  logStreamName: `local-lab100-${process.pid}`
+  logStreamName: `${Config.prefix}-${process.pid}`,
+  cloudWatchLogsOptions: {}
 }
 
 // ───────────────────────────  Bunyan Middleware  ─────────────────────────────
 
 Config.http = {
-  obscureheaders: ['authorization'],
-  excludeheaders: [
+  obscureHeaders: ['authorization', 'x-lab100-app-secret'],
+  excludeHeaders: [
     'connection',
     'host',
     'pragma',
@@ -43,7 +41,9 @@ Config.http = {
     'x-frame-options',
     'x-dns-prefetch-control',
     'x-amzn-trace-id'
-  ]
+  ],
+  skipUserAgents: ['ELB-HealthChecker/2.0', 'ELB-HealthChecker/1.0'],
+  debugHeader: 'X-Lab100-Debug'
 }
 
 module.exports = Config
