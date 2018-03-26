@@ -50,12 +50,11 @@ if (Config.get('logs.streams.cloudWatch')) {
 }
 
 /**
- * Merge the given options with the default Options and create a bunyan
- *   instance
+ * Merge the given options with the default Options and returns a Logger
  *
  * @param  {(String|Object)} opts Logger's Name or Options
  *
- * @return {BunyanInstance}
+ * @return {Logger}
  */
 
 module.exports = function createLogger (opts = {}) {
