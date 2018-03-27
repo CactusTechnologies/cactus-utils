@@ -1,0 +1,57 @@
+{
+  "name": "@cactus-technologies/lab100-application-helper",
+  "version": "1.0.0",
+  "description": "Helper to manage PM2 App definitions and process states",
+  "homepage": "https://github.com/CactusTechnologies/INGH_ApplicationsHelper#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/INGH_ApplicationsHelper/issues"
+  },
+  "license": "UNLICENCED",
+  "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
+  "main": "process.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CactusTechnologies/INGH_ApplicationsHelper.git"
+  },
+  "scripts": {
+    "precommit": "npm test && npm run docs && lint-staged",
+    "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
+    "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
+    "docs:readme": "mos README.md",
+    "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md || true",
+    "test": "run-s test:* -sn",
+    "test:depcheck": "depcheck --ignores=husky,prettier",
+    "test:lint": "standard --verbose | snazzy",
+    "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**'"
+  },
+  "dependencies": {
+    "@cactus-technologies/lab100-logger": "^1.1.1",
+    "async-exit-hook": "^2.0.1",
+    "config": "^1.30.0",
+    "lodash": "^4.17.5",
+    "moment-timezone": "^0.5.14",
+    "pmx": "^1.6.4"
+  },
+  "devDependencies": {
+    "depcheck": "^0.6.8",
+    "husky": "^0.14.3",
+    "leasot": "^4.13.0",
+    "lint-staged": "^7.0.0",
+    "mos": "^1.3.1",
+    "npm-run-all": "^4.1.2",
+    "prettier": "^1.9.2",
+    "snazzy": "^7.0.0",
+    "standard": "^11.0.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "standard --fix",
+      "git add"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

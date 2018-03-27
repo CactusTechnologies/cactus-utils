@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "name": "lab100-application",
+            "path": "."
+        },
+        {
+            "name": "Notes",
+            "path": "../lab100-notes"
+        }
+    ],
+    "settings": {}
+}
