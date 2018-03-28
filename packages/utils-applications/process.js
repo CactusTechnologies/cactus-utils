@@ -65,9 +65,3 @@ exports.printInfo = (extras = {}) =>
 
     resolve()
   })
-
-exports.notify = data => pmx.notify(data)
-
-exports.emit = Config.get('isDev')
-  ? lo.stubTrue
-  : (id, data) => pmx.emit(id, data || undefined)
