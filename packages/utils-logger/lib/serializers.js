@@ -101,7 +101,7 @@ exports.response = function responseSerializer (resp) {
     ])(resp),
 
     size: fp.pipe([
-      fp.getOr(0, 'request.uri.query'),
+      fp.getOr(0, 'headers.content-length'),
       z => parseInt(z),
       n => prettyBytes(n)
     ])(resp),
