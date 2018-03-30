@@ -59,11 +59,10 @@ if (Config.get('logs.streams.cloudWatch')) {
 
 module.exports = function createLogger (opts = {}) {
   if (lo.isString(opts)) opts = { name: opts }
-  if (!opts.name || !lo.isString(opts.name)) opts.name = 'app'
+  if (!opts.name || !lo.isString(opts.name)) opts.name = 'process'
 
   if (Config.get('logs.prefix')) {
-    if (opts.name === 'app') options.name = Config.get('logs.prefix')
-    else opts.name = `${Config.get('logs.prefix')}:${opts.name}`
+    opts.name = `${Config.get('logs.prefix')}:${opts.name}`
   }
 
   if (Loggers.has(opts.name)) return Loggers.get(opts.name)
