@@ -10,7 +10,7 @@ const logLogs = logger('logs')
 const logProcess = logger('process')
 
 /** @type {BunyanInstance} log shortcut */
-exports.log = require('@cactus-technologies/lab100-logger')()
+exports.log = logger('app')
 
 /** @type {Proxy} PMX module */
 exports.pmx = require('./lib/pmxProxy')
