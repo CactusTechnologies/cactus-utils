@@ -1,5 +1,5 @@
 {
-  "name": "@cactus-technologies/lab100-application-helper",
+  "name": "@cactus-technologies/lab100-application",
   "version": "1.0.0",
   "description": "Helper to manage PM2 App definitions and process states",
   "homepage": "https://github.com/CactusTechnologies/INGH_ApplicationsHelper#readme",
@@ -25,11 +25,14 @@
     "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**'"
   },
   "dependencies": {
-    "@cactus-technologies/lab100-logger": "^1.1.1",
+    "@cactus-technologies/lab100-logger": "^1.1.2",
     "async-exit-hook": "^2.0.1",
     "config": "^1.30.0",
+    "dev-ip": "^1.0.1",
+    "env-paths": "^1.0.0",
     "lodash": "^4.17.5",
-    "moment-timezone": "^0.5.14",
+    "moment": "^2.21.0",
+    "pkg-dir": "^2.0.0",
     "pmx": "^1.6.4"
   },
   "devDependencies": {

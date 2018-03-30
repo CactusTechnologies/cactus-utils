@@ -1,21 +1,19 @@
 'use strict'
 
 const Config = require('config')
-const moment = require('moment-timezone')
-const lo = require('lodash')
+const moment = require('moment')
 const asyncExitHook = require('async-exit-hook')
-const log = require('@cactus-technologies/lab100-logger')()
+const logger = require('@cactus-technologies/lab100-logger')
 
-Config.util.setModuleDefaults('pmx', {
-  http: true,
-  errors: false,
-  custom_probes: true,
-  network: true,
-  ports: true
-})
+const logInit = logger('init')
+const logLogs = logger('logs')
+const logProcess = logger('process')
 
-/** @type {Object} PMX module */
-exports.pmx = require('pmx')
+/** @type {BunyanInstance} log shortcut */
+exports.log = require('@cactus-technologies/lab100-logger')()
+
+/** @type {Proxy} PMX module */
+exports.pmx = require('./lib/pmxProxy')
 
 /**
  * Appends Listeners for:
@@ -35,7 +33,7 @@ exports.init = () =>
     process.prependListener(
       'uncaughtException',
       function customUncaughtExceptionListener (error) {
-        log.fatal({ err: error }, `Undhandled Error: ${error.message}`)
+        logProcess.fatal({ err: error }, `Undhandled Error: ${error.message}`)
         exports.pmx.notify(error)
         process.nextTick(() => process.exit(1))
       }
@@ -45,7 +43,7 @@ exports.init = () =>
     process.prependListener(
       'unhandledRejection',
       function customUnhandledRejectionListener (reason) {
-        if (!lo.isError(reason)) reason = new Error(reason)
+        if (reason instanceof Error !== true) reason = new Error(reason)
         throw reason
       }
     )
@@ -54,26 +52,24 @@ exports.init = () =>
     asyncExitHook(function exitMessage () {
       const uptime = moment.duration(process.uptime(), 'seconds').humanize()
       const exitCode = process.exitCode || 0
-      const exitMessage = `About to Exit with code ${exitCode} after ${uptime}`
-      if (exitCode !== 0) log.fatal(exitMessage)
-      else log.warn(exitMessage)
+      // prettier-ignore
+      const exitMessage = `${Config.get('appName')} exit with code ${exitCode} after ${uptime}`
+      if (exitCode !== 0) logProcess.fatal(exitMessage)
+      else logProcess.warn(exitMessage)
     })
-
-    log.info(`Initializing ${Config.get('appName')} v${Config.get('version')}`)
     // prettier-ignore
-    log.info(`Configuring ${Config.get('appName')} for: ${Config.util.getEnv('HOSTNAME')} - ${Config.get('env')}`)
-
-    log.info(`Log level: ${Config.get('logs.level')}`)
-
-    if (Config.get('logs.streams.pretty')) {
-      log.info('Logging style: pretty')
-    } else {
-      log.info('Logging style: bunyan')
-    }
+    logInit.info(`Initializing ${Config.get('appName')} v${Config.get('version')}`)
+    // prettier-ignore
+    logInit.info(`Configuring ${Config.get('appName')} for: ${Config.get('host')} - ${Config.get('env')}`)
+    logInit.info(`Application root: ${Config.get('paths.root')}`)
+    logLogs.info(`directory: ${Config.get('paths.log')}`)
+    logLogs.info(`level: ${Config.get('logs.level')}`)
+    // prettier-ignore
+    logLogs.info(`style: ${Config.get('logs.streams.pretty') ? 'pretty' : 'bunyan'}`)
 
     // prettier-ignore
     if (Config.get('logs.streams.cloudWatch')) {
-      log.info(`Sending Logs to AWS CloudWatch under: ${Config.get('logs.cloudWatch.logGroupName')} - ${Config.get('logs.cloudWatch.logStreamName')}`)
+      logLogs.info(`Sending Logs to AWS CloudWatch under: ${Config.get('logs.cloudWatch.logGroupName')} - ${Config.get('logs.cloudWatch.logStreamName')}`)
     }
 
     resolve()

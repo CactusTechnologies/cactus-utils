@@ -1,6 +1,6 @@
 <!--@h1([pkg.name])-->
 
-# @cactus-technologies/lab100-application-helper
+# @cactus-technologies/lab100-application
 
 <!--/@-->
 
@@ -15,7 +15,7 @@ Helper to manage PM2 App definitions and process states
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/lab100-application-helper
+npm install --save @cactus-technologies/lab100-application
 ```
 
 <!--/@-->

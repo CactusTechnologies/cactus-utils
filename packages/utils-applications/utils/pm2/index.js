@@ -16,7 +16,9 @@ Config.util.setModuleDefaults('pm2', {
   max_restarts: 10
 })
 
-const IS_PM2_DEV = path.basename(process.mainModule.filename) === 'pm2-dev'
+const IS_PM2_DEV = Config.has('isPm2Dev')
+  ? Config.get('isPm2Dev')
+  : path.basename(process.mainModule.filename) === 'pm2-dev'
 
 /**
  * Creates a new Application Definition
@@ -87,7 +89,7 @@ class Application {
   }
 
   get max_restarts () {
-    return IS_PM2_DEV ? 2 : Config.get('max_restarts')
+    return IS_PM2_DEV ? 2 : Config.get('pm2.max_restarts')
   }
 
   get error_file () {
