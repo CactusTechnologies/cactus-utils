@@ -151,13 +151,8 @@ setEnumerable('out_file')
 setEnumerable('env')
 setEnumerable('env_production')
 
-setEnumerable('id', false)
-setEnumerable('targetInstances', false)
-setEnumerable('_env', false)
-setEnumerable('_envProd', false)
-
 module.exports = Application
 
-function setEnumerable (prop, e = true) {
-  Object.defineProperty(Application.prototype, prop, { enumerable: e })
+function setEnumerable (prop) {
+  Object.defineProperty(Application.prototype, prop, { enumerable: true })
 }
