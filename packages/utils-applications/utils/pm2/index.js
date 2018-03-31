@@ -7,6 +7,7 @@ const camelCase = require('lodash/camelCase')
 const kebabCase = require('lodash/kebabCase')
 const toLower = require('lodash/toLower')
 const upperFirst = require('lodash/upperFirst')
+const assignIn = require('lodash/assignIn')
 
 Config.util.setModuleDefaults('pm2', {
   instance_var: 'INSTANCE_ID',
@@ -133,6 +134,30 @@ class Application {
   set env_production (val) {
     this._envProd = val
   }
+
+  toObject () {
+    return assignIn.assignIn({}, this)
+  }
 }
 
+setEnumerable('name')
+setEnumerable('instances')
+setEnumerable('exec_mode')
+setEnumerable('watch')
+setEnumerable('ignore_watch')
+setEnumerable('max_restarts')
+setEnumerable('error_file')
+setEnumerable('out_file')
+setEnumerable('env')
+setEnumerable('env_production')
+
+setEnumerable('id', false)
+setEnumerable('targetInstances', false)
+setEnumerable('_env', false)
+setEnumerable('_envProd', false)
+
 module.exports = Application
+
+function setEnumerable (prop, e = true) {
+  Object.defineProperty(Application.prototype, prop, { enumerable: e })
+}
