@@ -136,7 +136,7 @@ class Application {
   }
 
   toObject () {
-    return assignIn.assignIn({}, this)
+    return assignIn({}, this)
   }
 }
 
