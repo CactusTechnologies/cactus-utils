@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/lab100-application",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Helper to manage PM2 App definitions and process states",
   "homepage": "https://github.com/CactusTechnologies/INGH_ApplicationsHelper#readme",
   "bugs": {
