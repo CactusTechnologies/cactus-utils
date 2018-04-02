@@ -47,6 +47,8 @@ class Application {
     this.merge_logs = Config.get('pm2.merge_logs')
     this.min_uptime = Config.get('pm2.min_uptime')
     this.restart_delay = Config.get('pm2.restart_delay')
+
+    this._watch = [...Config.get('watch')]
   }
 
   get appName () {
@@ -82,7 +84,11 @@ class Application {
   }
 
   get watch () {
-    return IS_PM2_DEV ? [this.script, ...Config.get('watch')] : false
+    return IS_PM2_DEV ? [this.script, ...this._watch] : false
+  }
+
+  set watch (value) {
+    this._watch = value
   }
 
   get ignore_watch () {
