@@ -2,7 +2,6 @@ const envPaths = require('env-paths')
 const devIp = require('dev-ip')
 const os = require('os')
 const pkgDir = require('pkg-dir')
-const { deferConfig: defer } = require('config/defer')
 const path = require('path')
 
 /**
@@ -38,7 +37,7 @@ module.exports = function (
     .reverse()
     .join('.')
 
-  Config.instance = defer(appName => `${appName}-worker-${process.pid}`)
+  Config.instance = `${Config.basename}-worker-${process.pid}`
 
   Config.paths = {
     ...envPaths(Config.basename, { suffix: '' }),
