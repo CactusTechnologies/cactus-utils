@@ -8,7 +8,7 @@
   },
   "license": "UNLICENCED",
   "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
-  "main": "process.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CactusTechnologies/INGH_ApplicationsHelper.git"
@@ -18,11 +18,12 @@
     "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
     "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
     "docs:readme": "mos README.md",
-    "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md || true",
+    "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md",
     "test": "run-s test:* -sn",
     "test:depcheck": "depcheck --ignores=husky,prettier",
     "test:lint": "standard --verbose | snazzy",
-    "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**'"
+    "test:outdated": "npm outdated --long",
+    "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**' --exit-nicely"
   },
   "dependencies": {
     "@cactus-technologies/lab100-logger": "^1.1.6",
@@ -38,7 +39,7 @@
   "devDependencies": {
     "depcheck": "^0.6.8",
     "husky": "^0.14.3",
-    "leasot": "^4.13.0",
+    "leasot": "^5.2.0",
     "lint-staged": "^7.0.1",
     "mos": "^1.3.1",
     "npm-run-all": "^4.1.2",

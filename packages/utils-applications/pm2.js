@@ -3,11 +3,7 @@
 
 const Config = require('config')
 const path = require('path')
-const camelCase = require('lodash/camelCase')
-const kebabCase = require('lodash/kebabCase')
-const toLower = require('lodash/toLower')
-const upperFirst = require('lodash/upperFirst')
-const assignIn = require('lodash/assignIn')
+const fp = require('lodash/fp')
 
 Config.util.setModuleDefaults('pm2', {
   instance_var: 'INSTANCE_ID',
@@ -17,17 +13,26 @@ Config.util.setModuleDefaults('pm2', {
   max_restarts: 10
 })
 
-const IS_PM2_DEV = Config.has('isPm2Dev')
-  ? Config.get('isPm2Dev')
-  : path.basename(process.mainModule.filename) === 'pm2-dev'
+const OMITKEYS = [
+  'id',
+  'targetInstances',
+  '_env',
+  '_envProd',
+  '_watch',
+  'forceDev'
+]
+
+const DASH_CHAR = '-'
+const MAX_LINE = 79
+const ENTRY = path.basename(process.mainModule.filename)
+
+const pad = fp.padCharsEnd(DASH_CHAR, MAX_LINE)
 
 /**
  * Creates a new Application Definition
  *
  * @param  {String} name       App Name
  * @param  {String} entryPoint App entry point
- * @param  {Object} env        Env to run the app
- * @param  {Number} instances  How many instances
  *
  * @class
  *
@@ -35,12 +40,12 @@ const IS_PM2_DEV = Config.has('isPm2Dev')
  */
 
 class Application {
-  constructor (name, entryPoint, env = {}, instances = 1) {
+  constructor (name, entryPoint) {
     /* General */
     this.id = name
     this.script = entryPoint
-    this.instances = instances
-    this.env = env
+    this.instances = 1
+    this.env = {}
 
     /* Sensitive defaults */
     this.instance_var = Config.get('pm2.instance_var')
@@ -49,17 +54,18 @@ class Application {
     this.restart_delay = Config.get('pm2.restart_delay')
 
     this._watch = [...Config.get('watch')]
+    this.forceDev = ENTRY === 'pm2-dev' || ENTRY === 'pm2-runtime' || false
   }
 
   get appName () {
-    return [Config.get('basename'), camelCase(this.id)]
-      .map(v => upperFirst(v))
+    return [Config.get('basename'), fp.camelCase(this.id)]
+      .map(v => fp.upperFirst(v))
       .join('-')
   }
 
   get name () {
-    return [Config.get('basename'), kebabCase(this.id)]
-      .map(v => toLower(v))
+    return [Config.get('basename'), fp.kebabCase(this.id)]
+      .map(v => fp.toLower(v))
       .join('-')
   }
 
@@ -67,12 +73,12 @@ class Application {
     return Config.get('domain')
       .split('.')
       .reverse()
-      .concat([toLower(camelCase(this.id))])
+      .concat([fp.toLower(fp.camelCase(this.id))])
       .join('.')
   }
 
   get instances () {
-    return IS_PM2_DEV ? 1 : this.targetInstances
+    return this.forceDev ? 1 : this.targetInstances
   }
 
   set instances (val) {
@@ -84,7 +90,7 @@ class Application {
   }
 
   get watch () {
-    return IS_PM2_DEV ? [this.script, ...this._watch] : false
+    return this.forceDev ? [this.script, ...this._watch] : false
   }
 
   set watch (value) {
@@ -96,17 +102,17 @@ class Application {
   }
 
   get max_restarts () {
-    return IS_PM2_DEV ? 2 : Config.get('pm2.max_restarts')
+    return this.forceDev ? 2 : Config.get('pm2.max_restarts')
   }
 
   get error_file () {
-    return IS_PM2_DEV
+    return this.forceDev
       ? 'NULL'
       : path.resolve(Config.get('paths.log'), `${this.name}.log`)
   }
 
   get out_file () {
-    return IS_PM2_DEV
+    return this.forceDev
       ? 'NULL'
       : path.resolve(Config.get('paths.log'), `${this.name}.log`)
   }
@@ -119,8 +125,8 @@ class Application {
         appName: this.appName,
         service: this.service,
         logs: {
-          prefix: kebabCase(this.id),
-          streams: { pretty: IS_PM2_DEV ? true : undefined }
+          prefix: fp.kebabCase(this.id),
+          streams: { pretty: this.forceDev ? true : undefined }
         }
       }
     }
@@ -141,8 +147,20 @@ class Application {
     this._envProd = val
   }
 
+  printConfig () {
+    console.log(pad(`--- ${this.name} `))
+    console.log('')
+    console.log(this.toObject())
+    console.log('')
+  }
+
   toObject () {
-    return assignIn({}, this)
+    return fp.omit(OMITKEYS, fp.cloneDeep(fp.assignIn(this, {})))
+  }
+
+  static compileApps (apps) {
+    fp.forEach(app => app.printConfig())(apps)
+    return fp.map(app => app.toObject())(apps)
   }
 }
 

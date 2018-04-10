@@ -1,3 +1,8 @@
+/* Allways run on strict mode */
+process.env['NODE_CONFIG_STRICT_MODE'] = 'true'
+/* default to development */
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+
 const envPaths = require('env-paths')
 const devIp = require('dev-ip')
 const os = require('os')
@@ -15,21 +20,25 @@ const path = require('path')
 
 module.exports = function (
   domain = 'lab100.org',
-  rootPath = pkgDir.sync(path.resolve(__dirname, '../../..'))
+  rootPath = pkgDir.sync(path.resolve(__dirname, '..'))
 ) {
   const pkg = require(path.resolve(rootPath, 'package.json'))
 
   const Config = {}
 
   Config.domain = domain
-  Config.basename = Config.domain.split('.')[0]
-  // prettier-ignore
-  Config.host = (process.env.HOST || process.env.HOSTNAME || os.hostname()).split('.')[0]
-  Config.env = process.env.NODE_ENV || 'development'
-  Config.isDev = process.env.NODE_ENV === 'development'
-  Config.isPm2Dev = path.basename(process.mainModule.filename) === 'pm2-dev'
-  Config.appName = Config.domain.split('.')[0]
 
+  Config.basename = Config.domain.split('.')[0]
+
+  Config.host = (
+    process.env.HOST ||
+    process.env.HOSTNAME ||
+    os.hostname()
+  ).split('.')[0]
+
+  Config.env = process.env.NODE_ENV
+  Config.isDev = process.env.NODE_ENV === 'development'
+  Config.appName = Config.domain.split('.')[0]
   Config.version = pkg.version
 
   Config.service = Config.domain
@@ -45,9 +54,10 @@ module.exports = function (
   }
 
   Config.watch = ['config/**/**', 'lib/**/**', 'src/**/**']
+
   Config.ignoreWatch = ['node_modules/**', '*.log']
 
-  Config.ips = devIp()
+  Config.ips = devIp() || ['127.0.0.1']
 
   return Config
 }
