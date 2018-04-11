@@ -2,7 +2,6 @@
     "folders": [
         {
             "folder_exclude_patterns": ["lib"],
-            "name": "lab100-logger",
             "path": "."
         },
         {
@@ -10,8 +9,16 @@
             "path": "lib"
         },
         {
+            "name": "Constants",
+            "path": "../lab100-constants"
+        },
+        {
+            "name": "Keybase",
+            "path": "/keybase/team/cactus_design/lab100"
+        },
+        {
             "name": "Notes",
-            "path": "../lab100-notes"
+            "path": "../notes"
         }
     ],
     "settings": {}
