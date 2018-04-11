@@ -67,7 +67,7 @@ module.exports = function createLogger (opts = {}) {
 
   if (Loggers.has(opts.name)) return Loggers.get(opts.name)
 
-  const instanceOptions = lo.mergeWith({}, options, { ...opts }, customizer)
+  const instanceOptions = { ...options, ...opts }
   const instance = bunyan.createLogger(instanceOptions)
 
   Loggers.set(opts.name, instance)
@@ -142,11 +142,6 @@ module.exports.Middleware = function logRequestsMiddleware () {
 }
 
 // ────────────────────────────────  Private  ──────────────────────────────────
-
-/** Merges arrays by union */
-function customizer (objValue, srcValue) {
-  if (lo.isArray(objValue)) return lo.union(objValue, srcValue)
-}
 
 /** Gets the a HRTIME duration as ms */
 function getDuration (start) {
