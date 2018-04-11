@@ -67,7 +67,7 @@ module.exports = function createLogger (opts = {}) {
 
   if (Loggers.has(opts.name)) return Loggers.get(opts.name)
 
-  const instanceOptions = { ...options, ...opts }
+  const instanceOptions = Object.assign({}, options, opts)
   const instance = bunyan.createLogger(instanceOptions)
 
   Loggers.set(opts.name, instance)
@@ -106,12 +106,12 @@ module.exports.Middleware = function logRequestsMiddleware () {
     if (blacklist.includes(request.get('user-agent'))) return next()
 
     /* Use the Debug Header */
-    if (lo.isNil(request.get(debugHeader))) request.log.level(10)
+    if (lo.isEmpty(request.get(debugHeader))) request.log.level(10)
 
     response.on('finish', onFinish)
     response.on('close', onClose)
 
-    request.log.trace('Request Start')
+    request.log.trace(`Request Start: ${request.method} ${request.originalUrl}`)
 
     next()
 
@@ -130,12 +130,7 @@ module.exports.Middleware = function logRequestsMiddleware () {
 
     function onClose () {
       request.log.warn(
-        {
-          req: request,
-          res: response,
-          duration: getDuration(start)
-        },
-        'Request Socket Closed'
+        `Socket Closed: ${request.method} ${request.originalUrl}`
       )
     }
   }
