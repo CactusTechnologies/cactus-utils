@@ -8,10 +8,12 @@ const logger = require('@cactus-technologies/lab100-logger')
 const log = logger({
   name: 'ecosystem',
   level: 'info',
-  stream: logger.Streams.pretty(process.stdout, {
-    colors: require('supports-color').level,
-    timeStamps: true
-  })
+  streams: [
+    logger.Streams.pretty(process.stdout, {
+      colors: require('supports-color').level,
+      timeStamps: true
+    })
+  ]
 })
 
 Config.util.setModuleDefaults('pm2', {
