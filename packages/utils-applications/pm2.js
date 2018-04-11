@@ -1,31 +1,26 @@
 /* eslint camelcase: "off" */
 
-process.env.NODE_CONFIG = JSON.stringify({
-  logs: {
-    prefix: false,
-    level: 'info',
-    streams: {
-      pretty: true,
-      cloudWatch: false
-    },
-    pretty: {
-      colors: require('supports-color').level,
-      timeStamps: true
-    }
-  }
-})
-
 const Config = require('config')
 const path = require('path')
 const fp = require('lodash/fp')
-const log = require('@cactus-technologies/lab100-logger')('pm2')
+const logger = require('@cactus-technologies/lab100-logger')
+
+const log = logger({
+  name: 'ecosystem',
+  level: 'info',
+  stream: logger.Streams.pretty(process.stdout, {
+    colors: require('supports-color').level,
+    timeStamps: true
+  })
+})
 
 Config.util.setModuleDefaults('pm2', {
   instance_var: 'INSTANCE_ID',
   merge_logs: true,
   min_uptime: 3000,
   restart_delay: 100,
-  max_restarts: 10
+  max_restarts: 10,
+  deep_monitoring: true
 })
 
 const hiddenKeys = [
@@ -34,7 +29,7 @@ const hiddenKeys = [
   '_env',
   '_envProd',
   '_watch',
-  'forceDev'
+  'development'
 ]
 
 const visibleKeys = [
@@ -76,9 +71,10 @@ class Application {
     this.merge_logs = Config.get('pm2.merge_logs')
     this.min_uptime = Config.get('pm2.min_uptime')
     this.restart_delay = Config.get('pm2.restart_delay')
+    this.deep_monitoring = Config.get('pm2.deep_monitoring')
 
     this._watch = [...Config.get('watch')]
-    this.forceDev = ENTRY === 'pm2-dev' || ENTRY === 'pm2-runtime' || false
+    this.development = ENTRY === 'pm2-dev' || ENTRY === 'pm2-runtime' || false
   }
 
   get appName () {
@@ -102,7 +98,7 @@ class Application {
   }
 
   get instances () {
-    return this.forceDev ? 1 : this.targetInstances
+    return this.development ? 1 : this.targetInstances
   }
 
   set instances (val) {
@@ -114,7 +110,7 @@ class Application {
   }
 
   get watch () {
-    return this.forceDev ? [this.script, ...this._watch] : false
+    return this.development ? [this.script, ...this._watch] : false
   }
 
   set watch (value) {
@@ -126,17 +122,17 @@ class Application {
   }
 
   get max_restarts () {
-    return this.forceDev ? 2 : Config.get('pm2.max_restarts')
+    return this.development ? 2 : Config.get('pm2.max_restarts')
   }
 
   get error_file () {
-    return this.forceDev
+    return this.development
       ? 'NULL'
       : path.resolve(Config.get('paths.log'), `${this.name}.log`)
   }
 
   get out_file () {
-    return this.forceDev
+    return this.development
       ? 'NULL'
       : path.resolve(Config.get('paths.log'), `${this.name}.log`)
   }
@@ -150,7 +146,7 @@ class Application {
         service: this.service,
         logs: {
           prefix: fp.kebabCase(this.id),
-          streams: { pretty: this.forceDev ? true : undefined }
+          streams: { pretty: this.development ? true : undefined }
         }
       }
     }

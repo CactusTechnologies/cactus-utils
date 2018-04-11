@@ -26,7 +26,7 @@
     "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**' --exit-nicely"
   },
   "dependencies": {
-    "@cactus-technologies/lab100-logger": "^1.1.6",
+    "@cactus-technologies/lab100-logger": "latest",
     "async-exit-hook": "^2.0.1",
     "config": "^1.30.0",
     "dev-ip": "^1.0.1",
