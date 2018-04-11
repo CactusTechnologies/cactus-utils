@@ -77,6 +77,7 @@ module.exports = function createLogger (opts = {}) {
 
 module.exports.Serializers = serializers
 module.exports.Loggers = Loggers
+module.exports.Streams = streams
 
 /**
  * Returns an Express/Connect Middleware function which adds an specialized
@@ -101,16 +102,14 @@ module.exports.Middleware = function logRequestsMiddleware () {
     const log = logger.child({ req_id: request.reqId }, true)
 
     request.log = log
-    request.logBody = true
 
     if (blacklist.includes(request.get('user-agent'))) return next()
 
     /* Use the Debug Header */
-    if (request.get(debugHeader) === 'verbose') request.log.level(20)
-    if (request.get(debugHeader) === 'trace') request.log.level(10)
+    if (lo.isNil(request.get(debugHeader))) request.log.level(10)
 
     response.on('finish', onFinish)
-    response.on('close', () => request.log.warn('Request Socket Closed'))
+    response.on('close', onClose)
 
     request.log.trace('Request Start')
 
@@ -123,12 +122,20 @@ module.exports.Middleware = function logRequestsMiddleware () {
         {
           req: request,
           res: response,
-          duration: getDuration(start),
-          body: request.logBody
-            ? lo.isEmpty(request.body) ? undefined : request.body
-            : undefined
+          duration: getDuration(start)
         },
         http.STATUS_CODES[status]
+      )
+    }
+
+    function onClose () {
+      request.log.warn(
+        {
+          req: request,
+          res: response,
+          duration: getDuration(start)
+        },
+        'Request Socket Closed'
       )
     }
   }
