@@ -1,7 +1,7 @@
-/* Allways run on strict mode */
-process.env['NODE_CONFIG_STRICT_MODE'] = 'true'
 /* default to development */
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+/* Allways run on strict mode */
+process.env.NODE_CONFIG_STRICT_MODE = true
 
 const envPaths = require('env-paths')
 const devIp = require('dev-ip')
@@ -38,8 +38,11 @@ module.exports = function (
 
   Config.env = process.env.NODE_ENV
   Config.isDev = process.env.NODE_ENV === 'development'
+
   Config.appName = Config.domain.split('.')[0]
+
   Config.version = pkg.version
+  Config.repository = pkg.repository.url
 
   Config.service = Config.domain
     .split('.')

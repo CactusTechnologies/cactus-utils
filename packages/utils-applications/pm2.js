@@ -1,9 +1,24 @@
-'use strict'
 /* eslint camelcase: "off" */
+
+process.env.NODE_CONFIG = JSON.stringify({
+  logs: {
+    prefix: false,
+    level: 'info',
+    streams: {
+      pretty: true,
+      cloudWatch: false
+    },
+    pretty: {
+      colors: require('supports-color').level,
+      timeStamps: true
+    }
+  }
+})
 
 const Config = require('config')
 const path = require('path')
 const fp = require('lodash/fp')
+const log = require('@cactus-technologies/lab100-logger')('pm2')
 
 Config.util.setModuleDefaults('pm2', {
   instance_var: 'INSTANCE_ID',
@@ -13,7 +28,7 @@ Config.util.setModuleDefaults('pm2', {
   max_restarts: 10
 })
 
-const OMITKEYS = [
+const hiddenKeys = [
   'id',
   'targetInstances',
   '_env',
@@ -22,11 +37,18 @@ const OMITKEYS = [
   'forceDev'
 ]
 
-const DASH_CHAR = '-'
-const MAX_LINE = 79
-const ENTRY = path.basename(process.mainModule.filename)
-
-const pad = fp.padCharsEnd(DASH_CHAR, MAX_LINE)
+const visibleKeys = [
+  'name',
+  'instances',
+  'exec_mode',
+  'watch',
+  'ignore_watch',
+  'max_restarts',
+  'error_file',
+  'out_file',
+  'env',
+  'env_production'
+]
 
 /**
  * Creates a new Application Definition
@@ -41,6 +63,8 @@ const pad = fp.padCharsEnd(DASH_CHAR, MAX_LINE)
 
 class Application {
   constructor (name, entryPoint) {
+    const ENTRY = path.basename(process.mainModule.filename)
+
     /* General */
     this.id = name
     this.script = entryPoint
@@ -147,36 +171,26 @@ class Application {
     this._envProd = val
   }
 
-  printConfig () {
-    console.log(pad(`--- ${this.name} `))
-    console.log('')
-    console.log(this.toObject())
-    console.log('')
+  toObject () {
+    return fp.omit(hiddenKeys, fp.cloneDeep(fp.assignIn(this, {})))
   }
 
-  toObject () {
-    return fp.omit(OMITKEYS, fp.cloneDeep(fp.assignIn(this, {})))
+  toJSON () {
+    return this.toObject()
+  }
+
+  toPm2Process () {
+    const lean = this.toObject()
+    log.info(lean, `Application: ${this.name}`)
+    return lean
   }
 
   static compileApps (apps) {
-    fp.forEach(app => app.printConfig())(apps)
-    return fp.map(app => app.toObject())(apps)
+    return fp.map(app => app.toPm2Process())(apps)
   }
 }
 
-setEnumerable('name')
-setEnumerable('instances')
-setEnumerable('exec_mode')
-setEnumerable('watch')
-setEnumerable('ignore_watch')
-setEnumerable('max_restarts')
-setEnumerable('error_file')
-setEnumerable('out_file')
-setEnumerable('env')
-setEnumerable('env_production')
+// prettier-ignore
+fp.forEach(prop => Object.defineProperty(Application.prototype, prop, { enumerable: true }))(visibleKeys)
 
 module.exports = Application
-
-function setEnumerable (prop) {
-  Object.defineProperty(Application.prototype, prop, { enumerable: true })
-}
