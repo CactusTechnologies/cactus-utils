@@ -5,9 +5,20 @@ const path = require('path')
 const fp = require('lodash/fp')
 const logger = require('@cactus-technologies/lab100-logger')
 
+const LINE =
+  '-------------------------------------------------------------------------------'
+
 const log = logger({
-  name: 'ecosystem',
-  streams: [{ type: 'raw', level: 'info', stream: logger.Streams.pretty() }]
+  streams: [
+    {
+      level: 'info',
+      stream: logger.Streams.pretty(process.stdout, {
+        timeStamps: true,
+        colors: 0,
+        stampFormat: '[pm2]'
+      })
+    }
+  ]
 })
 
 Config.util.setModuleDefaults('pm2', {
@@ -171,18 +182,25 @@ class Application {
     return this.toObject()
   }
 
-  toPm2Process () {
-    const lean = this.toObject()
-    log.info(lean, `Application: ${this.name}`)
-    return lean
+  logConfig () {
+    const { name, env, ...lean } = this.toObject()
+    log.info({ ...lean, env_production: undefined, name: name }, 'Process')
+    log.info({ ...env, name: name }, 'Environment')
+    console.log(LINE)
   }
 
   static compileApps (apps) {
-    return fp.map(app => app.toPm2Process())(apps)
+    console.log(LINE)
+    return fp.map(app => {
+      app.logConfig()
+      return app.toObject()
+    })(apps)
   }
 }
 
-// prettier-ignore
-fp.forEach(prop => Object.defineProperty(Application.prototype, prop, { enumerable: true }))(visibleKeys)
+// prettier=ignore
+fp.forEach(prop =>
+  Object.defineProperty(Application.prototype, prop, { enumerable: true })
+)(visibleKeys)
 
 module.exports = Application
