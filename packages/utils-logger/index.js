@@ -106,7 +106,7 @@ module.exports.Middleware = function logRequestsMiddleware () {
     if (blacklist.includes(request.get('user-agent'))) return next()
 
     /* Use the Debug Header */
-    if (lo.isEmpty(request.get(debugHeader))) request.log.level(10)
+    if (!lo.isEmpty(request.get(debugHeader))) request.log.level(10)
 
     response.on('finish', onFinish)
     response.on('close', onClose)
