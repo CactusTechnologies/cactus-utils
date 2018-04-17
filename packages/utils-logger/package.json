@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/lab100-logger",
-  "version": "1.1.11",
+  "version": "1.2.0",
   "description": "Customized Logger for the Lab100 ecosystem",
   "homepage": "https://github.com/CactusTechnologies/INGH_logger#readme",
   "bugs": {
