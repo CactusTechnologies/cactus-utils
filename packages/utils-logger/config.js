@@ -3,24 +3,7 @@ const Config = {}
 Config.prefix = false
 Config.level = 'info'
 Config.src = false
-
-// ────────────────────────────────  Streams  ──────────────────────────────────
-
-Config.streams = {
-  pretty: false,
-  cloudWatch: false
-}
-
-Config.pretty = {
-  colors: 2,
-  timeStamps: false
-}
-
-Config.cloudWatch = {
-  logGroupName: 'lab100-logs',
-  logStreamName: `${Config.prefix}-${process.pid}`,
-  cloudWatchLogsOptions: {}
-}
+Config.pretty = false
 
 // ───────────────────────────  Bunyan Middleware  ─────────────────────────────
 
