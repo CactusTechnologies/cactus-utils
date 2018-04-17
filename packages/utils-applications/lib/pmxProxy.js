@@ -20,7 +20,7 @@ const emitHandler = {
   apply: function (target, thisArgument, argumentsList) {
     argumentsList[0] = isDev ? `dev:${argumentsList[0]}` : argumentsList[0]
     argumentsList[1] = argumentsList[1] || undefined
-    log.info({ event: argumentsList[0], data: argumentsList[1] }, 'emit')
+    log.debug({ payload: argumentsList[1] }, argumentsList[0])
     return Reflect.apply(...arguments)
   }
 }

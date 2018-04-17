@@ -3,23 +3,6 @@
 const Config = require('config')
 const path = require('path')
 const fp = require('lodash/fp')
-const logger = require('@cactus-technologies/lab100-logger')
-
-const LINE =
-  '-------------------------------------------------------------------------------'
-
-const log = logger({
-  streams: [
-    {
-      level: 'info',
-      stream: logger.Streams.pretty(process.stdout, {
-        timeStamps: true,
-        colors: 0,
-        stampFormat: '[pm2]'
-      })
-    }
-  ]
-})
 
 Config.util.setModuleDefaults('pm2', {
   instance_var: 'INSTANCE_ID',
@@ -27,7 +10,7 @@ Config.util.setModuleDefaults('pm2', {
   min_uptime: 3000,
   restart_delay: 100,
   max_restarts: 10,
-  deep_monitoring: true
+  deep_monitoring: false
 })
 
 const hiddenKeys = [
@@ -153,7 +136,7 @@ class Application {
         service: this.service,
         logs: {
           prefix: fp.kebabCase(this.id),
-          streams: { pretty: this.development ? true : undefined }
+          pretty: this.development ? true : undefined
         }
       }
     }
@@ -182,23 +165,11 @@ class Application {
     return this.toObject()
   }
 
-  logConfig () {
-    const { name, env, ...lean } = this.toObject()
-    log.info({ ...lean, env_production: undefined, name: name }, 'Process')
-    log.info({ ...env, name: name }, 'Environment')
-    console.log(LINE)
-  }
-
   static compileApps (apps) {
-    console.log(LINE)
-    return fp.map(app => {
-      app.logConfig()
-      return app.toObject()
-    })(apps)
+    return fp.map(app => app.toObject())(apps)
   }
 }
 
-// prettier=ignore
 fp.forEach(prop =>
   Object.defineProperty(Application.prototype, prop, { enumerable: true })
 )(visibleKeys)
