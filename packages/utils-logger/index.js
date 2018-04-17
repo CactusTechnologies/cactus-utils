@@ -10,7 +10,8 @@ const lo = require('lodash')
 const bunyan = require('bunyan')
 const Config = require('config')
 const http = require('http')
-
+const pino = require('pino')()
+pino('hi')
 Config.util.setModuleDefaults('logs', require('./config'))
 
 /**
@@ -31,7 +32,7 @@ const streams = require('./lib/streams')
 const options = {
   serializers: serializers,
   src: Config.get('logs.src') === true,
-  streams: []
+  level: Config.get('logs.level')
 }
 
 options.streams.push({
