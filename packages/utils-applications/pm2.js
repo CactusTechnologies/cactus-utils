@@ -4,36 +4,38 @@ const Config = require('config')
 const path = require('path')
 const fp = require('lodash/fp')
 
-Config.util.setModuleDefaults('pm2', {
-  instance_var: 'INSTANCE_ID',
-  merge_logs: true,
-  min_uptime: 3000,
-  restart_delay: 100,
-  max_restarts: 10,
-  deep_monitoring: false
-})
-
 const hiddenKeys = [
-  'id',
-  'targetInstances',
   '_env',
   '_envProd',
+  '_ignore_watch',
   '_watch',
-  'development'
+  'development',
+  'id',
+  'targetInstances'
 ]
 
 const visibleKeys = [
-  'name',
-  'instances',
-  'exec_mode',
-  'watch',
-  'ignore_watch',
-  'max_restarts',
-  'error_file',
-  'out_file',
   'env',
-  'env_production'
+  'env_production',
+  'error_file',
+  'exec_mode',
+  'ignore_watch',
+  'instances',
+  'max_restarts',
+  'name',
+  'out_file',
+  'post_update',
+  'watch'
 ]
+
+const FORCE_DEV =
+  'FORCE_PM2_DEV' in process.env
+    ? process.env.FORCE_PM2_DEV.length === 0 ||
+      parseInt(process.env.FORCE_PM2_DEV, 10) !== 0
+    : false
+
+const pm2Binary = path.basename(process.mainModule.filename)
+const dev = pm2Binary === 'pm2-dev' || pm2Binary === 'pm2-runtime' || FORCE_DEV
 
 /**
  * Creates a new Application Definition
@@ -48,8 +50,6 @@ const visibleKeys = [
 
 class Application {
   constructor (name, entryPoint) {
-    const ENTRY = path.basename(process.mainModule.filename)
-
     /* General */
     this.id = name
     this.script = entryPoint
@@ -57,14 +57,23 @@ class Application {
     this.env = {}
 
     /* Sensitive defaults */
-    this.instance_var = Config.get('pm2.instance_var')
-    this.merge_logs = Config.get('pm2.merge_logs')
-    this.min_uptime = Config.get('pm2.min_uptime')
-    this.restart_delay = Config.get('pm2.restart_delay')
-    this.deep_monitoring = Config.get('pm2.deep_monitoring')
+    this.instance_var = 'INSTANCE_ID'
+    this.merge_logs = true
+    this.min_uptime = 3000
+    this.kill_timeout = 3000
+    this.restart_delay = 100
 
-    this._watch = [...Config.get('watch')]
-    this.development = ENTRY === 'pm2-dev' || ENTRY === 'pm2-runtime' || false
+    this.wait_ready = true
+    this.deep_monitoring = false
+
+    this._ignore_watch = []
+    this._watch = []
+
+    this.watch = ['config/**/**', 'lib/**/**', 'src/**/**']
+    this.ignore_watch = ['node_modules/**', '*.log']
+
+    this.targetInstances = 1
+    this.development = dev
   }
 
   get appName () {
@@ -96,23 +105,32 @@ class Application {
   }
 
   get exec_mode () {
-    return this.instances === 1 ? 'fork' : 'cluster'
+    return this.instances === 1 && this.development ? 'fork' : 'cluster'
   }
 
   get watch () {
-    return this.development ? [this.script, ...this._watch] : false
+    return this.development
+      ? [...new Set([this.script, ...this._watch])]
+      : false
   }
 
-  set watch (value) {
-    this._watch = value
+  set watch (val) {
+    val = fp.isArray(val) ? val : [val]
+    this._watch = [val]
   }
 
   get ignore_watch () {
-    return [...Config.get('ignoreWatch')]
+    return [...new Set(this._ignore_watch)]
+  }
+
+  set ignore_watch (val) {
+    val = fp.isArray(val) ? val : [val]
+
+    this._ignore_watch = [...this._ignore_watch, ...val]
   }
 
   get max_restarts () {
-    return this.development ? 2 : Config.get('pm2.max_restarts')
+    return this.development ? 2 : 10
   }
 
   get error_file () {
@@ -132,10 +150,10 @@ class Application {
       NODE_ENV: 'development',
       PROCESS_TITLE: this.service,
       NODE_CONFIG: {
+        appId: this.id,
         appName: this.appName,
         service: this.service,
         logs: {
-          prefix: fp.kebabCase(this.id),
           pretty: this.development ? true : undefined
         }
       }

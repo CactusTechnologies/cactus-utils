@@ -1,12 +1,20 @@
 'use strict'
 
 const Config = require('config')
-const moment = require('moment')
+
+Config.util.setModuleDefaults('pmx', {
+  http: true,
+  errors: false,
+  custom_probes: true,
+  network: true,
+  ports: true,
+  alert_enabled: true
+})
+
 const asyncExitHook = require('async-exit-hook')
 const logger = require('@cactus-technologies/lab100-logger')
-
+const prettyMs = require('pretty-ms')
 const logInit = logger('init')
-const logLogs = logger('logs')
 const logProcess = logger('process')
 
 /** @type {BunyanInstance} log shortcut */
@@ -16,19 +24,21 @@ exports.log = logger('app')
 exports.pmx = require('./lib/pmxProxy')
 
 /**
- * Appends Listeners for:
- *   - uncaughtException
- *   - unhandledRejection
- *   - process exit
- * Initializes PMX and Logs Basic configuration data.
+ * Appends Listeners for: uncaughtException, unhandledRejection, process.exit
+ *   and Logs Basic configuration data.
+ *
+ * @param  {Boolean} [keymetrics=true] Initializes PMX
  *
  * @return {Promise}
  */
 
-exports.init = () =>
+exports.init = (keymetrics = true) =>
   new Promise((resolve, reject) => {
     /* Enable PMX - Keymetrics */
-    exports.pmx.init(Config.get('pmx'))
+    if (keymetrics) {
+      exports.pmx.init(Config.get('pmx'))
+    }
+
     /* Catch uncaughExeptions */
     process.prependListener(
       'uncaughtException',
@@ -50,27 +60,26 @@ exports.init = () =>
 
     /* Add the exit hook message */
     asyncExitHook(function exitMessage () {
-      const uptime = moment.duration(process.uptime(), 'seconds').humanize()
+      const uptime = prettyMs(process.uptime() * 1000)
       const exitCode = process.exitCode || 0
       // prettier-ignore
       const exitMessage = `${Config.get('appName')} exit with code ${exitCode} after ${uptime}`
       if (exitCode !== 0) logProcess.fatal(exitMessage)
       else logProcess.warn(exitMessage)
     })
-    // prettier-ignore
-    logInit.info(`Initializing ${Config.get('appName')} v${Config.get('version')}`)
-    // prettier-ignore
-    logInit.info(`Configuring ${Config.get('appName')} for: ${Config.get('host')} - ${Config.get('env')}`)
-    logInit.info(`Application root: ${Config.get('paths.root')}`)
-    logLogs.info(`directory: ${Config.get('paths.log')}`)
-    logLogs.info(`level: ${Config.get('logs.level')}`)
-    // prettier-ignore
-    logLogs.info(`style: ${Config.get('logs.streams.pretty') ? 'pretty' : 'bunyan'}`)
 
-    // prettier-ignore
-    if (Config.get('logs.streams.cloudWatch')) {
-      logLogs.info(`Sending Logs to AWS CloudWatch under: ${Config.get('logs.cloudWatch.logGroupName')} - ${Config.get('logs.cloudWatch.logStreamName')}`)
-    }
-
+    logInit.info(
+      {
+        host: Config.get('host'),
+        env: Config.get('env'),
+        logs: {
+          directory: Config.get('paths.log'),
+          level: Config.get('logs.level'),
+          style: Config.get('logs.pretty') ? 'pretty' : 'json'
+        }
+      },
+      `Initializing ${Config.get('appName')} v${Config.get('version')}`
+    )
+    process.send('ready')
     resolve()
   })

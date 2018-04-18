@@ -32,9 +32,8 @@
     "dev-ip": "^1.0.1",
     "env-paths": "^1.0.0",
     "lodash": "^4.17.5",
-    "moment": "^2.22.1",
-    "pkg-dir": "^2.0.0",
-    "pmx": "^1.6.4"
+    "pmx": "^1.6.4",
+    "pretty-ms": "^3.1.0"
   },
   "devDependencies": {
     "depcheck": "^0.6.8",
