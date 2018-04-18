@@ -1,21 +1,14 @@
 const Config = {}
 
-Config.prefix = false
 Config.level = 'info'
 Config.src = false
-Config.pretty = false
 
-// ───────────────────────────  Bunyan Middleware  ─────────────────────────────
+Config.pretty = false
+Config.cloudWatch = false
 
 Config.http = {
   obscureHeaders: ['authorization', 'x-lab100-app-secret'],
   excludeHeaders: [
-    'connection',
-    'host',
-    'pragma',
-    'cache-control',
-    'accept-encoding',
-    'accept-language',
     'x-forwarded-port',
     'x-forwarded-proto',
     'x-xss-protection',

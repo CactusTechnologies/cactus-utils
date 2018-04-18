@@ -46,7 +46,7 @@ exports.req = function requestSerializer (req) {
 
   return {
     method: req.method,
-    url: req.originalUrl ? req.originalUrl : req.url,
+    url: getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
     headers: getHeaders(req.headers, obscure, exclude),
     userId: req.userId || 'nobody',
     httpVersion: `HTTP/${req.httpVersionMajor}.${req.httpVersionMinor}`,
@@ -66,7 +66,7 @@ exports.res = function responseSerializer (res) {
   if (!res || !res.statusCode) return res
   return {
     statusCode: res.statusCode,
-    headers: getHeaders(res._headers, obscure, exclude)
+    header: getHeaders(res._headers, obscure, exclude)
   }
 }
 
@@ -150,4 +150,17 @@ function getHeaders (headers = {}, obscure = [], exclude = []) {
     if (obscure.includes(test)) return fp.set(current, '[redacted]', acc)
     return fp.set(current, fp.get(current, headers), acc)
   }, {})
+}
+
+/**
+ * Returns the pathname part of the given url
+ *
+ * @param  {String} url
+ *
+ * @return {String}
+ */
+
+function getCleanUrl (url) {
+  const parsed = require('url').parse(url)
+  return parsed.pathname || url
 }

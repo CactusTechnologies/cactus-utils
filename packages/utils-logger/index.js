@@ -8,13 +8,15 @@
 /* Dependencies */
 const lo = require('lodash')
 const Config = require('config')
-const http = require('http')
+const bunyan = require('bunyan')
 
 Config.util.setModuleDefaults('logs', require('./config'))
 
 const serializers = require('./lib/serializers')
-const stream = require('./lib/stream')
-const pino = require('./lib/pino')
+const streams = require('./lib/streams')
+const utils = require('./lib/utils')
+
+const LEVEL = bunyan.resolveLevel(Config.get('logs.level'))
 
 /**
  * Default Logger options
@@ -25,8 +27,46 @@ const pino = require('./lib/pino')
 const options = {
   serializers: serializers,
   src: Config.get('logs.src') === true,
-  level: Config.get('logs.level')
+  appName: Config.has('appId') ? Config.get('appId') : Config.get('appName'),
+  streams: [
+    {
+      name: 'main',
+      level: LEVEL,
+      stream: process.stdout
+    }
+  ]
 }
+
+if (Config.get('logs.pretty') === true) {
+  const prettyOptions = { colorLevel: 2, timeStamps: false }
+
+  options.streams = []
+
+  options.streams.push({
+    name: 'main',
+    level: LEVEL,
+    stream: streams.pretty(process.stdout, prettyOptions)
+  })
+}
+
+// if (Config.get('logs.cloudWatch') === true) {
+//   if (
+//     Config.has('cloudWatch') &&
+//     Config.has('cloudWatch.accessKeyId') &&
+//     Config.has('cloudWatch.secretAccessKey') &&
+//     Config.has('cloudWatch.region')
+//   ) {
+//   }
+
+//   const cloudWatchOptions = Config.get('cloudWatch')
+
+//   options.streams.push({
+//      name: 'cloudWatch',
+//     type: 'raw',
+//     level: bunyan.INFO,
+//     stream: streams.cloudWatch(Config.get('logs.cloudWatch'))
+//   })
+// }
 
 /**
  * Merge the given options with the default Options and returns a Logger
@@ -38,14 +78,9 @@ const options = {
 
 module.exports = function createLogger (opts = {}) {
   if (lo.isString(opts)) opts = { name: opts }
-  if (!opts.name || !lo.isString(opts.name)) opts.name = 'process'
-
-  if (Config.get('logs.prefix')) {
-    opts.name = `${Config.get('logs.prefix')}:${opts.name}`
-  }
-
-  const instance = pino(Object.assign({}, options, opts), stream)
-
+  if (!opts.name || !lo.isString(opts.name)) opts.name = 'app'
+  const instanceOptions = Object.assign({}, options, opts)
+  const instance = bunyan.createLogger(instanceOptions)
   return instance
 }
 
@@ -60,7 +95,6 @@ module.exports.Serializers = serializers
 
 module.exports.Middleware = function logRequestsMiddleware () {
   const logger = module.exports('http')
-  const startTime = Symbol('startTime')
   /**
    * Adds an specialized logger to each request and logs to the console when the
    * given request is complete
@@ -72,14 +106,16 @@ module.exports.Middleware = function logRequestsMiddleware () {
     const blacklist = [...Config.get('logs.http.skipUserAgents')]
     const debugHeader = Config.get('logs.http.debugHeader')
 
-    response[startTime] = response[startTime] || Date.now()
+    response.startTime = response.startTime || process.hrtime()
 
     request.log = logger.child({ req_id: request.reqId })
 
     if (blacklist.includes(request.get('user-agent'))) return next()
 
     /* Use the Debug Header */
-    if (!lo.isEmpty(request.get(debugHeader))) request.log.level = 'trace'
+    if (!lo.isEmpty(request.get(debugHeader))) {
+      request.log.levels('main', bunyan.TRACE)
+    }
 
     response.on('finish', onFinish)
     response.on('close', onClose)
@@ -89,21 +125,28 @@ module.exports.Middleware = function logRequestsMiddleware () {
     next()
 
     function onFinish () {
-      const status = response.statusCode || 200
+      this.removeListener('close', onClose)
+      this.removeListener('finish', onFinish)
+      const status = this.statusCode || 200
       const level = status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info'
-      request.log[level](
-        {
-          req: request,
-          res: response,
-          duration: Date.now() - response[startTime]
-        },
-        http.STATUS_CODES[status]
-      )
+      request.log[level]({
+        req: request,
+        res: this,
+        duration: this.duration || utils.getDuration(this.startTime)
+      })
     }
 
     function onClose () {
+      this.removeListener('close', onClose)
+      this.removeListener('finish', onFinish)
+      this.statusCode = 102
       request.log.warn(
-        `Socket Closed: ${request.method} ${request.originalUrl}`
+        {
+          req: request,
+          res: this,
+          duration: this.duration || utils.getDuration(this.startTime)
+        },
+        'Request Closed by peer'
       )
     }
   }
