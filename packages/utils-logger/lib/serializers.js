@@ -4,14 +4,12 @@
  *  @module logger/serializers
  */
 
-const Config = require('config')
 const fp = require('lodash/fp')
-const moment = require('moment')
 const prettyBytes = require('pretty-bytes')
 const querystring = require('querystring')
+const ms = require('pretty-ms')
 
-const obscure = [...Config.get('logs.http.obscureHeaders')].map(fp.toLower)
-const exclude = [...Config.get('logs.http.excludeHeaders')].map(fp.toLower)
+const Utils = require('./utils')
 
 /**
  * Serializes Error Objects
@@ -23,14 +21,14 @@ const exclude = [...Config.get('logs.http.excludeHeaders')].map(fp.toLower)
 
 exports.err = function errorSerializer (err) {
   if (!err || !err.stack) return err
-  var obj = {
+
+  return {
     message: err.message,
     name: err.name,
-    stack: getFullErrorStack(err),
+    stack: Utils.getErrorStack(err),
     code: err.code,
     signal: err.signal
   }
-  return obj
 }
 
 /**
@@ -46,8 +44,8 @@ exports.req = function requestSerializer (req) {
 
   return {
     method: req.method,
-    url: getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
-    headers: getHeaders(req.headers, obscure, exclude),
+    url: Utils.getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
+    headers: Utils.redactHeaders(req.headers),
     userId: req.userId || 'nobody',
     httpVersion: `HTTP/${req.httpVersionMajor}.${req.httpVersionMinor}`,
     remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
@@ -66,7 +64,7 @@ exports.res = function responseSerializer (res) {
   if (!res || !res.statusCode) return res
   return {
     statusCode: res.statusCode,
-    header: getHeaders(res._headers, obscure, exclude)
+    header: Utils.redactResponseHeaders(res._header)
   }
 }
 
@@ -107,60 +105,8 @@ exports.response = function responseSerializer (resp) {
     ])(resp),
 
     duration: fp.pipe([
-      fp.getOr(0, 'elapsedTime'),
-      elapsedTime => moment.duration(elapsedTime).asSeconds(),
-      seconds => `${seconds} s`
+      fp.getOr(0, 'timingPhases.total'),
+      elapsedTime => ms(elapsedTime)
     ])(resp)
   }
-}
-
-// ────────────────────────────────  Private  ──────────────────────────────────
-
-/**
- * Gets the Error Stack as a String.
- *
- * @param  {Error} ex Error Object
- *
- * @return {String}
- */
-
-function getFullErrorStack (ex) {
-  let ret = ex.stack || ex.toString()
-  if (ex.cause && typeof ex.cause === 'function') {
-    const cex = ex.cause()
-    if (cex) ret += '\nCaused by: ' + getFullErrorStack(cex)
-  }
-  return ret
-}
-
-/**
- * Returns a redacted version of the headers
- *
- * @param  {Object} headers - Headers Object
- * @param  {Array}  obscure - Headers to redact
- * @param  {Array}  exclude - Headers to exclude
- *
- * @return {Object}
- */
-
-function getHeaders (headers = {}, obscure = [], exclude = []) {
-  return Object.keys(headers).reduce((acc, current) => {
-    const test = fp.toLower(current)
-    if (exclude.includes(test)) return acc
-    if (obscure.includes(test)) return fp.set(current, '[redacted]', acc)
-    return fp.set(current, fp.get(current, headers), acc)
-  }, {})
-}
-
-/**
- * Returns the pathname part of the given url
- *
- * @param  {String} url
- *
- * @return {String}
- */
-
-function getCleanUrl (url) {
-  const parsed = require('url').parse(url)
-  return parsed.pathname || url
 }

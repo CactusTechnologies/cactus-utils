@@ -6,6 +6,6 @@
     "libs": ["ecmascript"],
 
     "dontLoad": [
-        "**/node_modules/!(@mechanicalhuman|@cactus-technologies|bunyan-cloudwatch|bunyan|config|lodash|moment|pretty-bytes)/**/*.js"
+        "**/node_modules/!(@mechanicalhuman|@cactus-technologies|config|lodash|moment|pretty-bytes)/**/*.js"
     ]
 }

@@ -24,7 +24,7 @@
     "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md",
     "publish": "np --no-yarn --no-cleanup",
     "test": "run-s test:* -sn",
-    "test:depcheck": "depcheck --ignores=husky,prettier",
+    "test:depcheck": "depcheck --ignores=husky,prettier,bunyan-cloudwatch,@mechanicalhuman/bunyan-pretty",
     "test:lint": "standard --verbose | snazzy",
     "test:outdated": "npm outdated --long",
     "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**' --exit-nicely"
@@ -34,9 +34,12 @@
     "bunyan": "^1.8.12",
     "bunyan-cloudwatch": "^2.2.0",
     "config": "^1.30.0",
+    "import-lazy": "^3.1.0",
     "lodash": "^4.17.5",
     "moment": "^2.22.1",
-    "pretty-bytes": "^4.0.2"
+    "pretty-bytes": "^4.0.2",
+    "pretty-ms": "^3.1.0",
+    "sort-object-keys": "^1.1.2"
   },
   "devDependencies": {
     "depcheck": "^0.6.8",

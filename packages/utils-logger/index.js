@@ -5,68 +5,43 @@
  * @module logger
  */
 
-/* Dependencies */
-const lo = require('lodash')
 const Config = require('config')
 const bunyan = require('bunyan')
+const lo = require('lodash')
+const importLazy = require('import-lazy')(require)
+const Utils = require('./lib/utils')
+const DefaultOptions = importLazy('./lib/options')
 
-Config.util.setModuleDefaults('logs', require('./config'))
+const LOGGERS = new Map()
 
-const serializers = require('./lib/serializers')
-const streams = require('./lib/streams')
-const utils = require('./lib/utils')
+const DefaultConfig = {}
 
-const LEVEL = bunyan.resolveLevel(Config.get('logs.level'))
+DefaultConfig.level = 'info'
+DefaultConfig.src = false
 
-/**
- * Default Logger options
- *
- * @type {Object}
- */
+DefaultConfig.pretty = false
+DefaultConfig.cloudWatch = false
 
-const options = {
-  serializers: serializers,
-  src: Config.get('logs.src') === true,
-  appName: Config.has('appId') ? Config.get('appId') : Config.get('appName'),
-  streams: [
-    {
-      name: 'main',
-      level: LEVEL,
-      stream: process.stdout
-    }
-  ]
+DefaultConfig.http = {
+  obscureHeaders: ['authorization', 'x-lab100-app-secret', 'set-cookie'],
+  excludeHeaders: [
+    'x-amzn-trace-id',
+    'x-content-type-options',
+    'x-dns-prefetch-control',
+    'x-download-options',
+    'x-forwarded-port',
+    'x-forwarded-proto',
+    'x-frame-options',
+    'x-xss-protection'
+  ],
+  skipUserAgents: ['ELB-HealthChecker'],
+  debugHeader: 'X-Lab100-Debug'
 }
 
-if (Config.get('logs.pretty') === true) {
-  const prettyOptions = { colorLevel: 2, timeStamps: false }
+const envConfig = Utils.getConfigFromEnv()
 
-  options.streams = []
-
-  options.streams.push({
-    name: 'main',
-    level: LEVEL,
-    stream: streams.pretty(process.stdout, prettyOptions)
-  })
-}
-
-// if (Config.get('logs.cloudWatch') === true) {
-//   if (
-//     Config.has('cloudWatch') &&
-//     Config.has('cloudWatch.accessKeyId') &&
-//     Config.has('cloudWatch.secretAccessKey') &&
-//     Config.has('cloudWatch.region')
-//   ) {
-//   }
-
-//   const cloudWatchOptions = Config.get('cloudWatch')
-
-//   options.streams.push({
-//      name: 'cloudWatch',
-//     type: 'raw',
-//     level: bunyan.INFO,
-//     stream: streams.cloudWatch(Config.get('logs.cloudWatch'))
-//   })
-// }
+Config.util.extendDeep(DefaultConfig, envConfig)
+Config.util.setModuleDefaults('logs', DefaultConfig)
 
 /**
  * Merge the given options with the default Options and returns a Logger
@@ -79,12 +54,23 @@ if (Config.get('logs.pretty') === true) {
 module.exports = function createLogger (opts = {}) {
   if (lo.isString(opts)) opts = { name: opts }
   if (!opts.name || !lo.isString(opts.name)) opts.name = 'app'
-  const instanceOptions = Object.assign({}, options, opts)
-  const instance = bunyan.createLogger(instanceOptions)
+
+  if (LOGGERS.has(opts.name)) return LOGGERS.get(opts.name)
+
+  const options = {
+    serializers: DefaultOptions.serializers,
+    src: DefaultOptions.src,
+    appName: DefaultOptions.appName,
+    streams: DefaultOptions.streams
+  }
+
+  const instance = bunyan.createLogger({ ...options, ...opts })
+  LOGGERS.set(opts.name, instance)
   return instance
 }
 
-module.exports.Serializers = serializers
+/** @type {Object} Exports Serializers */
+module.exports.Serializers = require('./lib/serializers')
 
 /**
  * Returns an Express/Connect Middleware function which adds an specialized
@@ -105,12 +91,17 @@ module.exports.Middleware = function logRequestsMiddleware () {
   return function logRequests (request, response, next) {
     const blacklist = [...Config.get('logs.http.skipUserAgents')]
     const debugHeader = Config.get('logs.http.debugHeader')
+    const uaTest = lo.overSome(
+      blacklist.map(i => {
+        const uaRegex = new RegExp(i, 'gmi')
+        return uaRegex.test.bind(uaRegex)
+      })
+    )
 
     response.startTime = response.startTime || process.hrtime()
+    request.log = logger.child({ req_id: request.reqId }, true)
 
-    request.log = logger.child({ req_id: request.reqId })
-
-    if (blacklist.includes(request.get('user-agent'))) return next()
+    if (uaTest(request.get('user-agent'))) return next()
 
     /* Use the Debug Header */
     if (!lo.isEmpty(request.get(debugHeader))) {
@@ -121,7 +112,7 @@ module.exports.Middleware = function logRequestsMiddleware () {
     response.on('close', onClose)
 
     request.log.trace(`Request Start: ${request.method} ${request.originalUrl}`)
-
+    request.log.info({ body: request.body })
     next()
 
     function onFinish () {
@@ -132,7 +123,7 @@ module.exports.Middleware = function logRequestsMiddleware () {
       request.log[level]({
         req: request,
         res: this,
-        duration: this.duration || utils.getDuration(this.startTime)
+        duration: this.duration || Utils.getDuration(this.startTime)
       })
     }
 
@@ -144,7 +135,7 @@ module.exports.Middleware = function logRequestsMiddleware () {
         {
           req: request,
           res: this,
-          duration: this.duration || utils.getDuration(this.startTime)
+          duration: this.duration || Utils.getDuration(this.startTime)
         },
         'Request Closed by peer'
       )
