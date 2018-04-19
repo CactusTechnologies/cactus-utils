@@ -30,7 +30,9 @@
     "async-exit-hook": "^2.0.1",
     "config": "^1.30.0",
     "dev-ip": "^1.0.1",
+    "dotenv": "^5.0.1",
     "env-paths": "^1.0.0",
+    "import-lazy": "^3.1.0",
     "lodash": "^4.17.5",
     "pmx": "^1.6.4",
     "pretty-ms": "^3.1.0"

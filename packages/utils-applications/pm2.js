@@ -105,7 +105,7 @@ class Application {
   }
 
   get exec_mode () {
-    return this.instances === 1 && this.development ? 'fork' : 'cluster'
+    return this.instances === 1 ? 'fork' : 'cluster'
   }
 
   get watch () {
@@ -149,13 +149,11 @@ class Application {
     const base = {
       NODE_ENV: 'development',
       PROCESS_TITLE: this.service,
+      LAB100_LOGS_PRETTY: this.development ? true : undefined,
       NODE_CONFIG: {
         appId: this.id,
         appName: this.appName,
-        service: this.service,
-        logs: {
-          pretty: this.development ? true : undefined
-        }
+        service: this.service
       }
     }
 

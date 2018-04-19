@@ -3,15 +3,19 @@
  * @module App/pmx
  */
 const Config = require('config')
-const log = require('@cactus-technologies/lab100-logger')('pmx')
+const importLazy = require('import-lazy')
 const pmx = require('pmx')
+
+const logger = importLazy(require)('@cactus-technologies/lab100-logger')
+const log = importLazy(logger)('pmx')
 
 Config.util.setModuleDefaults('pmx', {
   http: true,
   errors: false,
   custom_probes: true,
   network: true,
-  ports: true
+  ports: true,
+  alert_enabled: true
 })
 
 const isDev = !!Config.isDev

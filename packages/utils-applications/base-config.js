@@ -26,8 +26,8 @@ module.exports = function (pkg = {}) {
 
   Config.domain = 'lab100.org'
   Config.basename = 'lab100'
-  Config.appName = 'lab100-app'
-  Config.service = 'org.lab100'
+  Config.appName = 'app'
+  Config.service = 'org.lab100.app'
   Config.version = pkg.version || '1.0.0'
 
   Config.paths = envPaths(Config.basename, { suffix: '' })

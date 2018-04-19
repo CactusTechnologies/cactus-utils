@@ -1,24 +1,15 @@
 'use strict'
 
+/* Load .env first */
+require('./lib/dot-env')()
+
+const importLazy = require('import-lazy')(require)
+
 const Config = require('config')
-
-Config.util.setModuleDefaults('pmx', {
-  http: true,
-  errors: false,
-  custom_probes: true,
-  network: true,
-  ports: true,
-  alert_enabled: true
-})
-
 const asyncExitHook = require('async-exit-hook')
-const logger = require('@cactus-technologies/lab100-logger')
-const prettyMs = require('pretty-ms')
-const logInit = logger('init')
-const logProcess = logger('process')
+const ms = require('pretty-ms')
 
-/** @type {BunyanInstance} log shortcut */
-exports.log = logger('app')
+const logger = importLazy('@cactus-technologies/lab100-logger')
 
 /** @type {Proxy} PMX module */
 exports.pmx = require('./lib/pmxProxy')
@@ -43,7 +34,10 @@ exports.init = (keymetrics = true) =>
     process.prependListener(
       'uncaughtException',
       function customUncaughtExceptionListener (error) {
-        logProcess.fatal({ err: error }, `Undhandled Error: ${error.message}`)
+        logger('process').fatal(
+          { err: error },
+          `Undhandled Error: ${error.message}`
+        )
         exports.pmx.notify(error)
         process.nextTick(() => process.exit(1))
       }
@@ -60,26 +54,20 @@ exports.init = (keymetrics = true) =>
 
     /* Add the exit hook message */
     asyncExitHook(function exitMessage () {
-      const uptime = prettyMs(process.uptime() * 1000)
+      const uptime = ms(process.uptime() * 1000)
       const exitCode = process.exitCode || 0
       // prettier-ignore
       const exitMessage = `${Config.get('appName')} exit with code ${exitCode} after ${uptime}`
-      if (exitCode !== 0) logProcess.fatal(exitMessage)
-      else logProcess.warn(exitMessage)
+      if (exitCode !== 0) logger('process').fatal(exitMessage)
+      else logger('process').warn(exitMessage)
     })
 
-    logInit.info(
-      {
-        host: Config.get('host'),
-        env: Config.get('env'),
-        logs: {
-          directory: Config.get('paths.log'),
-          level: Config.get('logs.level'),
-          style: Config.get('logs.pretty') ? 'pretty' : 'json'
-        }
-      },
-      `Initializing ${Config.get('appName')} v${Config.get('version')}`
+    logger('app').warn(
+      `Initializing ${Config.get('appName')} v${Config.get(
+        'version'
+      )} in ${Config.get('env')} mode.`
     )
+
     process.send('ready')
     resolve()
   })
