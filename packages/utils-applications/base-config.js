@@ -6,6 +6,7 @@ process.env.NODE_CONFIG_STRICT_MODE = true
 const envPaths = require('env-paths')
 const devIp = require('dev-ip')
 const os = require('os')
+const fp = require('lodash/fp')
 
 const env = process.env
 
@@ -20,14 +21,26 @@ const env = process.env
 module.exports = function (pkg = {}) {
   const Config = {}
 
-  Config.env = process.env.NODE_ENV
-  Config.isDev = process.env.NODE_ENV === 'development'
+  Config.env = env.NODE_ENV
+  Config.isDev = env.NODE_ENV === 'development'
   Config.host = (env.HOST || env.HOSTNAME || os.hostname()).split('.')[0]
 
   Config.domain = 'lab100.org'
   Config.basename = 'lab100'
-  Config.appName = 'app'
-  Config.service = 'org.lab100.app'
+  Config.name =
+    env.APP_NAME ||
+    env.name ||
+    env.PROCESS_TITLE ||
+    pkg.name ||
+    env.npm_package_name ||
+    'app'
+
+  Config.service = Config.domain
+    .split('.')
+    .reverse()
+    .concat([fp.toLower(fp.camelCase(this.name))])
+    .join('.')
+
   Config.version = pkg.version || '1.0.0'
 
   Config.paths = envPaths(Config.basename, { suffix: '' })

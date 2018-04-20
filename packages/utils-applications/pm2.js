@@ -76,12 +76,6 @@ class Application {
     this.development = dev
   }
 
-  get appName () {
-    return [Config.get('basename'), fp.camelCase(this.id)]
-      .map(v => fp.upperFirst(v))
-      .join('-')
-  }
-
   get name () {
     return [Config.get('basename'), fp.kebabCase(this.id)]
       .map(v => fp.toLower(v))
@@ -148,13 +142,9 @@ class Application {
   get env () {
     const base = {
       NODE_ENV: 'development',
-      PROCESS_TITLE: this.service,
+      APP_NAME: this.id,
       LAB100_LOGS_PRETTY: this.development ? true : undefined,
-      NODE_CONFIG: {
-        appId: this.id,
-        appName: this.appName,
-        service: this.service
-      }
+      PROCESS_TITLE: this.service
     }
 
     return Config.util.extendDeep({}, base, this._env)
