@@ -8,7 +8,6 @@ const fp = require('lodash/fp')
 const prettyBytes = require('pretty-bytes')
 const querystring = require('querystring')
 const ms = require('pretty-ms')
-
 const Utils = require('./utils')
 
 /**
@@ -47,9 +46,10 @@ exports.req = function requestSerializer (req) {
     url: Utils.getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
     headers: Utils.redactHeaders(req.headers),
     userId: req.userId || 'nobody',
-    httpVersion: `HTTP/${req.httpVersionMajor}.${req.httpVersionMinor}`,
+    httpVersion: `${req.httpVersionMajor}.${req.httpVersionMinor}`,
     remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
-    remotePort: req.connection.remotePort
+    remotePort: req.connection.remotePort,
+    body: Utils.getBody(req)
   }
 }
 

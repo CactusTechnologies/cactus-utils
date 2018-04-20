@@ -2,6 +2,9 @@ const Config = require('config')
 const fp = require('lodash/fp')
 const sortKeys = require('sort-object-keys')
 const URL = require('url')
+const bunyan = require('bunyan')
+
+exports.resolveLevel = bunyan.resolveLevel.bind(bunyan)
 
 exports.getDuration = start => {
   const diff = process.hrtime(start)
@@ -44,6 +47,16 @@ exports.getConfigFromEnv = () => {
       return false
     }
   }
+}
+
+exports.getAppName = () => {
+  return Config.has('name')
+    ? Config.get('name')
+    : process.env.APP_NAME ||
+        process.env.name ||
+        process.env.PROCESS_TITLE ||
+        process.env.npm_package_name ||
+        'app'
 }
 
 /**
@@ -149,4 +162,26 @@ exports.redactResponseHeaders = headers => {
 exports.getCleanUrl = url => {
   const parsed = URL.parse(url)
   return parsed.pathname || url
+}
+
+/**
+ * Gets the request body
+ *
+ * @param  {Object} req HTTPRequest
+ *
+ * @return {Object}
+ */
+
+exports.getBody = req => {
+  if (!req.body) return undefined
+  if (typeof req.body !== 'object') return undefined
+  if (req.logBody === false) return undefined
+  if (fp.isEmpty(req.logBody)) return undefined
+  if (
+    (req.headers['Content-Length'] || Config.get('logs.http.maxBody') + 1) >
+    Config.get('logs.http.maxBody')
+  ) {
+    return undefined
+  }
+  return req.body
 }

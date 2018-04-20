@@ -8,11 +8,7 @@
 const Config = require('config')
 const bunyan = require('bunyan')
 const lo = require('lodash')
-const importLazy = require('import-lazy')(require)
 const Utils = require('./lib/utils')
-const DefaultOptions = importLazy('./lib/options')
-
-const LOGGERS = new Map()
 
 const DefaultConfig = {}
 
@@ -35,7 +31,8 @@ DefaultConfig.http = {
     'x-xss-protection'
   ],
   skipUserAgents: ['ELB-HealthChecker'],
-  debugHeader: 'X-Lab100-Debug'
+  debugHeader: 'X-Lab100-Debug',
+  maxBody: 500
 }
 
 const envConfig = Utils.getConfigFromEnv()
@@ -52,20 +49,19 @@ Config.util.setModuleDefaults('logs', DefaultConfig)
  */
 
 module.exports = function createLogger (opts = {}) {
-  if (lo.isString(opts)) opts = { name: opts }
-  if (!opts.name || !lo.isString(opts.name)) opts.name = 'app'
+  const DefaultOptions = require('./lib/options')
 
-  if (LOGGERS.has(opts.name)) return LOGGERS.get(opts.name)
+  if (lo.isString(opts)) opts = { name: opts }
+  if (!opts.name || !lo.isString(opts.name)) opts.name = DefaultOptions.app
 
   const options = {
     serializers: DefaultOptions.serializers,
     src: DefaultOptions.src,
-    appName: DefaultOptions.appName,
+    app: DefaultOptions.app,
     streams: DefaultOptions.streams
   }
 
   const instance = bunyan.createLogger({ ...options, ...opts })
-  LOGGERS.set(opts.name, instance)
   return instance
 }
 
@@ -109,14 +105,14 @@ module.exports.Middleware = function logRequestsMiddleware () {
     }
 
     response.on('finish', onFinish)
-    response.on('close', onClose)
+    response.on('error', onError)
 
     request.log.trace(`Request Start: ${request.method} ${request.originalUrl}`)
-    request.log.info({ body: request.body })
+
     next()
 
     function onFinish () {
-      this.removeListener('close', onClose)
+      this.removeListener('error', onError)
       this.removeListener('finish', onFinish)
       const status = this.statusCode || 200
       const level = status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info'
@@ -127,17 +123,17 @@ module.exports.Middleware = function logRequestsMiddleware () {
       })
     }
 
-    function onClose () {
-      this.removeListener('close', onClose)
+    function onError (error) {
+      this.removeListener('error', onError)
       this.removeListener('finish', onFinish)
-      this.statusCode = 102
+      this.statusCode = 500
       request.log.warn(
         {
           req: request,
           res: this,
           duration: this.duration || Utils.getDuration(this.startTime)
         },
-        'Request Closed by peer'
+        error.message
       )
     }
   }
