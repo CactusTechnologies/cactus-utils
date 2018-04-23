@@ -26,7 +26,7 @@ exports.pmx = require('./lib/pmx-proxy')
 exports.init = ({ pmx = true, logger = logDummy } = {}) =>
   new Promise((resolve, reject) => {
     /* Add a process log */
-    process.log = logger('process')
+    process.log = logDummy
 
     /* Enable PMX - Keymetrics */
 
@@ -69,10 +69,12 @@ exports.init = ({ pmx = true, logger = logDummy } = {}) =>
         'Initializing Application: %s v%s in %s mode',
         getName(),
         Config.version,
-        fp.upperCase(Config.env)
+        process.env.NODE_ENV
       )
     )
+
     process.log.info(format('Log level: %s', Config.logs.level || 'trace'))
+
     resolve()
   })
 

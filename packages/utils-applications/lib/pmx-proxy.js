@@ -2,11 +2,11 @@
  * A proxy for PMX
  * @module App/pmx
  */
-const Config = require('config')
+
 const pmx = require('pmx')
 const fp = require('lodash/fp')
 
-const isDev = !!Config.isDev
+const isDev = process.env.NODE_ENV === 'development'
 
 const emitHandler = {
   apply: function emit (target, thisArgument, argumentsList) {
