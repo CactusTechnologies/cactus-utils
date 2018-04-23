@@ -1,0 +1,44 @@
+/**
+ * A dummy logger
+ * @module App/log-dummy
+ */
+const Config = require('config')
+const fp = require('lodash/fp')
+const { format, inspect } = require('util')
+
+module.exports = function createLogger (opts) {
+  if (fp.isString(opts)) opts = { name: opts }
+  const name = !opts.name || !fp.isString(opts.name) ? 'app' : opts.name
+  const appName = Config.name
+    ? Config.name
+    : process.env.APP_NAME ||
+      process.env.name ||
+      process.env.PROCESS_TITLE ||
+      process.env.npm_package_name ||
+      'app'
+
+  const prefix = name === appName ? name : `${appName}:${name}`
+
+  return {
+    fatal: logLevel(console.log.bind(console), prefix),
+    error: logLevel(console.log.bind(console), prefix),
+    warn: logLevel(console.log.bind(console), prefix),
+    info: logLevel(console.error.bind(console), prefix),
+    debug: logLevel(console.error.bind(console), prefix),
+    trace: logLevel(console.error.bind(console), prefix)
+  }
+}
+
+function logLevel (log, name) {
+  return function logger (data, ...props) {
+    let att = true
+    if (fp.isString(data)) {
+      props.unshift(data)
+      att = false
+    }
+    props.unshift(`${name} `)
+    const out = format(...props)
+    log(out)
+    if (att) log(inspect(data))
+  }
+}

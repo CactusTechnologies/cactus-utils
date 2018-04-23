@@ -8,18 +8,10 @@ const asyncExitHook = require('async-exit-hook')
 const ms = require('pretty-ms')
 const { format } = require('util')
 const fp = require('lodash/fp')
-
-const logDummy = {
-  fatal: console.error.bind(console),
-  error: console.error.bind(console),
-  warn: console.error.bind(console),
-  info: console.log.bind(console),
-  debug: console.log.bind(console),
-  trace: console.log.bind(console)
-}
+const logDummy = require('./lib/log-dummy')
 
 /** @type {Proxy} PMX module */
-exports.pmx = require('./lib/pmxProxy')
+exports.pmx = require('./lib/pmx-proxy')
 
 /**
  * Appends Listeners for: uncaughtException, unhandledRejection, process.exit
@@ -31,17 +23,18 @@ exports.pmx = require('./lib/pmxProxy')
  * @return {Promise}
  */
 
-exports.init = ({ pmx: keymetrics = true, logger: log = logDummy } = {}) =>
+exports.init = ({ pmx = true, logger = logDummy } = {}) =>
   new Promise((resolve, reject) => {
+    /* Add a process log */
+    process.log = logger('process')
+
     /* Enable PMX - Keymetrics */
 
-    if (keymetrics === true) {
+    if (pmx === true) {
       exports.pmx.init()
-    } else if (fp.isPlainObject(keymetrics)) {
-      exports.pmx.init(keymetrics)
+    } else if (fp.isPlainObject(pmx)) {
+      exports.pmx.init(pmx)
     }
-
-    process.log = log
 
     /* Catch uncaughExeptions */
     process.prependListener('uncaughtException', error => {
@@ -75,26 +68,30 @@ exports.init = ({ pmx: keymetrics = true, logger: log = logDummy } = {}) =>
       format(
         'Initializing Application: %s v%s in %s mode',
         getName(),
-        Config.get('version'),
-        fp.upperCase(Config.get('env'))
+        Config.version,
+        fp.upperCase(Config.env)
       )
     )
-
+    process.log.info(format('Log level: %s', Config.logs.level || 'trace'))
     resolve()
   })
 
 exports.ready = () => {
   process.log.info(
-    'Application %s v%s is ready (%s)',
-    getName(),
-    Config.get('version'),
-    getUptime()
+    format(
+      'Application %s v%s is ready (+%s)',
+      getName(),
+      Config.version,
+      getUptime()
+    )
   )
   process.send('ready')
 }
 
+// ─────────────────────────────────  Utils  ───────────────────────────────────
+
 function getName () {
-  return fp.upperFirst(fp.camelCase(Config.get('name')))
+  return fp.upperFirst(fp.camelCase(Config.name))
 }
 
 function getUptime () {
