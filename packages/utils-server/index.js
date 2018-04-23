@@ -40,13 +40,16 @@ class Lab100Server {
     this.app.use(Pre.serverHeaders)
     this.app.use(Pre.setRequestIp)
     this.app.use(Pre.setRequestId)
+    this.app.use(Pre.setAuthDefaults)
     this.app.use(Pre.compressResponses)
+
     this.app.use(Security.dnsPrefetchControl)
     this.app.use(Security.frameguard)
     this.app.use(Security.ieNoOpen)
     this.app.use(Security.noSniff)
     this.app.use(Security.xssFilter)
     this.app.use(Security.referrerPolicy)
+
     this.app.use(Pre.crossOrigin)
     this.app.use(Pre.preFligth)
     this.app.use(Pre.serveFavicon)
