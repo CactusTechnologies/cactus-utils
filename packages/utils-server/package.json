@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/lab100-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Basic server for the lab100 cloud services",
   "homepage": "https://github.com/CactusTechnologies/INGH_Server#readme",
   "bugs": {
