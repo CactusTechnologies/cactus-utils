@@ -26,7 +26,7 @@ exports.pmx = require('./lib/pmx-proxy')
 exports.init = ({ pmx = true, logger = logDummy } = {}) =>
   new Promise((resolve, reject) => {
     /* Add a process log */
-    process.log = logDummy
+    process.log = logger
 
     /* Enable PMX - Keymetrics */
 

@@ -63,7 +63,7 @@ class Application {
     this.kill_timeout = 3000
     this.restart_delay = 100
 
-    this.wait_ready = true
+    this.wait_ready = false
     this.deep_monitoring = false
 
     this._ignore_watch = []
