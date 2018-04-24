@@ -4,7 +4,6 @@ const { WError } = require('verror')
 class Lab100Error extends WError {
   constructor (opts, ...props) {
     super({ strict: true, ...opts }, ...props)
-
     this.name = 'Lab100Error'
     this.code = 'UNKNOWN'
     this.status = 500
@@ -26,13 +25,16 @@ exports.InternalServerError = class InternalServerError extends Lab100Error {
   constructor (reason, ...props) {
     let cause
 
-    if (!fp.isError(reason) && !props) props = [reason]
-    if (fp.isError(reason)) cause = reason
+    if (fp.isError(reason)) {
+      cause = reason
+      props.unshift(reason.message)
+    } else {
+      props.unshift(reason)
+    }
+
     if (props.length === 1) props.unshift('Error: %s')
     if (props.length === 0) props.unshift('InternalServerError')
-
     super({ cause: cause, constructorOpt: InternalServerError }, ...props)
-
     this.name = 'InternalServerError'
   }
 }
@@ -41,7 +43,6 @@ exports.NotAuthorizedError = class NotAuthorizedError extends Lab100Error {
   constructor (...props) {
     if (props.length === 0) props.unshift('Not Authorized.')
     super({ constructorOpt: NotAuthorizedError }, ...props)
-
     this.name = 'NotAuthorizedError'
     this.code = 'ENOTAUTH'
     this.status = 401
@@ -73,14 +74,11 @@ exports.NotImplementedError = class NotImplementedError extends Lab100Error {
 exports.InvalidArgumentError = exports.ArgError = class InvalidArgumentError extends Lab100Error {
   constructor (reason, ...props) {
     let cause
-
     if (!fp.isError(reason)) props = [reason, ...props]
     if (fp.isError(reason)) cause = reason
     if (props.length === 1) props.unshift('Invalid %s data.')
     if (props.length === 0) props.unshift('Invalid Input')
-
     super({ cause: cause, constructorOpt: InvalidArgumentError }, ...props)
-
     this.name = 'InvalidArgumentError'
     this.code = 'ERR_BAD_ARG_VALUE'
     this.status = 400
@@ -91,9 +89,7 @@ exports.EmptyArgumentError = exports.EmptyArgError = class EmptyArgumentError ex
   constructor (...props) {
     if (props.length === 1) props.unshift('%s is required.')
     if (props.length === 0) props.unshift('No Data provided.')
-
     super({ constructorOpt: EmptyArgumentError }, ...props)
-
     this.name = 'EmptyArgumentError'
     this.code = 'ERR_EMPTY_ARG_VALUE'
     this.status = 400
@@ -104,13 +100,11 @@ exports.DatabaseValidationError = class DatabaseValidationError extends Lab100Er
   constructor (cause) {
     const humanized = getHumanizedPairs(cause)
     const errors = getErrors(cause)
-
     const opts = {
       cause: cause,
       constructorOpt: DatabaseValidationError,
       info: errors
     }
-
     const props =
       humanized.length === 0
         ? ['Invalid Input']
