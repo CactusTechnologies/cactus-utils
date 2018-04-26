@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * Creates a customized Bunyan Logger based on my opinionated vision
  * @module logger
@@ -45,7 +43,7 @@ Config.util.setModuleDefaults('logs', DefaultConfig)
  *
  * @param  {(String|Object)} opts Logger's Name or Options
  *
- * @return {Logger}
+ * @return {Object}
  */
 
 module.exports = function createLogger (opts = {}) {
