@@ -266,6 +266,6 @@ exports.PhoneNotRegisteredError = class PhoneNotRegisteredError extends Lab100Er
 
     this.name = 'PhoneNotRegistered'
     this.code = 'ENOTUSER'
-    this.status = 202
+    this.status = 404
   }
 }

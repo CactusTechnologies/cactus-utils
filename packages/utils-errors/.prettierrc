@@ -11,6 +11,10 @@
         {
             "files": ".eslintrc",
             "options": { "parser": "json" }
+        },
+        {
+            "files": ".lintstagedrc",
+            "options": { "parser": "json" }
         }
     ]
 }
