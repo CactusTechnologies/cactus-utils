@@ -1,6 +1,6 @@
 <!--@h1([pkg.name])-->
 
-# @cactus-technologies/cactus-logger
+# @cactus-technologies/logger
 
 <!--/@-->
 
@@ -15,7 +15,7 @@ Customized Bunyan Logger Cactus projects
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/cactus-logger
+npm install --save @cactus-technologies/logger
 ```
 
 <!--/@-->

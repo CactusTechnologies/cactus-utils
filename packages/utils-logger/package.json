@@ -1,5 +1,5 @@
 {
-  "name": "@cactus-technologies/cactus-logger",
+  "name": "@cactus-technologies/logger",
   "version": "1.3.0",
   "description": "Customized Bunyan Logger Cactus projects",
   "keywords": [],
