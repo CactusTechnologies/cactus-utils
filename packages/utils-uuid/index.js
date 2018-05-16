@@ -1,6 +1,5 @@
 /**
- * A set of Unique ID generators to be shared across the LAB100
- *   Infraestructure.
+ * A set of Unique ID generators
  *
  * @module UUID
  *
@@ -8,7 +7,6 @@
  */
 
 const Random = require('random-js')
-const lo = require('lodash')
 const damnCheckDigit = require('./lib/damn')
 
 const numericSeed = Random.engines.mt19937().autoSeed()
@@ -43,8 +41,9 @@ exports.hex = (length = 6) => Random.hex()(numericSeed, length)
 exports.numeric = function generateNumeric (digits = 10) {
   const totalDigits = digits - 1
   const max = maxNumber(totalDigits)
-  const base = Random.integer(0, max)(numericSeed)
-  const padded = lo.pad(base, totalDigits, '0')
+  const num = Random.integer(0, max)(numericSeed)
+  const base = String(num)
+  const padded = base.padStart(totalDigits, '0')
   const hashed = damnCheckDigit.generate(padded)
   return padded + hashed
 }

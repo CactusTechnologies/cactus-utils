@@ -1,12 +1,12 @@
 <!--@h1([pkg.name])-->
 
-# @cactus-technologies/lab100-uuid
+# @cactus-technologies/uuid
 
 <!--/@-->
 
 <!--@pkg.description-->
 
-UUID generators for lab100
+A set of Unique ID generators for JS apps
 
 <!--/@-->
 
@@ -15,7 +15,7 @@ UUID generators for lab100
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/lab100-uuid
+npm install --save @cactus-technologies/uuid
 ```
 
 <!--/@-->
