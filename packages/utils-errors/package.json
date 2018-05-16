@@ -1,7 +1,7 @@
 {
-  "name": "@cactus-technologies/lab100-errors",
+  "name": "@cactus-technologies/server-errors",
   "version": "1.0.2",
-  "description": "Shared Errors for the lab100 ecosystem ",
+  "description": "Shared Errors for Servers",
   "homepage": "https://github.com/CactusTechnologies/INGH_Errors#readme",
   "bugs": {
     "url": "https://github.com/CactusTechnologies/INGH_Errors/issues"

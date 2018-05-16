@@ -1,10 +1,10 @@
 const fp = require('lodash/fp')
 const { WError } = require('verror')
 
-class Lab100Error extends WError {
+class CactusError extends WError {
   constructor (opts, ...props) {
     super({ strict: true, ...opts }, ...props)
-    this.name = 'Lab100Error'
+    this.name = 'CactusError'
     this.code = 'UNKNOWN'
     this.status = 500
   }
@@ -19,9 +19,9 @@ class Lab100Error extends WError {
   }
 }
 
-exports.Lab100Error = Lab100Error
+exports.CactusError = CactusError
 
-exports.InternalServerError = class InternalServerError extends Lab100Error {
+exports.InternalServerError = class InternalServerError extends CactusError {
   constructor (reason, ...props) {
     let cause
 
@@ -39,7 +39,7 @@ exports.InternalServerError = class InternalServerError extends Lab100Error {
   }
 }
 
-exports.NotAuthorizedError = class NotAuthorizedError extends Lab100Error {
+exports.NotAuthorizedError = class NotAuthorizedError extends CactusError {
   constructor (...props) {
     if (props.length === 0) props.unshift('Not Authorized.')
     super({ constructorOpt: NotAuthorizedError }, ...props)
@@ -49,7 +49,7 @@ exports.NotAuthorizedError = class NotAuthorizedError extends Lab100Error {
   }
 }
 
-exports.NotFoundError = class NotFoundError extends Lab100Error {
+exports.NotFoundError = class NotFoundError extends CactusError {
   constructor (...props) {
     if (props.length === 0) props.unshift('Not Found.')
     if (props.length === 1) props.unshift('Not Found: %s.')
@@ -60,7 +60,7 @@ exports.NotFoundError = class NotFoundError extends Lab100Error {
   }
 }
 
-exports.NotImplementedError = class NotImplementedError extends Lab100Error {
+exports.NotImplementedError = class NotImplementedError extends CactusError {
   constructor (...props) {
     if (props.length === 0) props.unshift('Not Implemented.')
     if (props.length === 1) props.unshift('Not Implemented: %s.')
@@ -71,7 +71,7 @@ exports.NotImplementedError = class NotImplementedError extends Lab100Error {
   }
 }
 
-exports.InvalidArgumentError = exports.ArgError = class InvalidArgumentError extends Lab100Error {
+exports.InvalidArgumentError = exports.ArgError = class InvalidArgumentError extends CactusError {
   constructor (reason, ...props) {
     let cause
     if (!fp.isError(reason)) props = [reason, ...props]
@@ -85,7 +85,7 @@ exports.InvalidArgumentError = exports.ArgError = class InvalidArgumentError ext
   }
 }
 
-exports.EmptyArgumentError = exports.EmptyArgError = class EmptyArgumentError extends Lab100Error {
+exports.EmptyArgumentError = exports.EmptyArgError = class EmptyArgumentError extends CactusError {
   constructor (...props) {
     if (props.length === 1) props.unshift('%s is required.')
     if (props.length === 0) props.unshift('No Data provided.')
@@ -96,7 +96,7 @@ exports.EmptyArgumentError = exports.EmptyArgError = class EmptyArgumentError ex
   }
 }
 
-exports.DatabaseValidationError = class DatabaseValidationError extends Lab100Error {
+exports.DatabaseValidationError = class DatabaseValidationError extends CactusError {
   constructor (cause) {
     const humanized = getHumanizedPairs(cause)
     const errors = getErrors(cause)
@@ -165,7 +165,7 @@ exports.DatabaseValidationError = class DatabaseValidationError extends Lab100Er
   }
 }
 
-exports.DatabaseSaveError = class DatabaseSaveError extends Lab100Error {
+exports.DatabaseSaveError = class DatabaseSaveError extends CactusError {
   constructor (cause, doc) {
     const props = [
       'Cannot save the %s (%s: %s) in the Database.',
@@ -181,7 +181,7 @@ exports.DatabaseSaveError = class DatabaseSaveError extends Lab100Error {
   }
 }
 
-exports.DatabaseRemoveError = class DatabaseRemoveError extends Lab100Error {
+exports.DatabaseRemoveError = class DatabaseRemoveError extends CactusError {
   constructor (cause, doc) {
     const props = [
       'Cannot remove the %s (%s: %s) in the Database.',
@@ -197,7 +197,7 @@ exports.DatabaseRemoveError = class DatabaseRemoveError extends Lab100Error {
   }
 }
 
-exports.DatabaseNotFoundError = class DatabaseNotFoundError extends Lab100Error {
+exports.DatabaseNotFoundError = class DatabaseNotFoundError extends CactusError {
   constructor (query, modelName = 'Document', status = 404, ...props) {
     if (props.length === 0) {
       props.unshift('Cannot find a {modelName} matching the query.')
@@ -219,7 +219,7 @@ exports.DatabaseNotFoundError = class DatabaseNotFoundError extends Lab100Error 
   }
 }
 
-exports.MissingDependencyError = class MissingDependencyError extends Lab100Error {
+exports.MissingDependencyError = class MissingDependencyError extends CactusError {
   constructor (reason, ...props) {
     if (props.length === 1) {
       props.unshift('Cannot find a valid executable in the PATH')
@@ -236,7 +236,7 @@ exports.MissingDependencyError = class MissingDependencyError extends Lab100Erro
   }
 }
 
-exports.FileNotFoundError = class FileNotFoundError extends Lab100Error {
+exports.FileNotFoundError = class FileNotFoundError extends CactusError {
   constructor (reason, ...props) {
     if (props.length === 1) {
       props.unshift('Cannot find the file %s in the FileSystem')
@@ -250,22 +250,5 @@ exports.FileNotFoundError = class FileNotFoundError extends Lab100Error {
     this.name = 'FileNotFoundError'
     this.code = 'ENOENT'
     this.status = 500
-  }
-}
-
-exports.PhoneNotRegisteredError = class PhoneNotRegisteredError extends Lab100Error {
-  constructor (...props) {
-    if (props.length === 1) {
-      props.unshift('The phone %s is not registered.')
-    }
-    if (props.length === 0) {
-      props.unshift('The phone is not registered.')
-    }
-
-    super({ constructorOpt: PhoneNotRegisteredError }, ...props)
-
-    this.name = 'PhoneNotRegistered'
-    this.code = 'ENOTUSER'
-    this.status = 404
   }
 }

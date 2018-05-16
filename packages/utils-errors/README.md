@@ -1,12 +1,12 @@
 <!--@h1([pkg.name])-->
 
-# @cactus-technologies/lab100-errors
+# @cactus-technologies/server-errors
 
 <!--/@-->
 
 <!--@pkg.description-->
 
-Shared Errors for the lab100 ecosystem
+Shared Errors for Servers
 
 <!--/@-->
 
@@ -15,7 +15,7 @@ Shared Errors for the lab100 ecosystem
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/lab100-errors
+npm install --save @cactus-technologies/server-errors
 ```
 
 <!--/@-->
