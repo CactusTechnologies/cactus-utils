@@ -17,16 +17,16 @@ exports.getConfigFromEnv = () => {
 
   let config = {}
 
-  if (testEnv('LAB100_LOGS_LEVEL')) {
-    config = fp.set('level', config, fp.get('LAB100_LOGS_LEVEL', env))
+  if (testEnv('CACTUS_LOGS_LEVEL')) {
+    config = fp.set('level', config, fp.get('CACTUS_LOGS_LEVEL', env))
   }
 
-  if (testEnv('LAB100_LOGS_PRETTY')) {
-    config = fp.set('pretty', config, envAsBool('LAB100_LOGS_PRETTY'))
+  if (testEnv('CACTUS_LOGS_PRETTY')) {
+    config = fp.set('pretty', config, envAsBool('CACTUS_LOGS_PRETTY'))
   }
 
-  if (testEnv('LAB100_LOGS_CLOUDWATCH')) {
-    config = fp.set('cloudWatch', config, envAsBool('LAB100_LOGS_PRETTY'))
+  if (testEnv('CACTUS_LOGS_CLOUDWATCH')) {
+    config = fp.set('cloudWatch', config, envAsBool('CACTUS_LOGS_CLOUDWATCH'))
   }
 
   return config
@@ -162,26 +162,4 @@ exports.redactResponseHeaders = headers => {
 exports.getCleanUrl = url => {
   const parsed = URL.parse(url)
   return parsed.pathname || url
-}
-
-/**
- * Gets the request body
- *
- * @param  {Object} req HTTPRequest
- *
- * @return {Object}
- */
-
-exports.getBody = req => {
-  if (!req.body) return undefined
-  if (typeof req.body !== 'object') return undefined
-  if (req.logBody === false) return undefined
-  if (fp.isEmpty(req.logBody)) return undefined
-  if (
-    (req.headers['Content-Length'] || Config.get('logs.http.maxBody') + 1) >
-    Config.get('logs.http.maxBody')
-  ) {
-    return undefined
-  }
-  return req.body
 }

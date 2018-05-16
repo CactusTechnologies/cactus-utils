@@ -1,21 +1,21 @@
 {
-  "name": "@cactus-technologies/lab100-logger",
+  "name": "@cactus-technologies/cactus-logger",
   "version": "1.2.1",
-  "description": "Customized Logger for the Lab100 ecosystem",
+  "description": "Customized Bunyan Logger Cactus projects",
   "keywords": [],
   "homepage": "https://github.com/CactusTechnologies/INGH_logger#readme",
   "bugs": {
     "url": "https://github.com/CactusTechnologies/INGH_logger/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CactusTechnologies/INGH_logger.git"
   },
   "license": "UNLICENCED",
   "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
   "main": "index.js",
   "directories": {
     "lib": "lib"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/INGH_logger.git"
   },
   "scripts": {
     "precommit": "npm test && npm run docs && lint-staged",
@@ -35,7 +35,7 @@
     "config": "^1.30.0",
     "lodash": "^4.17.5",
     "moment": "^2.22.1",
-    "pretty-bytes": "^4.0.2",
+    "pretty-bytes": "^5.0.0",
     "pretty-ms": "^3.1.0",
     "safe-json-stringify": "^1.1.0",
     "sort-object-keys": "^1.1.2"
@@ -49,25 +49,10 @@
     "eslint-plugin-standard": "^3.1.0",
     "husky": "^0.14.3",
     "leasot": "^6.1.0",
-    "lint-staged": "^7.0.2",
+    "lint-staged": "^7.1.0",
     "mos": "^1.3.1",
-    "npm-run-all": "^4.1.2",
+    "npm-run-all": "^4.1.3",
     "prettier": "^1.12.1",
-    "sort-package-json": "^1.12.0"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "standard --fix",
-      "git add"
-    ],
-    "*.{json,md,css}": [
-      "prettier --write",
-      "git add"
-    ],
-    "package.json": [
-      "sort-package-json",
-      "git add"
-    ]
+    "sort-package-json": "^1.15.0"
   }
 }

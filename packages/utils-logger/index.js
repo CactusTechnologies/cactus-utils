@@ -17,7 +17,7 @@ DefaultConfig.pretty = false
 DefaultConfig.cloudWatch = false
 
 DefaultConfig.http = {
-  obscureHeaders: ['authorization', 'x-lab100-app-secret', 'set-cookie'],
+  obscureHeaders: ['authorization', 'set-cookie'],
   excludeHeaders: [
     'x-amzn-trace-id',
     'x-content-type-options',
@@ -29,7 +29,7 @@ DefaultConfig.http = {
     'x-xss-protection'
   ],
   skipUserAgents: ['ELB-HealthChecker'],
-  debugHeader: 'X-Lab100-Debug',
+  debugHeader: 'X-Cactus-Debug',
   maxBody: 500
 }
 

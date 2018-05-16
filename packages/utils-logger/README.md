@@ -1,12 +1,12 @@
 <!--@h1([pkg.name])-->
 
-# @cactus-technologies/lab100-logger
+# @cactus-technologies/cactus-logger
 
 <!--/@-->
 
 <!--@pkg.description-->
 
-Customized Logger for the Lab100 ecosystem
+Customized Bunyan Logger Cactus projects
 
 <!--/@-->
 
@@ -15,7 +15,7 @@ Customized Logger for the Lab100 ecosystem
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/lab100-logger
+npm install --save @cactus-technologies/cactus-logger
 ```
 
 <!--/@-->

@@ -8,7 +8,7 @@ const fp = require('lodash/fp')
 const prettyBytes = require('pretty-bytes')
 const querystring = require('querystring')
 const ms = require('pretty-ms')
-const Utils = require('./utils')
+const utils = require('./utils')
 
 /**
  * Serializes Error Objects
@@ -24,7 +24,7 @@ exports.err = function errorSerializer (err) {
   return {
     message: err.message,
     name: err.name,
-    stack: Utils.getErrorStack(err),
+    stack: utils.getErrorStack(err),
     code: err.code,
     signal: err.signal
   }
@@ -43,13 +43,12 @@ exports.req = function requestSerializer (req) {
 
   return {
     method: req.method,
-    url: Utils.getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
-    headers: Utils.redactHeaders(req.headers),
+    url: utils.getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
+    headers: utils.redactHeaders(req.headers),
     userId: req.userId || 'nobody',
     httpVersion: `${req.httpVersionMajor}.${req.httpVersionMinor}`,
     remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
-    remotePort: req.connection.remotePort,
-    body: Utils.getBody(req)
+    remotePort: req.connection.remotePort
   }
 }
 
@@ -64,7 +63,7 @@ exports.res = function responseSerializer (res) {
   if (!res || !res.statusCode) return res
   return {
     statusCode: res.statusCode,
-    header: Utils.redactResponseHeaders(res._header)
+    header: utils.redactResponseHeaders(res._header)
   }
 }
 
