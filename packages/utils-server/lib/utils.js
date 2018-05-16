@@ -8,3 +8,5 @@ exports.getDuration = function getDuration (start) {
   const nanoseconds = diff[0] * 1e9 + diff[1]
   return nanoseconds / 1e6
 }
+
+exports.asHeader = fp.pipe([fp.camelCase, fp.capitalize])

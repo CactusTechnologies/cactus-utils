@@ -2,21 +2,22 @@
 
 const compression = require('compression')
 const express = require('express')
-const favicon = require('serve-favicon')
-const fp = require('lodash/fp')
 const ipaddr = require('ipaddr.js')
+const fp = require('lodash/fp')
 const onHeaders = require('on-headers')
 const path = require('path')
+const fs = require('fs')
+const favicon = require('serve-favicon')
 
-const UUID = require('@cactus-technologies/lab100-uuid')
-const logger = require('@cactus-technologies/lab100-logger')
+const uuid = require('@cactus-technologies/uuid')
+const logger = require('@cactus-technologies/logger')
 
 const { getDuration, humanizeStatusCode } = require('./utils')
 
 /**
  * Sets response.startTime and duration
  *
- * @type {Middleware Function}
+ * @type {Function}
  *
  */
 exports.requestStart = function requestStart (request, response, next) {
@@ -35,14 +36,17 @@ exports.requestStart = function requestStart (request, response, next) {
 /**
  * Server ID middleware
  *
- * @type {Middleware Function}
+ * @type {Function}
  *
  */
 
 exports.serverHeaders = function serverHeaders (request, response, next) {
+  const mesageHeader = `X-${request.app.get('domain')}-Message`
+  const domain = request.app.get('domain')
+  // prettier-ignore
   response.set({
-    'X-Lab100-Service-UUID': request.app.get('service'),
-    'X-Lab100-Service-Instance': `lab100-worker-${process.pid}`,
+    [`X-${domain}-Service-uuid`]: request.app.get('service'),
+    [`X-${domain}-Service-Instance`]: `worker-${process.pid}`,
     Server: `${request.app.get('name')}/${request.app.get('version')}`
   })
 
@@ -51,25 +55,25 @@ exports.serverHeaders = function serverHeaders (request, response, next) {
   next()
 
   function setMessage () {
-    if (this.get('X-Lab100-Message')) return
-    this.set('X-Lab100-Message', humanizeStatusCode(this.statusCode || 200))
+    if (this.get(mesageHeader)) return
+    this.set(mesageHeader, humanizeStatusCode(this.statusCode || 200))
   }
 }
 
 /**
  * Cors Middleware
  *
- * @type {Middleware Function}
+ * @type {Function}
  *
  */
 
 exports.crossOrigin = function crossOrigin (request, response, next) {
   // prettier-ignore
   response.set({
-    'Access-Control-Allow-Headers': 'Content-Type, X-Lab100-APP-UUID, X-Lab100-APP-Secret, X-Lab100-Debug',
+    'Access-Control-Allow-Headers': request.app.get('allowHeaders'),
     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
     'Access-Control-Allow-Credentials': true,
-    'Access-Control-Allow-Origin': request.get('origin') || '*'
+    'Access-Control-Allow-Origin': request.get('Origin') || '*'
   })
 
   response.vary('Origin')
@@ -80,7 +84,7 @@ exports.crossOrigin = function crossOrigin (request, response, next) {
 /**
  * Answer to the Prefligth OPTIONS request
  *
- * @type {Middleware Function}
+ * @type {Function}
  */
 exports.preFligth = function preFligth (request, response, next) {
   if (request.method === 'OPTIONS') return response.sendStatus(200)
@@ -90,21 +94,25 @@ exports.preFligth = function preFligth (request, response, next) {
 /**
  * Compress the responses
  *
- * @type {Middleware Function}
+ * @type {Function}
  */
 exports.compressResponses = compression()
 
 /**
  * Serves the favicon.ico from memory
  *
- * @type {Middleware Function}
+ * @type {Function}
  */
-exports.serveFavicon = favicon(path.resolve(__dirname, 'assets', 'favicon.ico'))
+exports.serveFavicon = (() => {
+  const faviTarget = path.resolve(process.cwd(), 'assets', 'favicon.ico')
+  if (fs.existsSync(faviTarget)) return favicon(faviTarget)
+  return (req, res, next) => next()
+})()
 
 /**
  * Parses the given IP as a IPV4
  *
- * @type {Middleware Function}
+ * @type {Function}
  */
 exports.setRequestIp = function reqIP (request, response, next) {
   let ip = request.ip
@@ -122,10 +130,10 @@ exports.setRequestIp = function reqIP (request, response, next) {
 /**
  * Sets the reqId property on the request
  *
- * @type {Middleware Function}
+ * @type {Function}
  */
 exports.setRequestId = function setRequestId (request, response, next) {
-  request.reqId = request.get('X-Request-ID') || UUID.pokemon()
+  request.reqId = request.get('X-Request-ID') || uuid.pokemon()
   response.set('X-Request-ID', request.reqId)
   next()
 }
@@ -134,14 +142,14 @@ exports.setRequestId = function setRequestId (request, response, next) {
  * Adds an specialized logger to each request and logs to the console when the
  *   given request is complete
  *
- * @type {Middleware Function}
+ * @type {Function}
  */
 exports.logRequests = logger.Middleware()
 
 /**
  * parses incoming requests with JSON payloads
  *
- * @type {Middleware Function}
+ * @type {Function}
  */
 exports.jsonParser = express.json({
   inflate: true,
@@ -186,7 +194,13 @@ exports.setAuthDefaults = function setAuthDefaults (request, response, next) {
   next()
 
   function setAuthHeaders () {
-    this.header('X-Lab100-Auth-ExpiresIn', request.expiresIn || 0)
-    this.header('X-Lab100-Auth-Method', request.authMethod || 'None')
+    this.header(
+      `X-${request.app.get('domain')}-Auth-ExpiresIn`,
+      request.expiresIn || 0
+    )
+    this.header(
+      `X-${request.app.get('domain')}-Auth-Method`,
+      request.authMethod || 'None'
+    )
   }
 }

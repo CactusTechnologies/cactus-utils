@@ -5,25 +5,27 @@
  *
  * @module lab100-server
  */
-const Config = require('config')
-const logger = require('@cactus-technologies/lab100-logger')
-const Errors = require('@cactus-technologies/lab100-errors')
-const http = require('http')
+
 const express = require('express')
+const http = require('http')
 const pmx = require('pmx')
 
-const Pre = require('./lib/pre')
-const Security = require('./lib/security')
+const errors = require('@cactus-technologies/errors')
+const logger = require('@cactus-technologies/logger')
+
+const pre = require('./lib/pre')
+const security = require('./lib/security')
+const utils = require('./lib/utils')
+
+const CactusError = errors.CactusError
+const InternalServerError = errors.InternalServerError
+const NotImplementedError = errors.NotImplementedError
+const NotFoundError = errors.NotFoundError
 
 class Lab100Server {
-  constructor (
-    conf = {
-      name: 'generic-server',
-      version: '1.0.0',
-      service: 'org.lab100'
-    }
-  ) {
+  constructor (config = {}) {
     this.log = logger('server')
+    this.port = config.port || 8080
     this.server = http.createServer()
     this.app = express()
 
@@ -32,30 +34,33 @@ class Lab100Server {
     this.app.set('trust proxy', true)
     this.app.set('x-powered-by', false)
 
-    this.app.set('name', conf.name)
-    this.app.set('version', conf.version)
-    this.app.set('service', conf.service)
+    this.app.set('name', config.name || 'generic-server')
+    this.app.set('version', config.version || '1.0.0')
+    this.app.set('service', config.service || 'is.cactus')
+    this.app.set('domain', utils.asHeader(config.domain || 'Cactus'))
+    /* prettier-ignore */
+    this.app.set('allowHeaders', config.allowHeaders || 'Content-Type, Authorization')
 
-    this.app.use(Pre.requestStart)
-    this.app.use(Pre.serverHeaders)
-    this.app.use(Pre.setRequestIp)
-    this.app.use(Pre.setRequestId)
-    this.app.use(Pre.setAuthDefaults)
-    this.app.use(Pre.compressResponses)
+    this.app.use(pre.requestStart)
+    this.app.use(pre.serverHeaders)
+    this.app.use(pre.setRequestIp)
+    this.app.use(pre.setRequestId)
+    this.app.use(pre.setAuthDefaults)
+    this.app.use(pre.compressResponses)
 
-    this.app.use(Security.dnsPrefetchControl)
-    this.app.use(Security.frameguard)
-    this.app.use(Security.ieNoOpen)
-    this.app.use(Security.noSniff)
-    this.app.use(Security.xssFilter)
-    this.app.use(Security.referrerPolicy)
+    this.app.use(security.dnsPrefetchControl)
+    this.app.use(security.frameguard)
+    this.app.use(security.ieNoOpen)
+    this.app.use(security.noSniff)
+    this.app.use(security.xssFilter)
+    this.app.use(security.referrerPolicy)
 
-    this.app.use(Pre.crossOrigin)
-    this.app.use(Pre.preFligth)
-    this.app.use(Pre.serveFavicon)
-    this.app.use(Pre.jsonParser)
+    this.app.use(pre.crossOrigin)
+    this.app.use(pre.preFligth)
+    this.app.use(pre.serveFavicon)
+    this.app.use(pre.jsonParser)
 
-    this.app.use(Pre.logRequests)
+    this.app.use(pre.logRequests)
 
     this.server.on('request', this.app)
     this.server.on('error', onError)
@@ -69,12 +74,10 @@ class Lab100Server {
    * @return {Promisse}
    */
 
-  listen (port = 8080) {
+  listen () {
     return new Promise((resolve, reject) => {
-      port = port || Config.get('server.port')
-      this.server.listen(port, error => {
-        if (error) reject(error)
-        this.log.info(`Listening on port: ${port}`)
+      this.server.listen(this.port, () => {
+        this.log.info(`Listening on port: ${this.port}`)
         resolve()
       })
     })
@@ -83,28 +86,20 @@ class Lab100Server {
   /**
    * Logs the error
    *
-   * @param     {Error}             error
-   * @param     {HttpRequest}       request
-   * @param     {HttpResponse}      response
-   * @param     {Function}          next
+   * @param {Error}        error
+   * @param {HttpRequest}  request
+   * @param {HttpResponse} response
+   * @param {Function}     next
    */
 
   static logErrors (error, request, response, next) {
     request.log.trace('Handler: logErrors')
 
-    if (error instanceof Errors.Lab100Error === false) {
-      error = new Errors.InternalServerError(error, error.message)
+    if (error instanceof CactusError === false) {
+      error = new InternalServerError(error, error.message)
     }
 
-    if (error.status >= 500) {
-      request.log.error(error)
-    } else {
-      if (request.app.get('env') === 'production') {
-        request.log.error(error.message)
-      } else {
-        request.log.error(error)
-      }
-    }
+    request.log.error(error)
 
     next(error)
   }
@@ -112,11 +107,12 @@ class Lab100Server {
   /**
    * Sends the error to keymetrics and calls next
    *
-   * @param     {Error}             error
-   * @param     {HttpRequest}       request
-   * @param     {HttpResponse}      response
-   * @param     {Function}          next
+   * @param {Error}        error
+   * @param {HttpRequest}  request
+   * @param {HttpResponse} response
+   * @param {Function}     next
    */
+
   static notifyErrors (error, request, response, next) {
     request.log.trace('Handler: notifyErrors')
     if (error.status >= 500) {
@@ -136,6 +132,7 @@ class Lab100Server {
    * @param     {HttpRequest}       request
    * @param     {HttpResponse}      response
    */
+
   static emptyResponse (request, response) {
     request.log.trace('Handler: Empty response')
     response.sendStatus(200)
@@ -148,9 +145,10 @@ class Lab100Server {
    * @param     {HttpResponse}      response
    * @param     {Function}          next
    */
+
   static notImplementedResponse (request, response, next) {
     request.log.trace('Handler: notImplemented')
-    next(new Errors.NotImplementedError(request.originalUrl))
+    next(new NotImplementedError(request.originalUrl))
   }
 
   /**
@@ -163,7 +161,7 @@ class Lab100Server {
 
   static notFoundResponse (request, response, next) {
     request.log.trace('Handler: notFound')
-    return next(new Errors.NotFoundError(request.originalUrl))
+    return next(new NotFoundError(request.originalUrl))
   }
 }
 
@@ -172,5 +170,12 @@ module.exports = Lab100Server
 // ────────────────────────────────  Private  ──────────────────────────────────
 
 function onError (error) {
-  throw new Errors.InternalServerError(error)
+  switch (error.code) {
+    case 'EACCES':
+      throw new InternalServerError(error, 'Port require elevated privileges')
+    case 'EADDRINUSE':
+      throw new InternalServerError(error, 'Port is already in use')
+    default:
+      throw new InternalServerError(error)
+  }
 }

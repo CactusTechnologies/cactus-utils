@@ -1,10 +1,10 @@
 {
-  "name": "@cactus-technologies/lab100-server",
+  "name": "@cactus-technologies/server",
   "version": "1.0.1",
-  "description": "Basic server for the lab100 cloud services",
-  "homepage": "https://github.com/CactusTechnologies/INGH_Server#readme",
+  "description": "Basic Server for Cactus Webservices",
+  "homepage": "https://github.com/CactusTechnologies/cactus-bare-server#readme",
   "bugs": {
-    "url": "https://github.com/CactusTechnologies/INGH_Server/issues"
+    "url": "https://github.com/CactusTechnologies/cactus-bare-server/issues"
   },
   "license": "UNLICENCED",
   "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/INGH_Server.git"
+    "url": "git+https://github.com/CactusTechnologies/cactus-bare-server.git"
   },
   "scripts": {
     "precommit": "npm test && npm run docs && lint-staged",
@@ -23,44 +23,37 @@
     "docs:readme": "mos README.md",
     "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md",
     "test": "run-s test:* -sn",
-    "test:depcheck": "depcheck --ignores=husky,prettier",
-    "test:lint": "standard --verbose | snazzy",
+    "test:lint": "eslint './**/*.js'",
+    "test:outdated": "npm outdated --long",
     "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**' --exit-nicely"
   },
   "dependencies": {
-    "@cactus-technologies/lab100-errors": "^1.0.0",
-    "@cactus-technologies/lab100-logger": "^1.2.1",
-    "@cactus-technologies/lab100-uuid": "^1.0.0",
+    "@cactus-technologies/errors": "^1.1.0",
+    "@cactus-technologies/logger": "^1.3.0",
+    "@cactus-technologies/node-application": "^2.0.0",
+    "@cactus-technologies/uuid": "^1.0.1",
     "compression": "^1.7.2",
-    "config": "^1.30.0",
     "express": "^4.16.3",
     "helmet": "^3.12.0",
     "ipaddr.js": "^1.7.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.10",
     "on-headers": "^1.0.1",
     "pmx": "^1.6.4",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "depcheck": "^0.6.8",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.1.0",
     "husky": "^0.14.3",
-    "leasot": "^4.13.0",
-    "lint-staged": "^7.0.0",
+    "leasot": "^6.3.0",
+    "lint-staged": "^7.1.0",
     "mos": "^1.3.1",
-    "npm-run-all": "^4.1.2",
-    "prettier": "^1.9.2",
-    "snazzy": "^7.0.0",
-    "standard": "^11.0.0"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "standard --fix",
-      "git add"
-    ],
-    "*.{json,md}": [
-      "prettier --write",
-      "git add"
-    ]
+    "npm-run-all": "^4.1.3",
+    "prettier": "^1.9.2"
   }
 }

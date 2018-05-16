@@ -1,12 +1,12 @@
 <!--@h1([pkg.name])-->
 
-# @cactus-technologies/lab100-server
+# @cactus-technologies/server
 
 <!--/@-->
 
 <!--@pkg.description-->
 
-Basic server for the lab100 cloud services
+Basic Server for Cactus Webservices
 
 <!--/@-->
 
@@ -15,7 +15,7 @@ Basic server for the lab100 cloud services
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/lab100-server
+npm install --save @cactus-technologies/server
 ```
 
 <!--/@-->

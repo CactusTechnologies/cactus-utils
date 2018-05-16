@@ -12,5 +12,20 @@
             "path": "../lab100"
         }
     ],
-    "settings": {}
+   "MultiFormat": {
+        "formatters": {
+            "javascript": ["prettier %file --write", "eslint %file --fix"],
+            "javascript (babel)": ["prettier %file --write", "eslint %file --fix"]
+        }
+    },
+    "SublimeLinter": {
+        "linters": {
+            "eslint": {
+                "disable": false
+            },
+            "standard": {
+                "disable": true
+            }
+        }
+    }
 }
