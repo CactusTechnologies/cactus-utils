@@ -11,23 +11,23 @@ const fp = require('lodash/fp')
 const env = process.env
 
 /**
- * Creates a base ENV Configuration based on the given Domain
+ * Creates a base ENV configuration based on the given Domain
  *
  * @param {Object} pkg package.json
  *
  * @return {Object}
  */
 
-module.exports = function (pkg = {}) {
-  const Config = {}
+module.exports = function (pkg = {}, domain = 'cactus.is', basename = 'cactus') {
+  const config = {}
 
-  Config.env = env.NODE_ENV
-  Config.isDev = env.NODE_ENV === 'development'
-  Config.host = (env.HOST || env.HOSTNAME || os.hostname()).split('.')[0]
+  config.env = env.NODE_ENV
+  config.isDev = env.NODE_ENV === 'development'
+  config.host = (env.HOST || env.HOSTNAME || os.hostname()).split('.')[0]
 
-  Config.domain = 'lab100.org'
-  Config.basename = 'lab100'
-  Config.name =
+  config.domain = domain
+  config.basename = basename
+  config.name =
     env.APP_NAME ||
     env.name ||
     env.PROCESS_TITLE ||
@@ -35,16 +35,16 @@ module.exports = function (pkg = {}) {
     env.npm_package_name ||
     'app'
 
-  Config.service = Config.domain
+  config.service = config.domain
     .split('.')
     .reverse()
     .concat([fp.toLower(fp.camelCase(this.name))])
     .join('.')
 
-  Config.version = pkg.version || '1.0.0'
+  config.version = pkg.version || '1.0.0'
 
-  Config.paths = envPaths(Config.basename, { suffix: '' })
-  Config.ips = devIp() || ['127.0.0.1']
+  config.paths = envPaths(config.basename, { suffix: '' })
+  config.ips = devIp() || ['127.0.0.1']
 
-  return Config
+  return config
 }

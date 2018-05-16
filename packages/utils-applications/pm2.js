@@ -1,6 +1,6 @@
 /* eslint camelcase: "off" */
 
-const Config = require('config')
+const config = require('config')
 const path = require('path')
 const fp = require('lodash/fp')
 
@@ -77,13 +77,14 @@ class Application {
   }
 
   get name () {
-    return [Config.get('basename'), fp.kebabCase(this.id)]
+    return [config.get('basename'), fp.kebabCase(this.id)]
       .map(v => fp.toLower(v))
       .join('-')
   }
 
   get service () {
-    return Config.get('domain')
+    return config
+      .get('domain')
       .split('.')
       .reverse()
       .concat([fp.toLower(fp.camelCase(this.id))])
@@ -130,24 +131,24 @@ class Application {
   get error_file () {
     return this.development
       ? 'NULL'
-      : path.resolve(Config.get('paths.log'), `${this.name}.log`)
+      : path.resolve(config.get('paths.log'), `${this.name}.log`)
   }
 
   get out_file () {
     return this.development
       ? 'NULL'
-      : path.resolve(Config.get('paths.log'), `${this.name}.log`)
+      : path.resolve(config.get('paths.log'), `${this.name}.log`)
   }
 
   get env () {
     const base = {
       NODE_ENV: 'development',
       APP_NAME: this.id,
-      LAB100_LOGS_PRETTY: this.development ? true : undefined,
+      CACTUS_LOGS_PRETTY: this.development ? true : undefined,
       PROCESS_TITLE: this.service
     }
 
-    return Config.util.extendDeep({}, base, this._env)
+    return config.util.extendDeep({}, base, this._env)
   }
 
   set env (val) {
@@ -156,7 +157,7 @@ class Application {
 
   get env_production () {
     const base = { NODE_ENV: 'production' }
-    return Config.util.extendDeep({}, base, this._envProd)
+    return config.util.extendDeep({}, base, this._envProd)
   }
 
   set env_production (val) {

@@ -3,12 +3,11 @@
 /* Load .env first */
 require('./lib/dot-env')()
 
-const Config = require('config')
 const asyncExitHook = require('async-exit-hook')
+const config = require('config')
+const fp = require('lodash/fp')
 const ms = require('pretty-ms')
 const { format } = require('util')
-const fp = require('lodash/fp')
-const logDummy = require('./lib/log-dummy')
 
 /** @type {Proxy} PMX module */
 exports.pmx = require('./lib/pmx-proxy')
@@ -23,7 +22,7 @@ exports.pmx = require('./lib/pmx-proxy')
  * @return {Promise}
  */
 
-exports.init = ({ pmx = true, logger = logDummy } = {}) =>
+exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
   new Promise((resolve, reject) => {
     /* Add a process log */
     process.log = logger
@@ -68,12 +67,12 @@ exports.init = ({ pmx = true, logger = logDummy } = {}) =>
       format(
         'Initializing Application: %s v%s in %s mode',
         getName(),
-        Config.version,
+        config.version,
         process.env.NODE_ENV
       )
     )
 
-    process.log.info(format('Log level: %s', Config.logs.level || 'trace'))
+    process.log.info(format('Log level: %s', config.logs.level || 'trace'))
 
     resolve()
   })
@@ -83,7 +82,7 @@ exports.ready = () => {
     format(
       'Application %s v%s is ready (+%s)',
       getName(),
-      Config.version,
+      config.version,
       getUptime()
     )
   )
@@ -93,7 +92,7 @@ exports.ready = () => {
 // ─────────────────────────────────  Utils  ───────────────────────────────────
 
 function getName () {
-  return fp.upperFirst(fp.camelCase(Config.name))
+  return fp.upperFirst(fp.camelCase(config.name))
 }
 
 function getUptime () {
