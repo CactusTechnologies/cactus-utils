@@ -1,17 +1,17 @@
 {
-  "name": "@cactus-technologies/server-errors",
+  "name": "@cactus-technologies/errors",
   "version": "1.0.2",
-  "description": "Shared Errors for Servers",
-  "homepage": "https://github.com/CactusTechnologies/INGH_Errors#readme",
+  "description": "Errors module for Cactus Servers and Applications",
+  "homepage": "https://github.com/CactusTechnologies/cactus-server-errors#readme",
   "bugs": {
-    "url": "https://github.com/CactusTechnologies/INGH_Errors/issues"
+    "url": "https://github.com/CactusTechnologies/cactus-server-errors/issues"
   },
   "license": "UNLICENCED",
   "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/INGH_Errors.git"
+    "url": "git+https://github.com/CactusTechnologies/cactus-server-errors.git"
   },
   "scripts": {
     "precommit": "npm test && npm run docs && lint-staged",

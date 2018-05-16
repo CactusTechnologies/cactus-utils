@@ -1,12 +1,12 @@
 <!--@h1([pkg.name])-->
 
-# @cactus-technologies/server-errors
+# @cactus-technologies/errors
 
 <!--/@-->
 
 <!--@pkg.description-->
 
-Shared Errors for Servers
+Errors module for Cactus Servers and Applications
 
 <!--/@-->
 
@@ -15,7 +15,7 @@ Shared Errors for Servers
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/server-errors
+npm install --save @cactus-technologies/errors
 ```
 
 <!--/@-->
