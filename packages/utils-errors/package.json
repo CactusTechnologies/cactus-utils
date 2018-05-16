@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/errors",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Errors module for Cactus Servers and Applications",
   "homepage": "https://github.com/CactusTechnologies/cactus-server-errors#readme",
   "bugs": {
