@@ -22,7 +22,7 @@ const InternalServerError = errors.InternalServerError
 const NotImplementedError = errors.NotImplementedError
 const NotFoundError = errors.NotFoundError
 
-class Lab100Server {
+class CactusServer {
   constructor (config = {}) {
     this.log = logger('server')
     this.port = config.port || 8080
@@ -58,9 +58,9 @@ class Lab100Server {
     this.app.use(pre.crossOrigin)
     this.app.use(pre.preFligth)
     this.app.use(pre.serveFavicon)
-    this.app.use(pre.jsonParser)
-
     this.app.use(pre.logRequests)
+
+    this.app.use(pre.jsonParser)
 
     this.server.on('request', this.app)
     this.server.on('error', onError)
@@ -165,7 +165,7 @@ class Lab100Server {
   }
 }
 
-module.exports = Lab100Server
+module.exports = CactusServer
 
 // ────────────────────────────────  Private  ──────────────────────────────────
 
