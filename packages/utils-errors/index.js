@@ -236,6 +236,23 @@ exports.MissingDependencyError = class MissingDependencyError extends CactusErro
   }
 }
 
+exports.MissingDeviceError = class MissingDeviceError extends CactusError {
+  constructor (...props) {
+    if (props.length === 1) {
+      props.unshift('Cannot find a connected device.')
+    }
+    if (props.length === 0) {
+      props.unshift('Cannot find a connected %s device.')
+    }
+
+    super({ constructorOpt: MissingDeviceError }, ...props)
+
+    this.name = 'MissingDeviceError'
+    this.code = 'ENOTDEVICE'
+    this.status = 500
+  }
+}
+
 exports.FileNotFoundError = class FileNotFoundError extends CactusError {
   constructor (reason, ...props) {
     if (props.length === 1) {
