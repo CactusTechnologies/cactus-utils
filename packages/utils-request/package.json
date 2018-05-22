@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/api-request",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Request helper",
   "keywords": [],
   "homepage": "https://github.com/CactusTechnologies/cactus-request#readme",
@@ -13,7 +13,9 @@
   },
   "license": "UNLICENCED",
   "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
-  "contributors": [],
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com>"
+  ],
   "main": "index.js",
   "scripts": {
     "precommit": "npm run docs && lint-staged",
