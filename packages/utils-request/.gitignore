@@ -1,0 +1,18 @@
+# PROJECT ESPECIFIC IGNORES #
+
+# Node.js
+node_modules
+*.log
+*.pid
+*.seed
+.npm
+package-lock.json
+
+# OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# sublime
+*.sublime-workspace
