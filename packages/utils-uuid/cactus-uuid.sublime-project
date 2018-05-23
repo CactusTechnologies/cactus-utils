@@ -1,0 +1,21 @@
+{
+    "folders": [
+        {
+            "folder_exclude_patterns": ["output"],
+            "path": "."
+        },
+        {
+            "name": "Constants",
+            "path": "../lab100-constants"
+        },
+        {
+            "name": "Keybase",
+            "path": "/keybase/team/cactus_design/lab100"
+        },
+        {
+            "name": "Notes",
+            "path": "../notes"
+        }
+    ],
+    "settings": {}
+}

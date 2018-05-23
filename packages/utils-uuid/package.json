@@ -6,15 +6,15 @@
   "bugs": {
     "url": "https://github.com/CactusTechnologies/cactus-uuid/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CactusTechnologies/cactus-uuid.git"
+  },
   "license": "UNLICENCED",
   "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
   "main": "index.js",
   "directories": {
     "lib": "lib"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/cactus-uuid.git"
   },
   "scripts": {
     "precommit": "npm test && npm run docs && lint-staged",

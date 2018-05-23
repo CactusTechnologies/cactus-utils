@@ -7,22 +7,31 @@
  */
 
 const Random = require('random-js')
-const damnCheckDigit = require('./lib/damn')
-
-const numericSeed = Random.engines.mt19937().autoSeed()
 
 const english = require('./lib/english.json')
 const nouns = require('./lib/nouns.json')
 const adjetives = require('./lib/adjetives.json')
 const pokemons = require('./lib/pokemon.json')
+const damnTable = require('./lib/damn-table.json')
 
-// ────────────────────────────────  Exports  ──────────────────────────────────
+/**
+ * Random Engenie: https://en.wikipedia.org/wiki/Mersenne_Twister
+ * This is the random engenie that powers the entire UUID module.
+ */
+
+exports.MersenneTwister = Random.engines.mt19937()
+
+/* Auto Seed */
+
+exports.MersenneTwister.autoSeed()
+
+// ────────────────────────────────  Methods  ──────────────────────────────────
 
 /**
  * Creates a 'UUID4 Random String'
  * @return {String}
  */
-exports.v4 = () => Random.uuid4(numericSeed)
+exports.v4 = () => Random.uuid4(exports.MersenneTwister)
 
 /**
  * Produce a random string comprised of numbers or the characters ABCDEF of
@@ -30,7 +39,7 @@ exports.v4 = () => Random.uuid4(numericSeed)
  * @param  {Number} length Length of the Hex String
  * @return {String}        Hex String
  */
-exports.hex = (length = 6) => Random.hex()(numericSeed, length)
+exports.hex = (length = 6) => Random.hex()(exports.MersenneTwister, length)
 
 /**
  * Creates a 'Numeric Random String' with the last digit being used as a
@@ -41,10 +50,10 @@ exports.hex = (length = 6) => Random.hex()(numericSeed, length)
 exports.numeric = function generateNumeric (digits = 10) {
   const totalDigits = digits - 1
   const max = maxNumber(totalDigits)
-  const num = Random.integer(0, max)(numericSeed)
+  const num = Random.integer(0, max)(exports.MersenneTwister)
   const base = String(num)
   const padded = base.padStart(totalDigits, '0')
-  const hashed = damnCheckDigit.generate(padded)
+  const hashed = generateCheckDigit(padded)
   return padded + hashed
 }
 
@@ -79,7 +88,7 @@ exports.shortStamp = () => String(Math.floor(Date.now() / 1000))
  * @return {String}             Pokemon Name
  */
 exports.pokemon = function pokemon (hex = true) {
-  const poke = Random.pick(numericSeed, pokemons)
+  const poke = Random.pick(exports.MersenneTwister, pokemons)
   if (!hex) return poke
   return `${poke}-${exports.hex()}`
 }
@@ -88,28 +97,29 @@ exports.pokemon = function pokemon (hex = true) {
  * Generate Heroku-like random names
  * @return {String}
  */
-exports.heroku = function heroku () {
+exports.heroku = function heroku (hex = true) {
   const parts = [
-    Random.pick(numericSeed, adjetives),
-    Random.pick(numericSeed, nouns)
+    Random.pick(exports.MersenneTwister, adjetives),
+    Random.pick(exports.MersenneTwister, nouns)
   ]
-  return `${parts.join('-')}-${exports.hex()}`
+  if (hex) parts.push(exports.hex())
+  return parts.join('-')
 }
 
 /**
  * Generates a Humanized String delimited by '.'
- * @param  {Number} nouns How many nouns.
+ * @param  {Number} words How many words.
  * @return {String}       Humanized String
  */
-exports.humanized = function humanized (nouns = 6) {
-  return Random.sample(numericSeed, english, nouns).join('.')
+exports.humanized = function humanized (words = 6) {
+  return Random.sample(exports.MersenneTwister, english, words).join('.')
 }
 
 // ─────────────────────────────────  Utils  ───────────────────────────────────
 
 /* Public utils */
 exports.utils = {
-  verifyNumeric: damnCheckDigit.verify
+  verifyNumeric: input => generateCheckDigit(input) === '0'
 }
 
 // ────────────────────────────────  Private  ──────────────────────────────────
@@ -129,4 +139,19 @@ function maxNumber (digits) {
   // Loop through the digits and get the MAX
   for (base; base >= 0; base--) max = max + 9 * Math.pow(10, base)
   return max
+}
+
+/**
+ * Implementation of the Damm algorithm, a check digit algorithm created by H.
+ *   Michael Damm. It detects all single-digit errors and adjacent
+ *   transposition errors (swapping adjacent numbers)
+ *
+ * @param {String} input - Must only have digits
+ *
+ * @return {String}       Check Digit
+ */
+function generateCheckDigit (input) {
+  let row = 0
+  for (let i = 0; i < input.length; i++) row = damnTable[row][input.charAt(i)]
+  return row.toString()
 }
