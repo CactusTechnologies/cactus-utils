@@ -12,6 +12,9 @@ const { format } = require('util')
 /** @type {Proxy} PMX module */
 exports.pmx = require('./lib/pmx-proxy')
 
+/** @type {Object} Global Status */
+exports.status = require('./lib/status')
+
 /**
  * Appends Listeners for: uncaughtException, unhandledRejection, process.exit
  *   and Logs Basic configuration data.
