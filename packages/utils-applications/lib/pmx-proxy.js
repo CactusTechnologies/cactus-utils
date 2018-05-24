@@ -10,8 +10,20 @@ const isDev = process.env.NODE_ENV === 'development'
 
 const emitHandler = {
   apply: function emit (target, thisArgument, argumentsList) {
-    argumentsList[0] = isDev ? `dev:${argumentsList[0]}` : argumentsList[0]
+    argumentsList[0] = argumentsList[0]
     argumentsList[1] = argumentsList[1] || undefined
+
+    if (isDev) {
+      process.log.info(
+        {
+          event: argumentsList[0],
+          payload: argumentsList[1]
+        },
+        'PMX Event'
+      )
+      return
+    }
+
     process.log.debug(
       {
         event: argumentsList[0],
@@ -19,6 +31,7 @@ const emitHandler = {
       },
       'Emited event to keymetrics'
     )
+
     return Reflect.apply(...arguments)
   }
 }

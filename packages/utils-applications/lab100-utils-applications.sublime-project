@@ -2,19 +2,11 @@
     "folders": [
         {
             "path": "."
-        },
-        {
-            "name": "Constants",
-            "path": "../lab100-constants"
-        },
-        {
-            "name": "Keybase",
-            "path": "/keybase/team/cactus_design/lab100"
-        },
-        {
-            "name": "Notes",
-            "path": "../notes"
         }
     ],
-    "settings": {}
+    "MultiFormat": {
+        "formatters": {
+            "javascript (babel)": ["prettier %file --write", "eslint %file --fix"]
+        }
+    }
 }

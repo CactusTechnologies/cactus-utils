@@ -35,7 +35,7 @@ const FORCE_DEV =
     : false
 
 const pm2Binary = path.basename(process.mainModule.filename)
-const dev = pm2Binary === 'pm2-dev' || pm2Binary === 'pm2-runtime' || FORCE_DEV
+const dev = pm2Binary === 'pm2-dev' || FORCE_DEV
 
 /**
  * Creates a new Application Definition
@@ -60,11 +60,14 @@ class Application {
     this.instance_var = 'INSTANCE_ID'
     this.merge_logs = true
     this.min_uptime = 3000
+    this.listen_timeout = 8000
     this.kill_timeout = 3000
     this.restart_delay = 100
 
     this.wait_ready = false
     this.deep_monitoring = false
+
+    this.post_update = ['npm install']
 
     this._ignore_watch = []
     this._watch = []
@@ -125,7 +128,7 @@ class Application {
   }
 
   get max_restarts () {
-    return this.development ? 2 : 10
+    return this.development ? 1 : 100
   }
 
   get error_file () {

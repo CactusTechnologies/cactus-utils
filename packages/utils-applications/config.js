@@ -18,7 +18,7 @@ const env = process.env
  * @return {Object}
  */
 
-module.exports = function (pkg = {}, domain = 'cactus.is', basename = 'cactus') {
+module.exports = function (pkg = {}, domain = 'cactus.is') {
   const config = {}
 
   config.env = env.NODE_ENV
@@ -26,7 +26,7 @@ module.exports = function (pkg = {}, domain = 'cactus.is', basename = 'cactus') 
   config.host = (env.HOST || env.HOSTNAME || os.hostname()).split('.')[0]
 
   config.domain = domain
-  config.basename = basename
+  config.basename = domain.split('.')[0]
   config.name =
     env.APP_NAME ||
     env.name ||

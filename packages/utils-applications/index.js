@@ -7,6 +7,7 @@ const asyncExitHook = require('async-exit-hook')
 const config = require('config')
 const fp = require('lodash/fp')
 const ms = require('pretty-ms')
+const makeDir = require('make-dir')
 const { format } = require('util')
 
 /** @type {Proxy} PMX module */
@@ -39,6 +40,7 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
     }
 
     /* Catch uncaughExeptions */
+    process.removeAllListeners('uncaughtException')
     process.prependListener('uncaughtException', error => {
       process.log.fatal({ err: error }, `Undhandled Error: ${error.message}`)
       exports.pmx.notify(error)
@@ -46,6 +48,7 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
     })
 
     /* Catch unhandledRejections */
+    process.removeAllListeners('unhandledRejection')
     process.prependListener('unhandledRejection', reason => {
       if (reason instanceof Error !== true) reason = new Error(reason)
       throw reason
@@ -76,6 +79,8 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
     )
 
     process.log.info(format('Log level: %s', config.logs.level || 'trace'))
+
+    fp.map(path => makeDir.sync(path))(config.paths || [])
 
     resolve()
   })
