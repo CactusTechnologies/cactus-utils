@@ -24,7 +24,6 @@ const visibleKeys = [
   'max_restarts',
   'name',
   'out_file',
-  'post_update',
   'watch'
 ]
 
@@ -182,8 +181,7 @@ class Application {
 
 fp.forEach(prop =>
   Object.defineProperty(Application.prototype, prop, {
-    enumerable: true,
-    writable: true
+    enumerable: true
   })
 )(visibleKeys)
 
