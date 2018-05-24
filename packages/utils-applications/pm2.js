@@ -180,9 +180,7 @@ class Application {
 }
 
 fp.forEach(prop =>
-  Object.defineProperty(Application.prototype, prop, {
-    enumerable: true
-  })
+  Object.defineProperty(Application.prototype, prop, { enumerable: true })
 )(visibleKeys)
 
 module.exports = Application
