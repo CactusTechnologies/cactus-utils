@@ -43,7 +43,7 @@ exports.requestStart = function requestStart (request, response, next) {
 exports.serverHeaders = function serverHeaders (request, response, next) {
   const mesageHeader = `X-${request.app.get('domain')}-Message`
   const domain = request.app.get('domain')
-  // prettier-ignore
+
   response.set({
     [`X-${domain}-Service-uuid`]: request.app.get('service'),
     [`X-${domain}-Service-Instance`]: `worker-${process.pid}`,
@@ -64,13 +64,26 @@ exports.serverHeaders = function serverHeaders (request, response, next) {
  * Cors Middleware
  *
  * @type {Function}
+ * @todo AllowHeaders should be read as an array.
  *
  */
 
 exports.crossOrigin = function crossOrigin (request, response, next) {
-  // prettier-ignore
+  const domain = request.app.get('domain')
+
   response.set({
     'Access-Control-Allow-Headers': request.app.get('allowHeaders'),
+
+    'Access-Control-Expose-Headers': [
+      'X-Request-ID',
+      'X-Response-Time',
+      `X-${domain}-Service-uuid`,
+      `X-${domain}-Service-Instance`,
+      `X-${domain}-Message`,
+      `X-${domain}-Auth-ExpiresIn`,
+      `X-${domain}-Auth-Method`
+    ].join(', '),
+
     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
     'Access-Control-Allow-Credentials': true,
     'Access-Control-Allow-Origin': request.get('Origin') || '*'
@@ -110,6 +123,17 @@ exports.serveFavicon = (() => {
 })()
 
 /**
+ * Serves the public directory
+ *
+ * @type {Function}
+ */
+exports.serveFiles = (() => {
+  const publicTarget = path.resolve(process.cwd(), 'public')
+  if (fs.existsSync(publicTarget)) return express.static(publicTarget)
+  return (req, res, next) => next()
+})()
+
+/**
  * Parses the given IP as a IPV4
  *
  * @type {Function}
@@ -140,9 +164,11 @@ exports.setRequestId = function setRequestId (request, response, next) {
 
 /**
  * Adds an specialized logger to each request and logs to the console when the
- *   given request is complete
- *
- * @type {Function}
+ * given request is complete
+ * @param     {HttpRequest}       request
+ * @param     {HttpResponse}      response
+ * @param     {Function}          next
+ * @todo Port the middleware from the logger module
  */
 exports.logRequests = logger.Middleware()
 

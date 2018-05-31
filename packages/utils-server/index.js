@@ -8,8 +8,8 @@
 
 const express = require('express')
 const http = require('http')
-const pmx = require('pmx')
 
+const { pmx } = require('@cactus-technologies/node-application')
 const errors = require('@cactus-technologies/errors')
 const logger = require('@cactus-technologies/logger')
 
@@ -58,6 +58,7 @@ class CactusServer {
     this.app.use(pre.crossOrigin)
     this.app.use(pre.preFligth)
     this.app.use(pre.serveFavicon)
+    this.app.use(pre.serveFiles)
     this.app.use(pre.logRequests)
 
     this.app.use(pre.jsonParser)

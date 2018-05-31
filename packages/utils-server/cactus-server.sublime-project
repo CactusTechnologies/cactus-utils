@@ -1,0 +1,14 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {},
+    "MultiFormat": {
+        "formatters": {
+            // "javascript": ["prettier %file --write", "eslint %file --fix"],
+            "javascript (babel)": ["prettier %file --write", "eslint %file --fix"]
+        }
+    }
+}
