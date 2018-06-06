@@ -33,6 +33,12 @@ const FORCE_DEV =
       parseInt(process.env.FORCE_PM2_DEV, 10) !== 0
     : false
 
+const FORCE_WATCH =
+  'FORCE_PM2_WATCH' in process.env
+    ? process.env.FORCE_PM2_WATCH.length === 0 ||
+      parseInt(process.env.FORCE_PM2_WATCH, 10) !== 0
+    : false
+
 const pm2Binary = path.basename(process.mainModule.filename)
 const dev = pm2Binary === 'pm2-dev' || FORCE_DEV
 
@@ -106,7 +112,7 @@ class Application {
   }
 
   get watch () {
-    return this.development
+    return this.development || FORCE_WATCH
       ? [...new Set([this.script, ...this._watch])]
       : false
   }
