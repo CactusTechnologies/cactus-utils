@@ -3,7 +3,6 @@
 /* Load .env first */
 require('./lib/dot-env')()
 
-const asyncExitHook = require('async-exit-hook')
 const config = require('config')
 const fp = require('lodash/fp')
 const ms = require('pretty-ms')
@@ -15,6 +14,9 @@ exports.pmx = require('./lib/pmx-proxy')
 
 /** @type {Object} Global Status */
 exports.status = require('./lib/status')
+
+/** @type {Function} exitHooks */
+exports.exitHook = require('async-exit-hook')
 
 /**
  * Appends Listeners for: uncaughtException, unhandledRejection, process.exit
@@ -55,11 +57,11 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
     })
 
     /* Add the exit hook message */
-    asyncExitHook(function exitMessage () {
+    exports.exitHook(function exitMessage () {
       const exitCode = process.exitCode || 0
 
       const exitMessage = format(
-        'Application %s exit with code %s after %s',
+        'About to exit Application %s with code %s after %s',
         getName(),
         exitCode,
         getUptime()
