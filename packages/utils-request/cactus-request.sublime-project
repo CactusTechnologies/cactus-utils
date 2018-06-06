@@ -1,25 +1,10 @@
 {
     "folders": [
         {
-            "folder_exclude_patterns": ["scripts"],
+            "folder_exclude_patterns": [],
             "path": "."
-        },
-        {
-            "path": "scripts"
         }
     ],
     "settings": {},
-    "build_systems": [],
-    "MultiFormat": {
-        "formatters": {
-            "javascript": ["prettier %file --write", "eslint %file --fix"],
-            "javascript (babel)": ["prettier %file --write", "eslint %file --fix"]
-        }
-    },
-    "SublimeLinter": {
-        "linters": {
-            "eslint": { "disable": false },
-            "standard": { "disable": true }
-        }
-    }
+    "build_systems": []
 }
