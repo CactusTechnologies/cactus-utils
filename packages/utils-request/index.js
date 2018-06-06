@@ -15,8 +15,8 @@ class ApiError extends CactusError {
   constructor (cause, ...props) {
     if (props.length === 0) props.unshift('Request Error')
     super({ cause: cause, constructorOpt: ApiError }, ...props)
-    this.name = 'NotAuthorizedError'
-    this.code = 'ENOTAUTH'
+    this.name = 'ApiError'
+    this.code = 'EAPIERR'
     this.status = 500
   }
 }
@@ -25,8 +25,8 @@ class ApiTimeOutError extends CactusError {
   constructor (cause, ...props) {
     if (props.length === 0) props.unshift('Request TimedOut')
     super({ cause: cause, constructorOpt: ApiTimeOutError }, ...props)
-    this.name = 'NotAuthorizedError'
-    this.code = 'ENOTAUTH'
+    this.name = 'ApiTimeOutError'
+    this.code = 'ETIMEOUT'
     this.status = 500
   }
 }
@@ -35,8 +35,8 @@ class ApiFailError extends CactusError {
   constructor (...props) {
     if (props.length === 0) props.unshift('Bad Response')
     super({ constructorOpt: ApiFailError }, ...props)
-    this.name = 'NotAuthorizedError'
-    this.code = 'ENOTAUTH'
+    this.name = 'ApiFailError'
+    this.code = 'EAPIERR'
     this.status = 500
   }
 }
