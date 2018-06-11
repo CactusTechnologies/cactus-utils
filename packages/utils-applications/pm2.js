@@ -1,5 +1,8 @@
 /* eslint camelcase: "off" */
 
+/* Load .env first */
+require('./lib/dot-env')()
+
 const config = require('config')
 const path = require('path')
 const fp = require('lodash/fp')
@@ -8,6 +11,7 @@ const hiddenKeys = [
   '_env',
   '_envProd',
   '_ignore_watch',
+  '_max_restarts',
   '_watch',
   'development',
   'id',
@@ -81,6 +85,7 @@ class Application {
     this.ignore_watch = ['node_modules/**', '*.log']
 
     this.targetInstances = 1
+    this.max_restarts = 100
     this.development = dev
   }
 
@@ -133,7 +138,11 @@ class Application {
   }
 
   get max_restarts () {
-    return this.development ? 1 : 100
+    return this.development ? 1 : this._max_restarts
+  }
+
+  set max_restarts (val) {
+    this._max_restarts = val
   }
 
   get error_file () {
