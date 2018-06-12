@@ -18,7 +18,7 @@ const status = {}
 module.exports = status
 
 module.exports.addMetric = function addMetric (name, defaultValue = true) {
-  if (!isValid(name)) throw new Error('name is required')
+  if (!isValid(name)) throw new TypeError('name is required')
   statuses.set(name, defaultValue)
 
   metrics.set(

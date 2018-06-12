@@ -1,8 +1,5 @@
 'use strict'
 
-/* Load .env first */
-require('./lib/dot-env')()
-
 const config = require('config')
 const fp = require('lodash/fp')
 const ms = require('pretty-ms')
@@ -52,29 +49,15 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
     /* Catch unhandledRejections */
     process.removeAllListeners('unhandledRejection')
     process.prependListener('unhandledRejection', reason => {
+      if (fp.isEmpty(reason)) reason = 'unhandledRejection'
       if (reason instanceof Error !== true) reason = new Error(reason)
       throw reason
-    })
-
-    /* Add the exit hook message */
-    exports.exitHook(function exitMessage () {
-      const exitCode = process.exitCode || 0
-
-      const exitMessage = format(
-        'About to exit Application %s with code %s after %s',
-        getName(),
-        exitCode,
-        getUptime()
-      )
-
-      if (exitCode !== 0) process.log.fatal(exitMessage)
-      else process.log.warn(exitMessage)
     })
 
     process.log.warn(
       format(
         'Initializing Application: %s v%s in %s mode',
-        getName(),
+        config.name,
         config.version,
         process.env.NODE_ENV
       )
@@ -88,10 +71,25 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
   })
 
 exports.ready = () => {
+  /* Add the exit hook message */
+  exports.exitHook(function exitMessage () {
+    const exitCode = process.exitCode || 0
+
+    const exitMessage = format(
+      'About to exit Application %s with code %s after %s',
+      config.name,
+      exitCode,
+      getUptime()
+    )
+
+    if (exitCode !== 0) process.log.fatal(exitMessage)
+    else process.log.warn(exitMessage)
+  })
+
   process.log.info(
     format(
       'Application %s v%s is ready (+%s)',
-      getName(),
+      config.name,
       config.version,
       getUptime()
     )
@@ -100,10 +98,6 @@ exports.ready = () => {
 }
 
 // ─────────────────────────────────  Utils  ───────────────────────────────────
-
-function getName () {
-  return fp.upperFirst(fp.camelCase(config.name))
-}
 
 function getUptime () {
   return ms(process.uptime() * 1000)

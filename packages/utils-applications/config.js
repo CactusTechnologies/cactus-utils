@@ -3,6 +3,9 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 /* Allways run on strict mode */
 process.env.NODE_CONFIG_STRICT_MODE = true
 
+/* Load .env first */
+require('./lib/dot-env')()
+
 const envPaths = require('env-paths')
 const devIp = require('dev-ip')
 const os = require('os')
@@ -18,7 +21,10 @@ const env = process.env
  * @return {Object}
  */
 
-module.exports = function (pkg = {}, domain = 'cactus.is') {
+module.exports = function (
+  { name = false, version = '0.0.1' } = {},
+  domain = 'cactus.is'
+) {
   const config = {}
 
   config.env = env.NODE_ENV
@@ -27,11 +33,12 @@ module.exports = function (pkg = {}, domain = 'cactus.is') {
 
   config.domain = domain
   config.basename = domain.split('.')[0]
+
   config.name =
     env.APP_NAME ||
     env.name ||
     env.PROCESS_TITLE ||
-    pkg.name ||
+    name ||
     env.npm_package_name ||
     'app'
 
@@ -41,7 +48,7 @@ module.exports = function (pkg = {}, domain = 'cactus.is') {
     .concat([fp.toLower(fp.camelCase(this.name))])
     .join('.')
 
-  config.version = pkg.version || '1.0.0'
+  config.version = version
 
   config.paths = envPaths(config.basename, { suffix: '' })
   config.ips = devIp() || ['127.0.0.1']
