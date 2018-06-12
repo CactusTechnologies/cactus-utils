@@ -9,7 +9,7 @@
 const express = require('express')
 const http = require('http')
 
-const { pmx } = require('@cactus-technologies/node-application')
+const { pmx, exitHook } = require('@cactus-technologies/node-application')
 const errors = require('@cactus-technologies/errors')
 const logger = require('@cactus-technologies/logger')
 
@@ -79,6 +79,13 @@ class CactusServer {
     return new Promise((resolve, reject) => {
       this.server.listen(this.port, () => {
         this.log.info(`Listening on port: ${this.port}`)
+        exitHook(done => {
+          this.log.info('Closing server')
+          this.server.close(err => {
+            if (err) this.log.error(err)
+            done()
+          })
+        })
         resolve()
       })
     })
