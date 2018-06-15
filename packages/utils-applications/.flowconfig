@@ -1,0 +1,6 @@
+[ignore]
+<PROJECT_ROOT>/.je-project-settings/.*
+
+[options]
+all=true
+

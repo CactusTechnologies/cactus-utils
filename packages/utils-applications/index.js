@@ -33,9 +33,11 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
     /* Enable PMX - Keymetrics */
 
     if (pmx === true) {
-      exports.pmx.init()
-    } else if (fp.isPlainObject(pmx)) {
-      exports.pmx.init(pmx)
+      exports.pmx.init({
+        errors: false,
+        network: true,
+        ports: true
+      })
     }
 
     /* Catch uncaughExeptions */
@@ -56,16 +58,15 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
 
     process.log.warn(
       format(
-        'Initializing Application: %s v%s in %s mode',
-        config.name,
-        config.version,
-        process.env.NODE_ENV
+        'Initializing Application: %s v%s',
+        config.get('name'),
+        config.get('version')
       )
     )
+    process.log.info(format('Enviroment: %s', config.get('env')))
+    process.log.info(format('Log level: %s', config.get('logs.level')))
 
-    process.log.info(format('Log level: %s', config.logs.level || 'trace'))
-
-    fp.map(path => makeDir.sync(path))(config.paths || [])
+    fp.map(path => makeDir.sync(path))(config.get('paths') || [])
 
     resolve()
   })
@@ -77,9 +78,9 @@ exports.ready = () => {
 
     const exitMessage = format(
       'About to exit Application %s with code %s after %s',
-      config.name,
+      config.get('name'),
       exitCode,
-      getUptime()
+      ms(process.uptime() * 1000)
     )
 
     if (exitCode !== 0) process.log.fatal(exitMessage)
@@ -89,16 +90,10 @@ exports.ready = () => {
   process.log.info(
     format(
       'Application %s v%s is ready (+%s)',
-      config.name,
-      config.version,
-      getUptime()
+      config.get('name'),
+      config.get('version'),
+      ms(process.uptime() * 1000)
     )
   )
   process.send('ready')
-}
-
-// ─────────────────────────────────  Utils  ───────────────────────────────────
-
-function getUptime () {
-  return ms(process.uptime() * 1000)
 }

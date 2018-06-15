@@ -1,12 +1,18 @@
 {
     "folders": [
         {
+            "folder_exclude_patterns": [".je-project-settings"],
             "path": "."
+        },
+        {
+            "follow_symlinks": true,
+            "name": "Library",
+            "path": "lib"
         }
     ],
-    "MultiFormat": {
-        "formatters": {
-            "javascript (babel)": ["prettier %file --write", "eslint %file --fix"]
-        }
+    "settings": {},
+    "build_systems": [],
+    "autoFormatter": {
+        "syntax_map": {}
     }
 }
