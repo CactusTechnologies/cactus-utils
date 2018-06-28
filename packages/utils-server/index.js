@@ -3,7 +3,7 @@
 /**
  * Express HTTP server
  *
- * @module lab100-server
+ * @module cactus-server
  */
 
 const express = require('express')
@@ -39,7 +39,7 @@ class CactusServer {
     this.app.set('service', config.service || 'is.cactus')
     this.app.set('domain', utils.asHeader(config.domain || 'Cactus'))
     /* prettier-ignore */
-    this.app.set('allowHeaders', config.allowHeaders || 'Content-Type, Authorization')
+    this.app.set('allowHeaders', config.allowHeaders || 'Content-Type, Authorization, X-Cactus-Debug')
 
     this.app.use(pre.requestStart)
     this.app.use(pre.serverHeaders)
@@ -80,7 +80,7 @@ class CactusServer {
       this.server.listen(this.port, () => {
         this.log.info(`Listening on port: ${this.port}`)
         exitHook(done => {
-          this.log.info('Closing server')
+          this.log.info('Closing the http server')
           this.server.close(err => {
             if (err) this.log.error(err)
             done()
