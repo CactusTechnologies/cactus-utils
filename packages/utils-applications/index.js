@@ -1,10 +1,12 @@
 'use strict'
 
+/* Load .env first */
+require('./lib/dot-env')()
+
 const config = require('config')
-const fp = require('lodash/fp')
 const ms = require('pretty-ms')
-const makeDir = require('make-dir')
-const { format } = require('util')
+
+exports.utils = require('./lib/utils')
 
 /** @type {Proxy} PMX module */
 exports.pmx = require('./lib/pmx-proxy')
@@ -14,6 +16,12 @@ exports.status = require('./lib/status')
 
 /** @type {Function} exitHooks */
 exports.exitHook = require('async-exit-hook')
+
+/** @type {Function} ensureDirs */
+exports.ensureDirectories = async () =>
+  exports.utils.forEach(config.get('paths') || [], async path =>
+    exports.utils.mkd(path)
+  )
 
 /**
  * Appends Listeners for: uncaughtException, unhandledRejection, process.exit
@@ -25,10 +33,10 @@ exports.exitHook = require('async-exit-hook')
  * @return {Promise}
  */
 
-exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
+exports.init = ({ pmx = true } = {}) =>
   new Promise((resolve, reject) => {
     /* Add a process log */
-    process.log = logger
+    process.log = require('@cactus-technologies/logger')('process')
 
     /* Enable PMX - Keymetrics */
 
@@ -45,28 +53,27 @@ exports.init = ({ pmx = true, logger = require('./lib/log-dummy') } = {}) =>
     process.prependListener('uncaughtException', error => {
       process.log.fatal({ err: error }, `Undhandled Error: ${error.message}`)
       exports.pmx.notify(error)
-      process.nextTick(() => process.exit(1))
+      process.nextTick(() => process.kill(process.pid, 'SIGKILL'))
     })
 
     /* Catch unhandledRejections */
     process.removeAllListeners('unhandledRejection')
     process.prependListener('unhandledRejection', reason => {
-      if (fp.isEmpty(reason)) reason = 'unhandledRejection'
-      if (reason instanceof Error !== true) reason = new Error(reason)
-      throw reason
+      if (reason instanceof Error) throw reason
+      throw new Error(reason || 'unhandledRejection')
     })
 
     process.log.warn(
-      format(
+      exports.utils.format(
         'Initializing Application: %s v%s',
         config.get('name'),
         config.get('version')
       )
     )
-    process.log.info(format('Enviroment: %s', config.get('env')))
-    process.log.info(format('Log level: %s', config.get('logs.level')))
-
-    fp.map(path => makeDir.sync(path))(config.get('paths') || [])
+    process.log.info(exports.utils.format('Enviroment: %s', config.get('env')))
+    process.log.info(
+      exports.utils.format('Log level: %s', config.get('logs.level'))
+    )
 
     resolve()
   })
@@ -76,7 +83,7 @@ exports.ready = () => {
   exports.exitHook(function exitMessage () {
     const exitCode = process.exitCode || 0
 
-    const exitMessage = format(
+    const exitMessage = exports.utils.format(
       'About to exit Application %s with code %s after %s',
       config.get('name'),
       exitCode,
@@ -88,12 +95,15 @@ exports.ready = () => {
   })
 
   process.log.info(
-    format(
+    exports.utils.format(
       'Application %s v%s is ready (+%s)',
       config.get('name'),
       config.get('version'),
       ms(process.uptime() * 1000)
     )
   )
-  process.send('ready')
+
+  if ('send' in process) {
+    process.send('ready')
+  }
 }

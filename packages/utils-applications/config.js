@@ -1,16 +1,8 @@
-/* Default NODE_ENV to development */
-process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-/* Allways run on strict mode */
-process.env.NODE_CONFIG_STRICT_MODE = true
-
-/* Load .env first */
-require('./lib/dot-env')()
-
 const envPaths = require('env-paths')
 const devIp = require('dev-ip')
 const os = require('os')
 const fp = require('lodash/fp')
-
+const path = require('path')
 const env = process.env
 
 /**
@@ -50,8 +42,13 @@ module.exports = function (
 
   config.version = version
 
-  config.paths = envPaths(config.basename, { suffix: '' })
+  config.paths = addPublicPath(envPaths(config.basename, { suffix: '' }))
   config.ips = devIp() || ['127.0.0.1']
 
   return config
+}
+
+function addPublicPath (config) {
+  const publicFolder = path.resolve(process.cwd(), 'public')
+  return fp.set('paths.public', publicFolder, config)
 }
