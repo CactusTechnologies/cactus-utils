@@ -37,17 +37,17 @@ config.util.setModuleDefaults('logs', defaultConfig)
 /**
  * Merge the given options with the default Options and returns a Logger
  *
- * @param  {String} opts Logger's Name
+ * @param  {String|Object} opts Logger's Name
  *
  * @return {Object}
  */
 
-module.exports = function createLogger (name) {
-  if (!name || !lo.isString(name)) name = utils.getAppName()
+module.exports = function createLogger (opts = {}) {
+  if (lo.isString(opts)) opts = { name: opts }
+  if (!opts.name || !lo.isString(opts.name)) opts.name = utils.getAppName()
 
   const options = {
     safe: true,
-    name: name,
     level: config.get('logs.level'),
     serializers: serializers,
     base: {
@@ -57,7 +57,7 @@ module.exports = function createLogger (name) {
     }
   }
 
-  return pinoProxy(pino(options, require('./lib/stream')))
+  return pinoProxy(pino({ ...opts, ...options }, require('./lib/stream')))
 }
 
 /** @type {Object} Exports Serializers */
