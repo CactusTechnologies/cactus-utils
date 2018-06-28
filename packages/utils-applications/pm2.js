@@ -1,7 +1,7 @@
 /* eslint camelcase: "off" */
 
 /* Load .env first */
-require('./lib/dot-env')()
+require('./dot-env')()
 
 const config = require('config')
 const path = require('path')

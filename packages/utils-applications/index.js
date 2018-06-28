@@ -1,12 +1,11 @@
 'use strict'
 
 /* Load .env first */
-require('./lib/dot-env')()
+require('./dot-env')()
 
-const config = require('config')
 const ms = require('pretty-ms')
-
-exports.utils = require('./lib/utils')
+const utils = require('@cactus-technologies/utils')
+const config = require('config')
 
 /** @type {Proxy} PMX module */
 exports.pmx = require('./lib/pmx-proxy')
@@ -16,12 +15,6 @@ exports.status = require('./lib/status')
 
 /** @type {Function} exitHooks */
 exports.exitHook = require('async-exit-hook')
-
-/** @type {Function} ensureDirs */
-exports.ensureDirectories = async () =>
-  exports.utils.forEach(config.get('paths') || [], async path =>
-    exports.utils.mkd(path)
-  )
 
 /**
  * Appends Listeners for: uncaughtException, unhandledRejection, process.exit
@@ -33,8 +26,10 @@ exports.ensureDirectories = async () =>
  * @return {Promise}
  */
 
-exports.init = ({ pmx = true } = {}) =>
+exports.init = ({ pmx = false } = {}) =>
   new Promise((resolve, reject) => {
+    /* Load .env first */
+
     /* Add a process log */
     process.log = require('@cactus-technologies/logger')('process')
 
@@ -64,16 +59,14 @@ exports.init = ({ pmx = true } = {}) =>
     })
 
     process.log.warn(
-      exports.utils.format(
+      utils.format(
         'Initializing Application: %s v%s',
         config.get('name'),
         config.get('version')
       )
     )
-    process.log.info(exports.utils.format('Enviroment: %s', config.get('env')))
-    process.log.info(
-      exports.utils.format('Log level: %s', config.get('logs.level'))
-    )
+    process.log.info(utils.format('Enviroment: %s', config.get('env')))
+    process.log.info(utils.format('Log level: %s', config.get('logs.level')))
 
     resolve()
   })
@@ -81,6 +74,7 @@ exports.init = ({ pmx = true } = {}) =>
 exports.ready = () => {
   /* Add the exit hook message */
   exports.exitHook(function exitMessage () {
+    const config = require('config')
     const exitCode = process.exitCode || 0
 
     const exitMessage = exports.utils.format(

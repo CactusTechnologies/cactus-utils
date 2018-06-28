@@ -2,7 +2,7 @@
     "folders": [
         {
             "path": ".",
-            "folder_exclude_patterns": [".vscode", "node_modules"],
+            "folder_exclude_patterns": ["lib", ".vscode", "node_modules"],
             "file_exclude_patterns": [],
             "follow_symlinks": true
         },
