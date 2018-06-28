@@ -77,7 +77,7 @@ exports.ready = () => {
     const config = require('config')
     const exitCode = process.exitCode || 0
 
-    const exitMessage = exports.utils.format(
+    const exitMessage = utils.format(
       'About to exit Application %s with code %s after %s',
       config.get('name'),
       exitCode,
@@ -89,7 +89,7 @@ exports.ready = () => {
   })
 
   process.log.info(
-    exports.utils.format(
+    utils.format(
       'Application %s v%s is ready (+%s)',
       config.get('name'),
       config.get('version'),
