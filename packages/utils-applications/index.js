@@ -48,7 +48,7 @@ exports.init = ({ pmx = false } = {}) =>
     process.prependListener('uncaughtException', error => {
       process.log.fatal({ err: error }, `Undhandled Error: ${error.message}`)
       exports.pmx.notify(error)
-      process.nextTick(() => process.kill(process.pid, 'SIGKILL'))
+      process.nextTick(() => process.exit(1))
     })
 
     /* Catch unhandledRejections */
