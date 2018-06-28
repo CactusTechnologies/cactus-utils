@@ -24,7 +24,7 @@
     "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md",
     "test": "run-s test:* -sn",
     "test:lint": "eslint './**/*.js'",
-    "test:outdated": "npm outdated --long",
+    "test:outdated": "npm outdated --long || true",
     "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**' --exit-nicely"
   },
   "dependencies": {

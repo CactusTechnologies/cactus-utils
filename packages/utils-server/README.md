@@ -15,7 +15,7 @@ Basic Server for Cactus Webservices
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/server
+npm install --save @cactus-technologies/errors @cactus-technologies/logger @cactus-technologies/node-application @cactus-technologies/uuid @cactus-technologies/server
 ```
 
 <!--/@-->
