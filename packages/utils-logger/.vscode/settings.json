@@ -1,17 +1,9 @@
 {
   "files.exclude": {
     "**/node_modules": true,
-    ".sublime-workspace": true
+    "**/*.sublime-workspace": true
   },
   "eslint.enable": true,
-  "bitk_node_require.aliases": {
-    "@cactus-technologies/lab100-application": "App",
-    "@cactus-technologies/lab100-application/utils/config": "baseConfig",
-    "@cactus-technologies/lab100-application/utils/pm2": "Pm2AppDefinition",
-    "@cactus-technologies/lab100-constants": "Constants",
-    "@cactus-technologies/lab100-errors": "Errors",
-    "@cactus-technologies/lab100-server": "Lab100Server",
-    "@cactus-technologies/lab100-uuid": "UUID",
-    "lodash": "lo"
-  }
+  "editor.formatOnSave": true,
+  "prettier.eslintIntegration": true
 }

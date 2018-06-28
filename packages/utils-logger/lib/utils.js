@@ -1,10 +1,7 @@
-const Config = require('config')
+const config = require('config')
 const fp = require('lodash/fp')
 const sortKeys = require('sort-object-keys')
 const URL = require('url')
-const bunyan = require('bunyan')
-
-exports.resolveLevel = bunyan.resolveLevel.bind(bunyan)
 
 exports.getDuration = start => {
   const diff = process.hrtime(start)
@@ -15,21 +12,17 @@ exports.getDuration = start => {
 exports.getConfigFromEnv = () => {
   const env = process.env
 
-  let config = {}
+  let envConf = {}
 
   if (testEnv('CACTUS_LOGS_LEVEL')) {
-    config = fp.set('level', config, fp.get('CACTUS_LOGS_LEVEL', env))
+    envConf = fp.set('level', envConf, fp.get('CACTUS_LOGS_LEVEL', env))
   }
 
   if (testEnv('CACTUS_LOGS_PRETTY')) {
-    config = fp.set('pretty', config, envAsBool('CACTUS_LOGS_PRETTY'))
+    envConf = fp.set('pretty', envConf, envAsBool('CACTUS_LOGS_PRETTY'))
   }
 
-  if (testEnv('CACTUS_LOGS_CLOUDWATCH')) {
-    config = fp.set('cloudWatch', config, envAsBool('CACTUS_LOGS_CLOUDWATCH'))
-  }
-
-  return config
+  return envConf
 
   function testEnv (prop) {
     return fp.overEvery([
@@ -50,8 +43,8 @@ exports.getConfigFromEnv = () => {
 }
 
 exports.getAppName = () => {
-  return Config.has('name')
-    ? Config.get('name')
+  return config.has('name')
+    ? config.get('name')
     : process.env.APP_NAME ||
         process.env.name ||
         process.env.PROCESS_TITLE ||
@@ -87,8 +80,8 @@ exports.getErrorStack = ex => {
  */
 
 exports.redactHeaders = (headers = {}) => {
-  const obscure = [...Config.get('logs.http.obscureHeaders')].map(fp.toLower)
-  const exclude = [...Config.get('logs.http.excludeHeaders')].map(fp.toLower)
+  const obscure = [...config.get('logs.http.obscureHeaders')].map(fp.toLower)
+  const exclude = [...config.get('logs.http.excludeHeaders')].map(fp.toLower)
 
   headers = sortKeys(headers)
 

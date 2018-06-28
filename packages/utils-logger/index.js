@@ -1,70 +1,66 @@
 /**
- * Creates a customized Bunyan Logger based on my opinionated vision
+ * Creates a customized Pino Logger based on my opinionated vision
  * @module logger
  */
 
-const Config = require('config')
-const bunyan = require('bunyan')
+const config = require('config')
+const pino = require('pino')
 const lo = require('lodash')
-const Utils = require('./lib/utils')
+const utils = require('./lib/utils')
+const serializers = require('./lib/serializers')
 
-const DefaultConfig = {}
-
-DefaultConfig.level = 'info'
-DefaultConfig.src = false
-
-DefaultConfig.pretty = false
-DefaultConfig.cloudWatch = false
-
-DefaultConfig.http = {
-  obscureHeaders: ['authorization', 'set-cookie'],
-  excludeHeaders: [
-    'x-amzn-trace-id',
-    'x-content-type-options',
-    'x-dns-prefetch-control',
-    'x-download-options',
-    'x-forwarded-port',
-    'x-forwarded-proto',
-    'x-frame-options',
-    'x-xss-protection'
-  ],
-  skipUserAgents: ['ELB-HealthChecker'],
-  debugHeader: 'X-Cactus-Debug',
-  maxBody: 500
+const defaultConfig = {
+  level: 'info',
+  pretty: false,
+  stream: process.stdout,
+  http: {
+    obscureHeaders: ['authorization', 'set-cookie'],
+    excludeHeaders: [
+      'x-amzn-trace-id',
+      'x-content-type-options',
+      'x-dns-prefetch-control',
+      'x-download-options',
+      'x-forwarded-port',
+      'x-forwarded-proto',
+      'x-frame-options',
+      'x-xss-protection'
+    ],
+    skipUserAgents: ['ELB-HealthChecker']
+  }
 }
 
-const envConfig = Utils.getConfigFromEnv()
+const envConfig = utils.getConfigFromEnv()
 
-Config.util.extendDeep(DefaultConfig, envConfig)
-Config.util.setModuleDefaults('logs', DefaultConfig)
+config.util.extendDeep(defaultConfig, envConfig)
+config.util.setModuleDefaults('logs', defaultConfig)
 
 /**
  * Merge the given options with the default Options and returns a Logger
  *
- * @param  {(String|Object)} opts Logger's Name or Options
+ * @param  {String} opts Logger's Name
  *
  * @return {Object}
  */
 
-module.exports = function createLogger (opts = {}) {
-  const DefaultOptions = require('./lib/options')
-
-  if (lo.isString(opts)) opts = { name: opts }
-  if (!opts.name || !lo.isString(opts.name)) opts.name = DefaultOptions.app
+module.exports = function createLogger (name) {
+  if (!name || !lo.isString(name)) name = utils.getAppName()
 
   const options = {
-    serializers: DefaultOptions.serializers,
-    src: DefaultOptions.src,
-    app: DefaultOptions.app,
-    streams: DefaultOptions.streams
+    safe: true,
+    name: name,
+    level: config.get('logs.level'),
+    serializers: serializers,
+    base: {
+      app: utils.getAppName()
+    },
+    stream: require('./lib/stream')
   }
 
-  const instance = bunyan.createLogger({ ...options, ...opts })
-  return instance
+  return pino(options)
 }
 
 /** @type {Object} Exports Serializers */
-module.exports.Serializers = require('./lib/serializers')
+module.exports.Serializers = serializers
 
 /**
  * Returns an Express/Connect Middleware function which adds an specialized
@@ -83,8 +79,8 @@ module.exports.Middleware = function logRequestsMiddleware () {
    * @param     {Function}          next
    */
   return function logRequests (request, response, next) {
-    const blacklist = [...Config.get('logs.http.skipUserAgents')]
-    const debugHeader = Config.get('logs.http.debugHeader')
+    const blacklist = [...config.get('logs.http.skipUserAgents')]
+    const debugHeader = 'X-Cactus-Debug'
     const uaTest = lo.overSome(
       blacklist.map(i => {
         const uaRegex = new RegExp(i, 'gmi')
@@ -93,13 +89,13 @@ module.exports.Middleware = function logRequestsMiddleware () {
     )
 
     response.startTime = response.startTime || process.hrtime()
-    request.log = logger.child({ req_id: request.reqId }, true)
+    request.log = logger.child({ req_id: request.reqId })
 
     if (uaTest(request.get('user-agent'))) return next()
 
     /* Use the Debug Header */
     if (!lo.isEmpty(request.get(debugHeader))) {
-      request.log.levels('main', bunyan.TRACE)
+      request.log.level = 'trace'
     }
 
     response.on('finish', onFinish)
@@ -117,7 +113,7 @@ module.exports.Middleware = function logRequestsMiddleware () {
       request.log[level]({
         req: request,
         res: this,
-        duration: this.duration || Utils.getDuration(this.startTime)
+        duration: this.duration || utils.getDuration(this.startTime)
       })
     }
 
@@ -129,7 +125,7 @@ module.exports.Middleware = function logRequestsMiddleware () {
         {
           req: request,
           res: this,
-          duration: this.duration || Utils.getDuration(this.startTime)
+          duration: this.duration || utils.getDuration(this.startTime)
         },
         error.message
       )
