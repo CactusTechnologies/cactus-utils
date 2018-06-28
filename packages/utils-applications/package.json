@@ -15,18 +15,17 @@
   "main": "index.js",
   "scripts": {
     "precommit": "npm run docs && lint-staged",
+    "depcheck": "depcheck --ignores=husky,config,electron --ignore-bin-package",
     "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
     "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
     "docs:readme": "mos README.md",
     "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md",
     "test": "run-s test:* -sn",
-    "test:depcheck": "depcheck --ignores=husky,config,electron --ignore-bin-package",
     "test:lint": "eslint --ignore-path .gitignore '**/*.js'",
     "test:outdated": "npm outdated --long || true",
     "todos": "leasot './**/*' -Sx -i './node_modules/**/*'"
   },
   "dependencies": {
-    "@cactus-technologies/utils": "^1.0.0",
     "async-exit-hook": "^2.0.1",
     "dev-ip": "^1.0.1",
     "dotenv": "^6.0.0",
