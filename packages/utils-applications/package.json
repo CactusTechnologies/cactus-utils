@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "async-exit-hook": "^2.0.1",
+    "config": "^1.30.0",
     "dev-ip": "^1.0.1",
     "dotenv": "^6.0.0",
     "env-paths": "^1.0.0",
@@ -50,8 +51,7 @@
     "prettier": "^1.13.6"
   },
   "peerDependencies": {
-    "@cactus-technologies/logger": "^2.0.0",
-    "@cactus-technologies/utils": "^1.0.0",
-    "config": "^1.30.0"
+    "@cactus-technologies/logger": "^2.0.1",
+    "@cactus-technologies/utils": "^1.0.0"
   }
 }

@@ -45,10 +45,9 @@ exports.init = ({ pmx = false } = {}) =>
 
     /* Catch uncaughExeptions */
     process.removeAllListeners('uncaughtException')
-    process.prependListener('uncaughtException', error => {
-      process.log.fatal({ err: error }, `Undhandled Error: ${error.message}`)
-      exports.pmx.notify(error)
-      process.nextTick(() => process.exit(1))
+    exports.exitHook.uncaughtExceptionHandler(error => {
+      process.log.fatal({ err: error }, error.message)
+      if (pmx === true) exports.pmx.notify(error)
     })
 
     /* Catch unhandledRejections */
@@ -100,4 +99,10 @@ exports.ready = () => {
   if ('send' in process) {
     process.send('ready')
   }
+}
+
+exports.kill = err => {
+  process.log.info('Falied to initialize the App, Commiting suicide.')
+  if (err instanceof Error) throw err
+  throw new Error('Falied to initialize.')
 }

@@ -15,7 +15,7 @@ Helper to manage PM2 App definitions and process states
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/logger @cactus-technologies/utils config @cactus-technologies/node-application
+npm install --save @cactus-technologies/logger @cactus-technologies/utils @cactus-technologies/node-application
 ```
 
 <!--/@-->

@@ -69,7 +69,7 @@ class Application {
     this.instance_var = 'INSTANCE_ID'
     this.merge_logs = true
     this.min_uptime = 3000
-    this.listen_timeout = 8000
+    this.listen_timeout = 6000
     this.kill_timeout = 3000
     this.restart_delay = 100
 
