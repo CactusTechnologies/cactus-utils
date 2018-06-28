@@ -8,11 +8,11 @@ const pino = require('pino')
 const lo = require('lodash')
 const utils = require('./lib/utils')
 const serializers = require('./lib/serializers')
+const pinoProxy = require('./lib/pino-proxy')
 
 const defaultConfig = {
   level: 'info',
   pretty: false,
-  stream: process.stdout,
   http: {
     obscureHeaders: ['authorization', 'set-cookie'],
     excludeHeaders: [
@@ -51,12 +51,13 @@ module.exports = function createLogger (name) {
     level: config.get('logs.level'),
     serializers: serializers,
     base: {
+      pid: process.pid,
+      hostname: utils.getHostName(),
       app: utils.getAppName()
-    },
-    stream: require('./lib/stream')
+    }
   }
 
-  return pino(options)
+  return pinoProxy(pino(options, require('./lib/stream')))
 }
 
 /** @type {Object} Exports Serializers */

@@ -52,6 +52,12 @@ exports.getAppName = () => {
         'app'
 }
 
+exports.getHostName = () =>
+  (config.has('host')
+    ? config.get('host')
+    : process.env.HOST || process.env.HOSTNAME || require('os').hostname()
+  ).split('.')[0]
+
 /**
  * Gets the Error Stack as a String.
  *
