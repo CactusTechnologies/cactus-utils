@@ -27,17 +27,12 @@ module.exports = function (
   config.basename = domain.split('.')[0]
 
   config.name =
-    env.APP_NAME ||
-    env.name ||
-    env.PROCESS_TITLE ||
-    name ||
-    env.npm_package_name ||
-    'app'
+    env.APP_NAME || env.name || name || env.npm_package_name || 'app'
 
   config.service = config.domain
     .split('.')
     .reverse()
-    .concat([fp.toLower(fp.camelCase(this.name))])
+    .concat([fp.toLower(fp.camelCase(config.name))])
     .join('.')
 
   config.version = version
