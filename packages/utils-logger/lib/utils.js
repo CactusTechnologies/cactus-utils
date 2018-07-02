@@ -3,6 +3,10 @@ const fp = require('lodash/fp')
 const sortKeys = require('sort-object-keys')
 const URL = require('url')
 
+exports.extend = config.util.extendDeep
+
+exports.shallowConf = path => config.util.toObject(config.get(path))
+
 exports.getDuration = start => {
   const diff = process.hrtime(start)
   const nanoseconds = diff[0] * 1e9 + diff[1]

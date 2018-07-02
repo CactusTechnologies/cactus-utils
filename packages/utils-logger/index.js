@@ -46,18 +46,21 @@ module.exports = function createLogger (opts = {}) {
   if (lo.isString(opts)) opts = { name: opts }
   if (!opts.name || !lo.isString(opts.name)) opts.name = utils.getAppName()
 
-  const options = {
-    safe: true,
-    level: config.get('logs.level'),
-    serializers: serializers,
-    base: {
-      pid: process.pid,
-      hostname: utils.getHostName(),
-      app: utils.getAppName()
-    }
-  }
+  const options = utils.extend(
+    {
+      safe: true,
+      level: config.get('logs.level'),
+      serializers: serializers,
+      base: {
+        pid: process.pid,
+        hostname: utils.getHostName(),
+        app: utils.getAppName()
+      }
+    },
+    opts
+  )
 
-  return pinoProxy(pino({ ...opts, ...options }, require('./lib/stream')))
+  return pinoProxy(pino(options, require('./lib/stream')))
 }
 
 /** @type {Object} Exports Serializers */
