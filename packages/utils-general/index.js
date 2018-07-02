@@ -36,10 +36,22 @@ exports.tap = require('p-tap')
 
 exports.forEach = exports.promisify(require('async').forEach)
 exports.forEachSeries = exports.promisify(require('async').forEachSeries)
+exports.forEachLimit = exports.promisify(require('async').eachLimit)
 
 exports.map = exports.promisify(require('async').map)
 exports.mapSeries = exports.promisify(require('async').mapSeries)
+exports.mapLimit = exports.promisify(require('async').mapLimit)
 exports.mapValues = exports.promisify(require('async').mapValues)
+
+exports.pipe = exports.promisify(require('async').seq)
+
+// ───────────────────────  Expose some Async helpers  ─────────────────────────
+
+exports.makeRetryable = (fn, opts = 3) =>
+  exports.promisify(require('async').retryable(opts, fn))
+
+exports.retry = exports.promisify(require('async').retry)
+exports.forever = exports.promisify(require('async').forever)
 
 // ────────────────────────────  Promised Timers  ──────────────────────────────
 
