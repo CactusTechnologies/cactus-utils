@@ -4,10 +4,12 @@
  */
 
 function log (target, thisArgument, argumentsList) {
-  argumentsList[0] =
-    argumentsList[0] instanceof Error
-      ? { err: argumentsList[0] }
-      : argumentsList[0]
+  if (argumentsList[0] instanceof Error) {
+    argumentsList[0] = { err: argumentsList[0] }
+    argumentsList[1] = argumentsList[1]
+      ? argumentsList[1]
+      : argumentsList[0].message
+  }
   return Reflect.apply(...arguments)
 }
 
@@ -23,9 +25,7 @@ function getHandler (obj, prop, receiver) {
   if (prop === 'info') return new Proxy(obj[prop].bind(obj), { apply: log })
   if (prop === 'debug') return new Proxy(obj[prop].bind(obj), { apply: log })
   if (prop === 'trace') return new Proxy(obj[prop].bind(obj), { apply: log })
-  if (prop === 'child') {
-    return new Proxy(obj[prop].bind(obj), { apply: child })
-  }
+  if (prop === 'child') return new Proxy(obj[prop].bind(obj), { apply: child })
   return Reflect.get(...arguments)
 }
 
