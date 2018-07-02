@@ -43,7 +43,9 @@ exports.mapSeries = exports.promisify(require('async').mapSeries)
 exports.mapLimit = exports.promisify(require('async').mapLimit)
 exports.mapValues = exports.promisify(require('async').mapValues)
 
-exports.pipe = exports.promisify(require('async').seq)
+exports.pipe = function pipe () {
+  return exports.promisify(Reflect.apply(require('async').seq, null, arguments))
+}
 
 // ───────────────────────  Expose some Async helpers  ─────────────────────────
 
