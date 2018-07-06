@@ -1,9 +1,9 @@
 /**
- * A proxy for PMX
+ * A proxy for PM2.io
  * @module App/pmx
  */
 
-const pmx = require('pmx')
+const io = require('@pm2/io')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -42,4 +42,4 @@ const PmxProxyHandler = {
   }
 }
 
-module.exports = new Proxy(pmx, PmxProxyHandler)
+module.exports = new Proxy(io, PmxProxyHandler)

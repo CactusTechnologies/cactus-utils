@@ -1,9 +1,7 @@
 'use strict'
 
-const pmx = require('./pmx-proxy')
 const fp = require('lodash/fp')
-
-const { metric } = pmx.probe()
+const io = require('./pm2-io-proxy')
 
 const metrics = new Map()
 const statuses = new Map()
@@ -31,7 +29,8 @@ module.exports.addMetric = function addMetric (name, defaultValue = true) {
 
   metrics.set(
     name,
-    metric({
+    io.metric({
+      type: 'metric',
       name: name,
       value: () => status[name]
     })

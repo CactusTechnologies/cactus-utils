@@ -4,11 +4,15 @@
 require('./dot-env')()
 
 const ms = require('pretty-ms')
+const fp = require('lodash/fp')
 const utils = require('@cactus-technologies/utils')
 const config = require('config')
 
+/** @type {Proxy} PMX module for backwards compatibility */
+exports.pmx = require('./lib/pm2-io-proxy')
+
 /** @type {Proxy} PMX module */
-exports.pmx = require('./lib/pmx-proxy')
+exports.io = require('./lib/pm2-io-proxy')
 
 /** @type {Object} Global Status */
 exports.status = require('./lib/status')
@@ -16,30 +20,31 @@ exports.status = require('./lib/status')
 /** @type {Function} exitHooks */
 exports.exitHook = require('async-exit-hook')
 
+/** @type {Object} slack notifications */
+exports.slack = require('./lib/slack-notifier')
+
 /**
  * Appends Listeners for: uncaughtException, unhandledRejection, process.exit
  *   and Logs Basic configuration data.
  *
- * @param  {Boolean} options.pmx:    keymetrics
+ * @param  {Boolean} options.pmx:    pm2+ deep metrics
+ * @param  {Boolean} options.slack:  Slack notifications
  * @param  {Object}  options.logger: log
  *
  * @return {Promise}
  */
 
-exports.init = ({ pmx = false } = {}) =>
+exports.init = ({ pmx = true, slack = false } = {}) =>
   new Promise((resolve, reject) => {
-    /* Load .env first */
+    const logger = require('@cactus-technologies/logger')
 
     /* Add a process log */
-    process.log = require('@cactus-technologies/logger')('process')
+    process.log = logger('process')
 
-    /* Enable PMX - Keymetrics */
-
+    /* Enable pm2.io - Keymetrics */
     if (pmx === true) {
-      exports.pmx.init({
-        errors: false,
-        network: true,
-        ports: true
+      exports.io.init({
+        network: { ports: true }
       })
     }
 
@@ -47,8 +52,23 @@ exports.init = ({ pmx = false } = {}) =>
     process.removeAllListeners('uncaughtException')
     exports.exitHook.uncaughtExceptionHandler(error => {
       process.log.fatal({ err: error }, error.message)
-      if (pmx === true) exports.pmx.notify(error)
     })
+
+    /* Enable SlackWeb Hooks */
+    if (slack === true && config.has('slack.url')) {
+      exports.slack.init()
+      exports.exitHook.uncaughtExceptionHandler((error, done) => {
+        let err = []
+        try {
+          err = logger.Serializers.err(error)
+        } catch (err) {
+          process.log.error(err)
+        }
+        exports.slack
+          .error(error.message, 'process', fp.omit(['stack'], err))
+          .then(() => done())
+      })
+    }
 
     /* Catch unhandledRejections */
     process.removeAllListeners('unhandledRejection')
@@ -66,6 +86,7 @@ exports.init = ({ pmx = false } = {}) =>
     )
     process.log.info(utils.format('Enviroment: %s', config.get('env')))
     process.log.info(utils.format('Log level: %s', config.get('logs.level')))
+    process.log.debug({ paths: config.get('paths') }, 'Paths')
 
     resolve()
   })
