@@ -45,5 +45,5 @@ module.exports = function (
 
 function addPublicPath (config) {
   const publicFolder = path.resolve(process.cwd(), 'public')
-  return fp.set('paths.public', publicFolder, config)
+  return fp.set('public', publicFolder, config)
 }

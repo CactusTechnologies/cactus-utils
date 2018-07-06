@@ -19,13 +19,12 @@ if (process.versions && process.versions.electron) {
   } else if (process.type === 'renderer') {
     appRoot = require('electron').remote.app.getAppPath()
   }
+  process.chdir(appRoot)
 }
-
-process.env.NODE_CONFIG_DIR = path.resolve(appRoot, 'config')
 
 /** Loads .env if exists */
 module.exports = () => {
-  const env = path.resolve(appRoot, '.env')
+  const env = path.resolve(process.cwd(), '.env')
   if (fs.existsSync(env)) console.log('Loading .env in to the ENV')
   if (fs.existsSync(env)) dotenv.config({ path: env })
 }

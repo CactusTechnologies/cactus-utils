@@ -5,12 +5,8 @@
 require('./dot-env')()
 
 const ms = require('pretty-ms')
-const fp = require('lodash/fp')
 const util = require('util')
 const config = require('config')
-
-/** @type {Proxy} PMX module for backwards compatibility */
-exports.pmx = require('./lib/pm2-io-proxy')
 
 /** @type {Proxy} PMX module */
 exports.io = require('./lib/pm2-io-proxy')
@@ -41,11 +37,16 @@ exports.init = ({ pmx = true, slack = false } = {}) =>
 
     /* Add a process log */
     process.log = logger('process')
-
     /* Enable pm2.io - Keymetrics */
     if (pmx === true) {
       exports.io.init({
-        network: { ports: true }
+        network: { ports: true },
+        transaction: {
+          http: true,
+          tracing: {
+            ignore_routes: []
+          }
+        }
       })
     }
 
@@ -53,20 +54,15 @@ exports.init = ({ pmx = true, slack = false } = {}) =>
     process.removeAllListeners('uncaughtException')
     exports.exitHook.uncaughtExceptionHandler(error => {
       process.log.fatal({ err: error }, error.message)
+      if (pmx === true) exports.io.notifyError(error)
     })
 
     /* Enable SlackWeb Hooks */
     if (slack === true && config.has('slack.url')) {
       exports.slack.init()
       exports.exitHook.uncaughtExceptionHandler((error, done) => {
-        let err = []
-        try {
-          err = logger.Serializers.err(error)
-        } catch (err) {
-          process.log.error(err)
-        }
         exports.slack
-          .error(error.message, 'process', fp.omit(['stack'], err))
+          .error(logger.Serializers.err(error), 'UncaughtError')
           .then(() => done())
       })
     }
@@ -87,7 +83,7 @@ exports.init = ({ pmx = true, slack = false } = {}) =>
     )
     process.log.info(util.format('Enviroment: %s', config.get('env')))
     process.log.info(util.format('Log level: %s', config.get('logs.level')))
-    process.log.debug({ paths: config.get('paths') }, 'Paths')
+    process.log.trace({ paths: config.get('paths') }, 'Paths')
 
     resolve()
   })
@@ -109,14 +105,14 @@ exports.ready = () => {
     else process.log.warn(exitMessage)
   })
 
-  process.log.info(
-    util.format(
-      'Application %s v%s is ready (+%s)',
-      config.get('name'),
-      config.get('version'),
-      ms(process.uptime() * 1000)
-    )
+  const initMsg = util.format(
+    'Application %s v%s is ready (+%s)',
+    config.get('name'),
+    config.get('version'),
+    ms(process.uptime() * 1000)
   )
+
+  process.log.info(initMsg)
 
   if ('send' in process) {
     process.send('ready')
