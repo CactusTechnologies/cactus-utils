@@ -1,11 +1,12 @@
 'use strict'
 
 /* Load .env first */
+
 require('./dot-env')()
 
 const ms = require('pretty-ms')
 const fp = require('lodash/fp')
-const utils = require('@cactus-technologies/utils')
+const util = require('util')
 const config = require('config')
 
 /** @type {Proxy} PMX module for backwards compatibility */
@@ -78,14 +79,14 @@ exports.init = ({ pmx = true, slack = false } = {}) =>
     })
 
     process.log.warn(
-      utils.format(
+      util.format(
         'Initializing Application: %s v%s',
         config.get('name'),
         config.get('version')
       )
     )
-    process.log.info(utils.format('Enviroment: %s', config.get('env')))
-    process.log.info(utils.format('Log level: %s', config.get('logs.level')))
+    process.log.info(util.format('Enviroment: %s', config.get('env')))
+    process.log.info(util.format('Log level: %s', config.get('logs.level')))
     process.log.debug({ paths: config.get('paths') }, 'Paths')
 
     resolve()
@@ -97,7 +98,7 @@ exports.ready = () => {
     const config = require('config')
     const exitCode = process.exitCode || 0
 
-    const exitMessage = utils.format(
+    const exitMessage = util.format(
       'About to exit Application %s with code %s after %s',
       config.get('name'),
       exitCode,
@@ -109,7 +110,7 @@ exports.ready = () => {
   })
 
   process.log.info(
-    utils.format(
+    util.format(
       'Application %s v%s is ready (+%s)',
       config.get('name'),
       config.get('version'),
