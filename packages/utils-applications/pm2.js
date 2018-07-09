@@ -26,7 +26,8 @@ const visibleKeys = [
   'instances',
   'max_restarts',
   'name',
-  'log',
+  'output',
+  'error',
   'watch'
 ]
 
@@ -82,9 +83,6 @@ class Application {
 
     this.watch = ['config/**/**', 'lib/**/**', 'src/**/**']
     this.ignore_watch = ['node_modules/**', '*.log']
-
-    this.output = '/dev/null'
-    this.error = '/dev/null'
 
     this.targetInstances = 1
     this.max_restarts = 100
@@ -147,9 +145,15 @@ class Application {
     this._max_restarts = val
   }
 
-  get log () {
+  get error () {
     return this.development
-      ? 'NULL'
+      ? '/dev/null'
+      : path.resolve(config.get('paths.log'), `${this.name}.log`)
+  }
+
+  get output () {
+    return this.development
+      ? '/dev/null'
       : path.resolve(config.get('paths.log'), `${this.name}.log`)
   }
 
