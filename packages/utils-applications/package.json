@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/node-application",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Helper to manage PM2 App definitions and process states",
   "homepage": "https://github.com/CactusTechnologies/cactus-nodeapp-helper#readme",
   "bugs": {
