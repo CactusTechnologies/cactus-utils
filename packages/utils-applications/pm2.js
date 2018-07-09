@@ -21,13 +21,12 @@ const hiddenKeys = [
 const visibleKeys = [
   'env',
   'env_production',
-  'error_file',
   'exec_mode',
   'ignore_watch',
   'instances',
   'max_restarts',
   'name',
-  'out_file',
+  'log',
   'watch'
 ]
 
@@ -83,6 +82,9 @@ class Application {
 
     this.watch = ['config/**/**', 'lib/**/**', 'src/**/**']
     this.ignore_watch = ['node_modules/**', '*.log']
+
+    this.output = '/dev/null'
+    this.error = '/dev/null'
 
     this.targetInstances = 1
     this.max_restarts = 100
@@ -145,13 +147,7 @@ class Application {
     this._max_restarts = val
   }
 
-  get error_file () {
-    return this.development
-      ? 'NULL'
-      : path.resolve(config.get('paths.log'), `${this.name}.log`)
-  }
-
-  get out_file () {
+  get log () {
     return this.development
       ? 'NULL'
       : path.resolve(config.get('paths.log'), `${this.name}.log`)
