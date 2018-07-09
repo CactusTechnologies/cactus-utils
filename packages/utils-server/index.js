@@ -9,7 +9,7 @@
 const express = require('express')
 const http = require('http')
 
-const { pmx, exitHook } = require('@cactus-technologies/node-application')
+const { io, exitHook } = require('@cactus-technologies/node-application')
 const errors = require('@cactus-technologies/errors')
 const logger = require('@cactus-technologies/logger')
 
@@ -125,11 +125,8 @@ class CactusServer {
     request.log.trace('Handler: notifyErrors')
     if (error.status >= 500) {
       error.url = request.originalUrl
-      error.component = request.url
       error.action = request.method
-      error.params = request.body
-      error.session = request.session
-      pmx.notify(error)
+      io.notifyError(error)
     }
     next(error)
   }

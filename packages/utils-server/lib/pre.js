@@ -127,8 +127,8 @@ exports.serveFavicon = (() => {
  *
  * @type {Function}
  */
-exports.serveFiles = (() => {
-  const publicTarget = path.resolve(process.cwd(), 'public')
+exports.serveFiles = ((publicDir = 'path') => {
+  const publicTarget = path.resolve(process.cwd(), publicDir)
   if (fs.existsSync(publicTarget)) return express.static(publicTarget)
   return (req, res, next) => next()
 })()
