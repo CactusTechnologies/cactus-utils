@@ -20,14 +20,19 @@ const utils = require('./utils')
 
 exports.err = function errorSerializer (err) {
   if (!err || !err.stack) return err
-
-  return {
+  const obj = {
     message: err.message,
     name: err.name,
-    stack: utils.getErrorStack(err),
-    code: err.code,
-    signal: err.signal
+    stack: utils.getErrorStack(err)
   }
+
+  for (var key in err) {
+    if (obj[key] === undefined) {
+      obj[key] = err[key]
+    }
+  }
+
+  return obj
 }
 
 /**
@@ -42,9 +47,10 @@ exports.req = function requestSerializer (req) {
   if (!req || !req.connection) return req
 
   return {
+    id: req.reqId || undefined,
     method: req.method,
     url: utils.getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
-    headers: utils.redactHeaders(req.headers),
+    headers: req.headers,
     userId: req.userId || 'nobody',
     httpVersion: `${req.httpVersionMajor}.${req.httpVersionMinor}`,
     remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
@@ -63,7 +69,7 @@ exports.res = function responseSerializer (res) {
   if (!res || !res.statusCode) return res
   return {
     statusCode: res.statusCode,
-    header: utils.redactResponseHeaders(res._header)
+    header: res._header
   }
 }
 

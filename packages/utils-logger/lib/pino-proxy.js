@@ -6,9 +6,7 @@
 function log (target, thisArgument, argumentsList) {
   if (argumentsList[0] instanceof Error) {
     argumentsList[0] = { err: argumentsList[0] }
-    argumentsList[1] = argumentsList[1]
-      ? argumentsList[1]
-      : argumentsList[0].message
+    argumentsList[1] = argumentsList[1] || argumentsList[0].message
   }
   return Reflect.apply(...arguments)
 }

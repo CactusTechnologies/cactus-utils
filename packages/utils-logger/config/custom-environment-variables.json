@@ -1,0 +1,10 @@
+{
+  "level": {
+    "__name": "CACTUS_LOGS_LEVEL",
+    "__format": "json"
+  },
+  "pretty": {
+    "__name": "CACTUS_LOGS_PRETTY",
+    "__format": "json"
+  }
+}
