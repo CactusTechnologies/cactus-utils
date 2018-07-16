@@ -4,7 +4,6 @@
  */
 
 const config = require('config')
-const { util } = require('config')
 const pino = require('pino')
 const lo = require('lodash')
 const path = require('path')
@@ -13,10 +12,8 @@ const utils = require('./lib/utils')
 const serializers = require('./lib/serializers')
 const pinoProxy = require('./lib/pino-proxy')
 
-util.setModuleDefaults(
-  'logs',
-  util.loadFileConfigs(path.resolve(__dirname, 'config'))
-)
+const conf = config.util.loadFileConfigs(path.resolve(__dirname, 'config'))
+config.util.setModuleDefaults('logs', conf)
 
 /**
  * Merge the given options with the default Options and returns a Logger

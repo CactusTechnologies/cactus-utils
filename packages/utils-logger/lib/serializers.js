@@ -51,10 +51,10 @@ exports.req = function requestSerializer (req) {
     method: req.method,
     url: utils.getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
     headers: req.headers,
-    userId: req.userId || 'nobody',
     httpVersion: `${req.httpVersionMajor}.${req.httpVersionMinor}`,
     remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
-    remotePort: req.connection.remotePort
+    remotePort: req.connection.remotePort,
+    userId: req.userId || 'nobody'
   }
 }
 
