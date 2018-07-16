@@ -26,12 +26,6 @@ exports.err = function errorSerializer (err) {
     stack: utils.getErrorStack(err)
   }
 
-  for (var key in err) {
-    if (obj[key] === undefined) {
-      obj[key] = err[key]
-    }
-  }
-
   return obj
 }
 
