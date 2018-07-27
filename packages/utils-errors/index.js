@@ -12,7 +12,7 @@ class CactusError extends WError {
   asResponseError () {
     return {
       message: this.message,
-      type: this.name,
+      name: this.name,
       code: this.code,
       errors: this.errors || this.info || {}
     }
