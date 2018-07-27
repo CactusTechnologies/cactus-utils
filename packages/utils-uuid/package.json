@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/uuid",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A set of Unique ID generators for JS apps",
   "homepage": "https://github.com/CactusTechnologies/cactus-uuid#readme",
   "bugs": {
