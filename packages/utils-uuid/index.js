@@ -14,16 +14,21 @@ const adjetives = require('./lib/adjetives.json')
 const pokemons = require('./lib/pokemon.json')
 const damnTable = require('./lib/damn-table.json')
 
+// ───────────────────────────────  SINGLETON  ─────────────────────────────────
+
+/* Create a single unique symbol for the engenie */
+const SYMBOL = Symbol.for('@cactus-technologies/uuid')
+/* Check if the symbol exists and add it if not found */
+if (!Object.getOwnPropertySymbols(global).includes(SYMBOL)) {
+  global[SYMBOL] = Random.engines.mt19937()
+  global[SYMBOL].autoSeed()
+}
+
 /**
  * Random Engenie: https://en.wikipedia.org/wiki/Mersenne_Twister
  * This is the random engenie that powers the entire UUID module.
  */
-
-exports.MersenneTwister = Random.engines.mt19937()
-
-/* Auto Seed */
-
-exports.MersenneTwister.autoSeed()
+const ENGENIE = global[SYMBOL]
 
 // ────────────────────────────────  Methods  ──────────────────────────────────
 
@@ -31,7 +36,7 @@ exports.MersenneTwister.autoSeed()
  * Creates a 'UUID4 Random String'
  * @return {String}
  */
-exports.v4 = () => Random.uuid4(exports.MersenneTwister)
+exports.v4 = () => Random.uuid4(ENGENIE)
 
 /**
  * Produce a random string comprised of numbers or the characters ABCDEF of
@@ -39,7 +44,7 @@ exports.v4 = () => Random.uuid4(exports.MersenneTwister)
  * @param  {Number} length Length of the Hex String
  * @return {String}        Hex String
  */
-exports.hex = (length = 6) => Random.hex()(exports.MersenneTwister, length)
+exports.hex = (length = 6) => Random.hex()(ENGENIE, length)
 
 /**
  * Creates a 'Numeric Random String' with the last digit being used as a
@@ -50,24 +55,12 @@ exports.hex = (length = 6) => Random.hex()(exports.MersenneTwister, length)
 exports.numeric = function generateNumeric (digits = 10) {
   const totalDigits = digits - 1
   const max = maxNumber(totalDigits)
-  const num = Random.integer(0, max)(exports.MersenneTwister)
+  const num = Random.integer(0, max)(ENGENIE)
   const base = String(num)
   const padded = base.padStart(totalDigits, '0')
   const hashed = generateCheckDigit(padded)
   return padded + hashed
 }
-
-/**
- * Creates a Medical Record Identifier
- * @return {String}
- */
-exports.mrn = () => exports.numeric(8)
-
-/**
- * Creates a SMS Validation Token
- * @return {String}
- */
-exports.sms = () => exports.numeric(6)
 
 /**
  * Returns the number of milliseconds since the Unix Epoch. Appatently is called
@@ -88,7 +81,7 @@ exports.shortStamp = () => String(Math.floor(Date.now() / 1000))
  * @return {String}             Pokemon Name
  */
 exports.pokemon = function pokemon (hex = true) {
-  const poke = Random.pick(exports.MersenneTwister, pokemons)
+  const poke = Random.pick(ENGENIE, pokemons)
   if (!hex) return poke
   return `${poke}-${exports.hex()}`
 }
@@ -98,10 +91,7 @@ exports.pokemon = function pokemon (hex = true) {
  * @return {String}
  */
 exports.heroku = function heroku (hex = true) {
-  const parts = [
-    Random.pick(exports.MersenneTwister, adjetives),
-    Random.pick(exports.MersenneTwister, nouns)
-  ]
+  const parts = [Random.pick(ENGENIE, adjetives), Random.pick(ENGENIE, nouns)]
   if (hex) parts.push(exports.hex())
   return parts.join('-')
 }
@@ -112,15 +102,38 @@ exports.heroku = function heroku (hex = true) {
  * @return {String}       Humanized String
  */
 exports.humanized = function humanized (words = 6) {
-  return Random.sample(exports.MersenneTwister, english, words).join('.')
+  return Random.sample(ENGENIE, english, words).join('.')
 }
 
 // ─────────────────────────────────  Utils  ───────────────────────────────────
 
 /* Public utils */
-exports.utils = {
-  verifyNumeric: input => generateCheckDigit(input) === '0'
-}
+exports.util = {}
+
+/**
+ * Checks if the given input string against the Damm algorithm
+ *
+ * @param {String} input - Numeric String, probs from uuid.numeric()
+ *
+ * @return {Boolean}
+ */
+
+exports.util.verifyNumeric = input => generateCheckDigit(input) === '0'
+
+/**
+ * Return a random value within the provided array
+ *
+ * @param  {Array} inputArray
+ *
+ * @return {*} A random element of the array
+ */
+
+exports.util.pick = input => Random.pick(ENGENIE, input)
+
+// ────────────────────────────────  Exports  ──────────────────────────────────
+
+/* Freze the API */
+module.exports = Object.freeze(module.exports)
 
 // ────────────────────────────────  Private  ──────────────────────────────────
 

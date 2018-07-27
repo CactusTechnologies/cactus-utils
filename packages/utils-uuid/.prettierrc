@@ -5,11 +5,7 @@
     "arrowParens": "avoid",
     "overrides": [
         {
-            "files": ".prettierrc",
-            "options": { "parser": "json" }
-        },
-        {
-            "files": ".eslintrc",
+            "files": [".prettierrc", ".lintstagedrc"],
             "options": { "parser": "json" }
         }
     ]
