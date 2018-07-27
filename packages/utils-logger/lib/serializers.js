@@ -8,8 +8,7 @@ const fp = require('lodash/fp')
 const prettyBytes = require('pretty-bytes')
 const querystring = require('querystring')
 const ms = require('pretty-ms')
-const utils = require('./utils')
-
+const URL = require('url')
 /**
  * Serializes Error Objects
  *
@@ -23,9 +22,9 @@ exports.err = function errorSerializer (err) {
   const obj = {
     message: err.message,
     name: err.name,
-    stack: utils.getErrorStack(err)
+    code: err.code,
+    stack: getErrorStack(err)
   }
-
   return obj
 }
 
@@ -43,7 +42,7 @@ exports.req = function requestSerializer (req) {
   return {
     id: req.reqId || undefined,
     method: req.method,
-    url: utils.getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
+    url: getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
     headers: req.headers,
     httpVersion: `${req.httpVersionMajor}.${req.httpVersionMinor}`,
     remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
@@ -108,4 +107,36 @@ exports.response = function responseSerializer (resp) {
       elapsedTime => ms(elapsedTime)
     ])(resp)
   }
+}
+
+// ────────────────────────────────  Private  ──────────────────────────────────
+
+/**
+ * Gets the Error Stack as a String.
+ *
+ * @param  {Error} ex Error Object
+ *
+ * @return {String}
+ */
+
+function getErrorStack (ex) {
+  let ret = ex.stack || ex.toString()
+  if (ex.cause && typeof ex.cause === 'function') {
+    const cex = ex.cause()
+    if (cex) ret += '\nCaused by: ' + getErrorStack(cex)
+  }
+  return ret
+}
+
+/**
+ * Returns the pathname part of the given url
+ *
+ * @param  {String} url
+ *
+ * @return {String}
+ */
+
+function getCleanUrl (url) {
+  const parsed = URL.parse(url)
+  return parsed.pathname || url
 }

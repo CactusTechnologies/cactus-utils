@@ -1,5 +1,5 @@
 ### TODOs
 
-| Filename | line # | TODO |
-| :------- | :----: | :--- |
-
+| Filename | line # | TODO                                                     |
+| :------- | :----: | :------------------------------------------------------- |
+| index.js |   38   | Investigate how to pass the stream via the config files. |

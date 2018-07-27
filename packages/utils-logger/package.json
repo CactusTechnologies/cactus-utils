@@ -29,8 +29,8 @@
     "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**' --exit-nicely"
   },
   "dependencies": {
-    "@mechanicalhuman/bunyan-pretty": "^2.0.1",
-    "config": "^1.30.0",
+    "@mechanicalhuman/bunyan-pretty": "/Users/mechanicalhuman/Active/dev/dev-bunyan-pretty",
+    "config": "/Users/mechanicalhuman/Active/forked/forked-node-config",
     "lodash": "^4.17.10",
     "pino": "^4.17.3",
     "pretty-bytes": "^5.1.0",
