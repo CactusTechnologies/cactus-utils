@@ -25,72 +25,92 @@ npm install --save @cactus-technologies/utils
 ## @cactus-technologies/utils
 
 -   [@cactus-technologies/utils](#module_@cactus-technologies/utils)
-    -   [.promisify(fn)](#module_@cactus-technologies/utils.promisify) ⇒ <code>Promise</code>
-    -   [.say(str)](#module_@cactus-technologies/utils.say) ⇒ <code>Boolean</code>
-    -   _Async helpers_
-        -   [.makeRetryable(fn, \[opts\])](#module_@cactus-technologies/utils.makeRetryable) ⇒ <code>Promise</code>
-        -   [.retry(fn, \[opts\])](#module_@cactus-technologies/utils.retry) ⇒ <code>Promise</code>
-        -   [.forever(fn)](#module_@cactus-technologies/utils.forever) ⇒ <code>Promise</code>
-    -   _Crypto_
-        -   [.encrypt(decrypted, encryptionKey)](#module_@cactus-technologies/utils.encrypt) ⇒ <code>String</code>
-        -   [.decrypt(encrypted, decryptionKey)](#module_@cactus-technologies/utils.decrypt) ⇒ <code>String</code>
-        -   [.hash(input)](#module_@cactus-technologies/utils.hash) ⇒ <code>String</code>
-    -   _File system_
-        -   [.exists(path)](#module_@cactus-technologies/utils.exists) ⇒ <code>Boolean</code>
-        -   [.mkd(path)](#module_@cactus-technologies/utils.mkd) ⇒ <code>Promise</code>
-        -   [.rm(patterns, \[force\])](#module_@cactus-technologies/utils.rm) ⇒ <code>Promise</code>
-        -   ~~[.format()](#module_@cactus-technologies/utils.format)~~
-        -   ~~[.saveFile()](#module_@cactus-technologies/utils.saveFile)~~
-        -   ~~[.saveJson()](#module_@cactus-technologies/utils.saveJson)~~
-    -   _Humanizers_
-        -   [.getDuration(start)](#module_@cactus-technologies/utils.getDuration) ⇒ <code>Number</code>
-        -   [.humanizeStatusCode(status)](#module_@cactus-technologies/utils.humanizeStatusCode) ⇒ <code>String</code>
-        -   [.cleanUrl(url)](#module_@cactus-technologies/utils.cleanUrl) ⇒ <code>String</code>
-    -   _Object Utils_
-        -   [.extend(mergeInto, ...mergeFrom)](#module_@cactus-technologies/utils.extend) ⇒ <code>Object</code>
-        -   [.diff(objA, objB)](#module_@cactus-technologies/utils.diff) ⇒ <code>Object</code>
-        -   [.clone(obj)](#module_@cactus-technologies/utils.clone) ⇒ <code>Object</code>
-    -   _Promise Chains_
-        -   [.tap](#module_@cactus-technologies/utils.tap) : <code>Promise</code>
-        -   [.pipe(...fn)](#module_@cactus-technologies/utils.pipe) ⇒ <code>Promise</code>
-    -   _Promised Timers_
-        -   [.wait(\[ms\])](#module_@cactus-technologies/utils.wait) ⇒ <code>Promise</code>
-        -   [.nextTick()](#module_@cactus-technologies/utils.nextTick) ⇒ <code>Promise</code>
+
+        * [.promisify(fn)](#module_@cactus-technologies/utils.promisify)
+
+        * ~~[.format()](#module_@cactus-technologies/utils.format)
+
+    \~~
+
+        * _Async helpers_
+            * [.makeRetryable(fn, [opts])](#module_@cactus-technologies/utils.makeRetryable)
+
+            * [.retry(fn, [opts])](#module_@cactus-technologies/utils.retry)
+
+            * [.forever(fn)](#module_@cactus-technologies/utils.forever)
+
+        * _Child Process_
+            * [.exec(command, [args], [options])](#module_@cactus-technologies/utils.exec)
+
+        * _Crypto_
+            * [.encrypt(decrypted, encryptionKey)](#module_@cactus-technologies/utils.encrypt)
+
+            * [.decrypt(encrypted, decryptionKey)](#module_@cactus-technologies/utils.decrypt)
+
+            * [.hash(input)](#module_@cactus-technologies/utils.hash)
+
+        * _File system_
+            * [.rm](#module_@cactus-technologies/utils.rm)
+
+            * [.exists(path)](#module_@cactus-technologies/utils.exists)
+
+            * [.mkd(path)](#module_@cactus-technologies/utils.mkd)
+
+            * ~~[.saveFile()](#module_@cactus-technologies/utils.saveFile)
+
+    \~~
+
+            * ~~[.saveJson()](#module_@cactus-technologies/utils.saveJson)
+
+    \~~
+
+        * _Humanizers_
+            * [.getDuration(start)](#module_@cactus-technologies/utils.getDuration)
+
+            * [.humanizeStatusCode(status)](#module_@cactus-technologies/utils.humanizeStatusCode)
+
+            * [.cleanUrl(url)](#module_@cactus-technologies/utils.cleanUrl)
+
+        * _Object Utils_
+            * [.extend(mergeInto, ...mergeFrom)](#module_@cactus-technologies/utils.extend)
+
+            * [.diff(objA, objB)](#module_@cactus-technologies/utils.diff)
+
+            * [.clone(obj)](#module_@cactus-technologies/utils.clone)
+
+        * _Promise Chains_
+            * [.tap](#module_@cactus-technologies/utils.tap)
+
+            * [.pipe(...fn)](#module_@cactus-technologies/utils.pipe)
+
+        * _Promised Timers_
+            * [.wait([ms])](#module_@cactus-technologies/utils.wait)
+
+            * [.nextTick()](#module_@cactus-technologies/utils.nextTick)
 
 <a name="module_@cactus-technologies/utils.promisify"></a>
 
-### utils.promisify(fn) ⇒ <code>Promise</code>
-
-Takes a function following the common error-first callback style, i.e.
-taking an (err, value) => ... callback as the last argument, and returns
-a version that returns promises.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
+### _utils_.promisify(fn)
 
 | Param | Type                  | Description               |
 | ----- | --------------------- | ------------------------- |
 | fn    | <code>function</code> | Function to be converted. |
 
-<a name="module_@cactus-technologies/utils.say"></a>
+Takes a function following the common error-first callback style, i.e.
+taking an `(err, value) => ... callback` as the last argument, and
+returns a version that returns promises.
 
-### utils.say(str) ⇒ <code>Boolean</code>
+<a name="module_@cactus-technologies/utils.format"></a>
 
-Uses the sepakers to anounce the given string. MacOs only
+### ~~_utils_.format()~~
 
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
+**_Deprecated_**
 
-| Param | Type                | Description |
-| ----- | ------------------- | ----------- |
-| str   | <code>String</code> | What to say |
-
+**See**: [util.format](https://nodejs.org/api/util.html#util_util_format_format_args) from the native Node Docs.  
 <a name="module_@cactus-technologies/utils.makeRetryable"></a>
 
-### utils.makeRetryable(fn, [opts]) ⇒ <code>Promise</code>
+### _utils_.makeRetryable(fn, [opts])
 
-A close relative of retry. This method wraps a task and makes it retryable,
-rather than immediately calling it with retries.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Async helpers
 
 | Param  | Type                  | Default        | Description                                     |
@@ -98,16 +118,13 @@ rather than immediately calling it with retries.
 | fn     | <code>function</code> |                | Async function to be wrapped.                   |
 | [opts] | <code>Number</code>   | <code>5</code> | The number of attempts to make before giving up |
 
+A close relative of retry. This method wraps a task and makes it retryable,
+rather than immediately calling it with retries.
+
 <a name="module_@cactus-technologies/utils.retry"></a>
 
-### utils.retry(fn, [opts]) ⇒ <code>Promise</code>
+### _utils_.retry(fn, [opts])
 
-Attempts to get a successful response from task no more than times times
-before returning an error. If the task is successful, the Promise will
-return the result of the successful task. If all attempts fail, the
-Promise will Throw
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Async helpers
 
 | Param  | Type                  | Default        | Description                                     |
@@ -115,27 +132,98 @@ Promise will Throw
 | fn     | <code>function</code> |                | Async function or Callback Style taks           |
 | [opts] | <code>Number</code>   | <code>5</code> | The number of attempts to make before giving up |
 
+Attempts to get a successful response from task no more than times times
+before returning an error. If the task is successful, the Promise will
+return the result of the successful task. If all attempts fail, the
+Promise will Throw
+
 <a name="module_@cactus-technologies/utils.forever"></a>
 
-### utils.forever(fn) ⇒ <code>Promise</code>
+### _utils_.forever(fn)
 
-Calls the asynchronous function in series, indefinitely. If the function
-throws the execution will stop.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Async helpers
 
 | Param | Type                  | Description                          |
 | ----- | --------------------- | ------------------------------------ |
 | fn    | <code>function</code> | an async function to call repeatedly |
 
+Calls the asynchronous function in series, indefinitely. If the function
+throws the execution will stop.
+
+<a name="module_@cactus-technologies/utils.exec"></a>
+
+### _utils_.exec(command, [args], [options])
+
+**Category**: Child Process  
+**See**: [execa](https://github.com/sindresorhus/execa#readme) for details
+
+| Param                 | Type                                                  | Default                    | Description                                                                                                                                                                            |
+| --------------------- | ----------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| command               | <code>String</code>                                   |                            |                                                                                                                                                                                        |
+| [args]                | <code>Array</code> \| <code>String</code>             | <code>\[]</code>           | Either an Array of arguments or a String with the arguments.                                                                                                                           |
+| [options]             | <code>Object</code>                                   |                            |                                                                                                                                                                                        |
+| [options.cwd]         | <code>String</code>                                   | <code>process.cwd()</code> | Current working directory of the child process.                                                                                                                                        |
+| [options.env]         | <code>Object</code>                                   | <code>process.env</code>   | Environment key-value pairs. Extends automatically from `process.env`                                                                                                                  |
+| [options.extendEnv]   | <code>Boolean</code>                                  | <code>true</code>          | Set to false if you don't want to extend the environment variables when providing the env property.                                                                                    |
+| [options.argv0]       | <code>String</code>                                   |                            | Explicitly set the value of `argv[0]`                                                                                                                                                  |
+| [options.stdio]       | <code>String</code> \| <code>Array.&lt;String></code> | <code>pipe</code>          | Child's stdio configuration.                                                                                                                                                           |
+| [options.detached]    | <code>Boolean</code>                                  | <code>false</code>         | Prepare child to run independently of its parent process.                                                                                                                              |
+| [options.shell]       | <code>Boolean</code>                                  | <code>false</code>         | If `true`, runs command inside of a shell. Uses `/bin/sh` on `UNIX` and `cmd.exe` on `Windows`.                                                                                        |
+| [options.preferLocal] | <code>Boolean</code>                                  | <code>true</code>          | Prefer locally installed binaries when looking for a binary to execute. If you `npm install foo`, you can then `utils.exec('foo')`.                                                    |
+| [options.localDir]    | <code>String</code>                                   | <code>process.cwd()</code> | Preferred path to find locally installed binaries in (use with `preferLocal`).                                                                                                         |
+| [options.input]       | <code>String</code>                                   |                            | Write some input to the `stdin` of your binary.                                                                                                                                        |
+| [options.reject]      | <code>Boolean</code>                                  | <code>true</code>          | Setting this to `false` resolves the promise with the error instead of rejecting it.                                                                                                   |
+| [options.cleanup]     | <code>Boolean</code>                                  | <code>true</code>          | Keep track of the spawned process and `kill` it when the parent process exits.                                                                                                         |
+| [options.timeout]     | <code>Boolean</code>                                  | <code>0</code>             | If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds. |
+| [options.killSignal]  | <code>String</code>                                   | <code>SIGTERM</code>       | Signal value to be used when the spawned process will be killed.                                                                                                                       |
+
+A better child_process:
+
+-   Promise interface.
+-   Strips EOF from the output so you don't have to `stdout.trim()`.
+-   Supports shebang binaries cross-platform.
+-   Higher max buffer. 10 MB instead of 200 KB.
+-   Executes locally installed binaries by name. (from `node_modules`)
+-   Cleans up spawned processes when the parent process dies.
+
+**Returns**: <code>Promise</code> - Returns a child_process instance, which is enhanced to
+also be a Promise for a result Object with stdout and stderr properties.  
+**Example**
+
+```js
+;(async () => {
+    const result = await utils.exec(
+        'omxplayer',
+        '~/color-factory/assets/videoFile'
+    )
+})()
+```
+
+**Example**
+
+```js
+;(async () => {
+    const outputPath = '~/color-factory/assets/videoFile'
+    try {
+        await utils.exec('ffmpeg', [
+            '-i',
+            inputPath,
+            '-vf',
+            `crop=${crop}:${crop}:${startX}:${startY}`,
+            outputPath
+        ])
+        return outputPath
+    } catch (err) {
+        log.error(err)
+        throw err
+    }
+})()
+```
+
 <a name="module_@cactus-technologies/utils.encrypt"></a>
 
-### utils.encrypt(decrypted, encryptionKey) ⇒ <code>String</code>
+### _utils_.encrypt(decrypted, encryptionKey)
 
-Encrypts the given String using the aes192 algorithm.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Crypto
 
 | Param         | Type                |
@@ -143,13 +231,12 @@ Encrypts the given String using the aes192 algorithm.
 | decrypted     | <code>String</code> |
 | encryptionKey | <code>String</code> |
 
+Encrypts the given String using the aes192 algorithm.
+
 <a name="module_@cactus-technologies/utils.decrypt"></a>
 
-### utils.decrypt(encrypted, decryptionKey) ⇒ <code>String</code>
+### _utils_.decrypt(encrypted, decryptionKey)
 
-Decrypts the given String using the aes192 algorithm.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Crypto
 
 | Param         | Type                |
@@ -157,41 +244,54 @@ Decrypts the given String using the aes192 algorithm.
 | encrypted     | <code>String</code> |
 | decryptionKey | <code>String</code> |
 
+Decrypts the given String using the aes192 algorithm.
+
 <a name="module_@cactus-technologies/utils.hash"></a>
 
-### utils.hash(input) ⇒ <code>String</code>
+### _utils_.hash(input)
 
-Creates a hash for file revving.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Returns**: <code>String</code> - an MD5 hash truncated to 10 characters  
 **Category**: Crypto
 
 | Param | Type                                       | Description             |
 | ----- | ------------------------------------------ | ----------------------- |
 | input | <code>String</code> \| <code>Object</code> | The object to be hashed |
 
+Creates a hash for file revving.
+
+**Returns**: <code>String</code> - an MD5 hash truncated to 10 characters  
+<a name="module_@cactus-technologies/utils.rm"></a>
+
+### _utils_.rm
+
+**Category**: File system  
+**See**: [minimatch](https://github.com/isaacs/minimatch#usage) usage for
+patterns examples
+
+| Param           | Type                                      | Default            | Description                    |
+| --------------- | ----------------------------------------- | ------------------ | ------------------------------ |
+| patterns        | <code>String</code> \| <code>Array</code> |                    | Path, or globs to be deleted   |
+| [options]       | <code>Object</code>                       |                    | Options                        |
+| [options.force] | <code>Object</code>                       | <code>false</code> | Allow deleting outside the cwd |
+
+Delete files and folders using globs, It also protects you against deleting
+the current working directory and above. - Think rm -rf.
+
 <a name="module_@cactus-technologies/utils.exists"></a>
 
-### utils.exists(path) ⇒ <code>Boolean</code>
+### _utils_.exists(path)
 
-Returns true if the path exists, false otherwise.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: File system
 
 | Param | Type                | Description           |
 | ----- | ------------------- | --------------------- |
 | path  | <code>String</code> | Location to be tested |
 
+Returns true if the path exists, false otherwise.
+
 <a name="module_@cactus-technologies/utils.mkd"></a>
 
-### utils.mkd(path) ⇒ <code>Promise</code>
+### _utils_.mkd(path)
 
-Make a directory and its parents if needed - Think mkdir -p. Returns a
-Promise for the path to the created directory.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: File system  
 **Author**: sindresorhus@gmail.com
 
@@ -199,101 +299,65 @@ Promise for the path to the created directory.
 | ----- | ------------------- | -------------------- |
 | path  | <code>String</code> | Directory to create. |
 
-<a name="module_@cactus-technologies/utils.rm"></a>
+Make a directory and its parents if needed - Think mkdir -p. Returns a
+Promise for the path to the created directory.
 
-### utils.rm(patterns, [force]) ⇒ <code>Promise</code>
-
-Delete files and folders using globs, It also protects you against deleting
-the current working directory and above. - Think rm -rf.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: File system  
-**See**: [| minimatch](https://github.com/isaacs/minimatch#usage) usage
-for patterns examples  
-**Author**: sindresorhus@gmail.com
-
-| Param    | Type                                      | Default            | Description                                               |
-| -------- | ----------------------------------------- | ------------------ | --------------------------------------------------------- |
-| patterns | <code>String</code> \| <code>Array</code> |                    | Path, or globs to be deleted                              |
-| [force]  | <code>Boolean</code>                      | <code>false</code> | Allow deleting the current working directory and outside. |
-
-<a name="module_@cactus-technologies/utils.format"></a>
-
-### ~~utils.format()~~
-
-**_Deprecated_**
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: File system  
-**See**: [| util.format](https://nodejs.org/api/util.html#util_util_format_format_args) from the native Node Docs.  
 <a name="module_@cactus-technologies/utils.saveFile"></a>
 
-### ~~utils.saveFile()~~
+### ~~_utils_.saveFile()~~
 
 **_Deprecated_**
 
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: File system  
 **See**: [utils.writeFile](utils.writeFile)  
 <a name="module_@cactus-technologies/utils.saveJson"></a>
 
-### ~~utils.saveJson()~~
+### ~~_utils_.saveJson()~~
 
 **_Deprecated_**
 
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: File system  
 **See**: [utils.writeJson](utils.writeJson)  
 <a name="module_@cactus-technologies/utils.getDuration"></a>
 
-### utils.getDuration(start) ⇒ <code>Number</code>
+### _utils_.getDuration(start)
 
-Gets the duration in milliseconds from the given start time.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Humanizers
 
 | Param | Type                | Description                  |
 | ----- | ------------------- | ---------------------------- |
 | start | <code>Object</code> | A result of process.hrtime() |
 
+Gets the duration in milliseconds from the given start time.
+
 <a name="module_@cactus-technologies/utils.humanizeStatusCode"></a>
 
-### utils.humanizeStatusCode(status) ⇒ <code>String</code>
+### _utils_.humanizeStatusCode(status)
 
-Humanizes the given status code
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Humanizers
 
 | Param  | Type                |
 | ------ | ------------------- |
 | status | <code>Number</code> |
 
+Humanizes the given status code
+
 <a name="module_@cactus-technologies/utils.cleanUrl"></a>
 
-### utils.cleanUrl(url) ⇒ <code>String</code>
+### _utils_.cleanUrl(url)
 
-Returns the path part of the given url
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Humanizers
 
 | Param | Type                |
 | ----- | ------------------- |
 | url   | <code>String</code> |
 
+Returns the path part of the given url
+
 <a name="module_@cactus-technologies/utils.extend"></a>
 
-### utils.extend(mergeInto, ...mergeFrom) ⇒ <code>Object</code>
+### _utils_.extend(mergeInto, ...mergeFrom)
 
-Extend an object (and any object it contains) with one or more objects (and
-objects contained in them). This does not replace deep objects as other
-extend functions do, but dives into them extending individual elements
-instead.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Returns**: <code>Object</code> - The altered mergeInto object is returned  
 **Category**: Object Utils
 
 | Param        | Type                | Description                                |
@@ -301,15 +365,16 @@ instead.
 | mergeInto    | <code>Object</code> | The object to merge into. ({} recommended) |
 | ...mergeFrom | <code>Object</code> | Any number of objects to merge from        |
 
+Extend an object (and any object it contains) with one or more objects (and
+objects contained in them). This does not replace deep objects as other
+extend functions do, but dives into them extending individual elements
+instead.
+
+**Returns**: <code>Object</code> - The altered mergeInto object is returned  
 <a name="module_@cactus-technologies/utils.diff"></a>
 
-### utils.diff(objA, objB) ⇒ <code>Object</code>
+### _utils_.diff(objA, objB)
 
-Returns an object containing all elements that differ between two objects.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Returns**: <code>Object</code> - A differential object, which if extended onto objA would
-result in objB.  
 **Category**: Object Utils
 
 | Param | Type                | Description                |
@@ -317,35 +382,37 @@ result in objB.
 | objA  | <code>Object</code> | The object to compare from |
 | objB  | <code>Object</code> | The object to compare with |
 
+Returns an object containing all elements that differ between two objects.
+
+**Returns**: <code>Object</code> - A differential object, which if extended onto objA would
+result in objB.  
 <a name="module_@cactus-technologies/utils.clone"></a>
 
-### utils.clone(obj) ⇒ <code>Object</code>
+### _utils_.clone(obj)
 
-This returns a new object with all elements copied from the specified
-object. Deep copies are made of objects and arrays so you can do anything
-with the returned object without affecting the input object.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Returns**: <code>Object</code> - A new object with the elements copied from the copyFrom
-object  
 **Category**: Object Utils
 
 | Param | Type                | Description                      |
 | ----- | ------------------- | -------------------------------- |
 | obj   | <code>Object</code> | The original object to copy from |
 
+This returns a new object with all elements copied from the specified
+object. Deep copies are made of objects and arrays so you can do anything
+with the returned object without affecting the input object.
+
+**Returns**: <code>Object</code> - A new object with the elements copied from the copyFrom
+object  
 <a name="module_@cactus-technologies/utils.tap"></a>
 
-### utils.tap : <code>Promise</code>
+### _utils_.tap
 
-Tap into a promise chain without affecting its value or state
-
-**Kind**: static property of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Promise Chains
 
 | Param | Type                  | Description                   |
 | ----- | --------------------- | ----------------------------- |
 | input | <code>function</code> | Async function to be wrapped. |
+
+Tap into a promise chain without affecting its value or state
 
 **Example**
 
@@ -357,40 +424,36 @@ Promise.resolve('unicorn')
 
 <a name="module_@cactus-technologies/utils.pipe"></a>
 
-### utils.pipe(...fn) ⇒ <code>Promise</code>
+### _utils_.pipe(...fn)
 
-Creates a Promise that returns the result of invoking the given Async
-Functions, where each successive invocation is supplied the return value
-of the previous. ALA fp.pipe but for async functions.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Promise Chains
 
 | Param | Type                  | Description                                                                             |
 | ----- | --------------------- | --------------------------------------------------------------------------------------- |
 | ...fn | <code>function</code> | Any number of Async Functions where each consumes the return value of the previous one. |
 
+Creates a Promise that returns the result of invoking the given Async
+Functions, where each successive invocation is supplied the return value
+of the previous. ALA fp.pipe but for async functions.
+
 <a name="module_@cactus-technologies/utils.wait"></a>
 
-### utils.wait([ms]) ⇒ <code>Promise</code>
+### _utils_.wait([ms])
 
-Will resolve the promise after the given miliseconds.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Promised Timers
 
 | Param | Type                | Default           | Description         |
 | ----- | ------------------- | ----------------- | ------------------- |
 | [ms]  | <code>Number</code> | <code>1000</code> | Miliseconds to wait |
 
+Will resolve the promise after the given miliseconds.
+
 <a name="module_@cactus-technologies/utils.nextTick"></a>
 
-### utils.nextTick() ⇒ <code>Promise</code>
+### _utils_.nextTick()
 
+**Category**: Promised Timers  
 Promisified version of process.nextTick
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promised Timers
 
 <!--@license()-->
 
@@ -399,3 +462,11 @@ Promisified version of process.nextTick
 [UNLICENCED](./LICENSE) © [Cactus Technologies, LLC](https://www.cactus.is)
 
 <!--/@-->
+
+## TODOs
+
+### TODOs
+
+| Filename | line # | TODO |
+| :------- | :----: | :--- |
+

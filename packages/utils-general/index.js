@@ -5,16 +5,17 @@
 
 /**
  * Takes a function following the common error-first callback style, i.e.
- *   taking an (err, value) => ... callback as the last argument, and returns
- *   a version that returns promises.
+ *   taking an `(err, value) => ... callback` as the last argument, and
+ *   returns a version that returns promises.
  *
  * @param {Function} fn - Function to be converted.
  *
  * @return {Promise}
  *
+ * @function
  */
 
-exports.promisify = fn => require('util').promisify(fn)
+exports.promisify = require('util').promisify
 
 // ────────────────────────────────  Objects  ──────────────────────────────────
 
@@ -74,9 +75,11 @@ exports.clone = obj => require('config').util.cloneDeep(obj)
  * @return {Boolean}
  *
  * @category File system
+ *
+ * @function
  */
 
-exports.exists = path => require('fs').existsSync(path)
+exports.exists = require('fs').existsSync
 
 /**
  * Make a directory and its parents if needed - Think mkdir -p. Returns a
@@ -89,30 +92,31 @@ exports.exists = path => require('fs').existsSync(path)
  * @author sindresorhus@gmail.com
  *
  * @category File system
+ *
+ * @function
  */
 
-exports.mkd = path => require('make-dir')(path)
+exports.mkd = require('make-dir')
 
 /**
  * Delete files and folders using globs, It also protects you against deleting
  *   the current working directory and above. - Think rm -rf.
  *
- * @param {(String|Array)} patterns      - Path, or globs to be deleted
- * @param {Boolean}        [force=false] - Allow deleting the current working
- *   directory and outside.
+ * @param {(String|Array)} patterns              - Path, or globs to be
+ *   deleted
+ * @param {Object}         [options]             - Options
+ * @param {Object}         [options.force=false] - Allow deleting outside the
+ *   cwd
  *
- * @see {@link https://github.com/isaacs/minimatch#usage | minimatch} usage
- *   for patterns examples
+ * @see {@link https://github.com/isaacs/minimatch#usage minimatch} usage for
+ *   patterns examples
  *
  * @return {Promise}
- *
- * @author sindresorhus@gmail.com
  *
  * @category File system
  */
 
-exports.rm = (patterns, force = false) =>
-  require('del')(patterns, { force: force })
+exports.rm = require('del')
 
 exports.readFile = exports.promisify(require('fs').readFile)
 exports.writeFile = exports.promisify(require('fs').writeFile)
@@ -123,7 +127,64 @@ exports.writeJson = require('write-json-file')
 
 // ─────────────────────────────  child process  ───────────────────────────────
 
-exports.exec = require('execa')
+/**
+ * A better child_process:
+ *   - Promise interface.
+ *   - Strips EOF from the output so you don't have to `stdout.trim()`.
+ *   - Supports shebang binaries cross-platform.
+ *   - Higher max buffer. 10 MB instead of 200 KB.
+ *   - Executes locally installed binaries by name. (from `node_modules`)
+ *   - Cleans up spawned processes when the parent process dies.
+ *
+ * @param {String}            command
+ * @param {(Array|String)}    [args=[]]                           - Either an Array of arguments or a String with the arguments.
+ * @param {Object}            [options]
+ * @param {String}            [options.cwd=process.cwd()]      - Current working directory of the child process.
+ * @param {Object}            [options.env=process.env]        - Environment key-value pairs. Extends automatically from `process.env`
+ * @param {Boolean}           [options.extendEnv=true]         - Set to false if you don't want to extend the environment variables when providing the env property.
+ * @param {String}            [options.argv0]                  - Explicitly set the value of `argv[0]`
+ * @param {(String|String[])} [options.stdio=pipe]             - Child's stdio configuration.
+ * @param {Boolean}           [options.detached=false]         - Prepare child to run independently of its parent process.
+ * @param {Boolean}           [options.shell=false]            - If `true`, runs command inside of a shell. Uses `/bin/sh` on `UNIX` and `cmd.exe` on `Windows`.
+ * @param {Boolean}           [options.preferLocal=true]       - Prefer locally installed binaries when looking for a binary to execute. If you `npm install foo`, you can then `utils.exec('foo')`.
+ * @param {String}            [options.localDir=process.cwd()] - Preferred path to find locally installed binaries in (use with `preferLocal`).
+ * @param {String}            [options.input]                  - Write some input to the `stdin` of your binary.
+ * @param {Boolean}           [options.reject=true]            - Setting this to `false` resolves the promise with the error instead of rejecting it.
+ * @param {Boolean}           [options.cleanup=true]           - Keep track of the spawned process and `kill` it when the parent process exits.
+ * @param {Boolean}           [options.timeout=0]              - If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds.
+ * @param {String}            [options.killSignal=SIGTERM]     - Signal value to be used when the spawned process will be killed.
+ *
+ * @see {@link https://github.com/sindresorhus/execa#readme execa} for details
+ *
+ * @return {Promise} Returns a child_process instance, which is enhanced to
+ *   also be a Promise for a result Object with stdout and stderr properties.
+ *
+ * @category Child Process
+ *
+ * @function
+ *
+ * @example
+ *   (async () => {
+ *     const result = await utils.exec('omxplayer', '~/color-factory/assets/videoFile')
+ *   })();
+ *
+ * @example
+ *   (async () => {
+ *   const outputPath = '~/color-factory/assets/videoFile'
+ *   try {
+ *     await utils.exec('ffmpeg', ['-i', inputPath, '-vf', `crop=${crop}:${crop}:${startX}:${startY}`, outputPath])
+ *     return outputPath
+ *   } catch (err) {
+ *     log.error(err)
+ *     throw err
+ *   }
+ *   })();
+ */
+
+exports.exec = (command, args = [], options = {}) => {
+  if (typeof args === 'string') args = args.split(' ')
+  return require('execa')(command, args, options)
+}
 
 // ───────────────────────────── Promise Chains  ───────────────────────────────
 
@@ -162,6 +223,7 @@ exports.mapValues = exports.promisify(require('async').mapValues)
  *   the return value of the previous one.
  *
  * @return {Promise}
+ *
  * @category Promise Chains
  */
 
@@ -213,9 +275,11 @@ exports.retry = (fn, opts = 5) =>
  * @return {Promise}
  *
  * @category Async helpers
+ *
+ * @function
  */
 
-exports.forever = fn => exports.promisify(require('async').forever)(fn)
+exports.forever = exports.promisify(require('async').forever)
 
 // ────────────────────────────  Promised Timers  ──────────────────────────────
 
@@ -349,15 +413,12 @@ exports.hash = input => {
 // ──────────────────────────────  Deprecated  ─────────────────────────────────
 
 /**
- *
- *
  * @deprecated since version 1.0.3
  *
  * @function
  *
- * @see {@link https://nodejs.org/api/util.html#util_util_format_format_args | util.format} from the native Node Docs.
+ * @see {@link https://nodejs.org/api/util.html#util_util_format_format_args util.format} from the native Node Docs.
  *
- * @category File system
  */
 
 exports.format = require('util').deprecate(
@@ -366,8 +427,6 @@ exports.format = require('util').deprecate(
 )
 
 /**
- *
- *
  * @deprecated since version 1.0.3
  *
  * @function
@@ -383,8 +442,6 @@ exports.saveFile = require('util').deprecate(
 )
 
 /**
- *
- *
  * @deprecated since version 1.0.3
  *
  * @function
@@ -398,16 +455,3 @@ exports.saveJson = require('util').deprecate(
   exports.writeJson,
   '"utils.saveJson" is deprecated and will be removed in the next minor version, please use "utils.writeJson" as it aligns with the internal node methods.'
 )
-
-// ──────────────────────────────────  lol  ────────────────────────────────────
-
-/**
- * Uses the sepakers to anounce the given string. MacOs only
- *
- * @param {String} str - What to say
- *
- * @return {Boolean}
- */
-
-exports.say = async str =>
-  require('os').platform() === 'darwin' ? exports.exec(`say "${str}"`) : true
