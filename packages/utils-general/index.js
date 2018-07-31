@@ -71,17 +71,17 @@ exports.clone = obj => require('config').util.cloneDeep(obj)
  * This is used to ensure there is only one instance of a module or class,
  *   useful when the dependency tree has slighlty variations on the versions.
  *
- * @param {Object} obj - The object to make in to a singleton (prefered:
- *   package.name)
- * @param {Object} key - The key that will be used as a `global Symbol` for
- *   the singleton
+ * @param {Object|Class} Obj             - The object to make in to a singleton
+ * @param {Object}       key             - The key that will be used as a `global Symbol` for the singleton (recommended: package.name)
+ * @param {Boolean}      [isClass=false] - if `true` will create a new instance `new obj()`
+ * @param {...args}      [args]          - if `instanciate=true` will use the rest parameters for the instace.
  *
  * @return {Object} Singleton
  *
  * @category Object Utils
  */
 
-exports.singleton = (obj, key) => {
+exports.singleton = (Obj, key, instanciate = false, ...args) => {
   if (!require('./lib/assert').isString(key)) {
     throw new Error('parameter: key is required')
   }
@@ -95,7 +95,12 @@ exports.singleton = (obj, key) => {
    */
 
   if (Object.getOwnPropertySymbols(global).indexOf(KEY) === -1) {
-    global[KEY] = obj
+    global[KEY] =
+      instanciate === false
+        ? Obj
+        : args.lenght > 0
+          ? new Obj(...args)
+          : new Obj()
   }
 
   return global[KEY]

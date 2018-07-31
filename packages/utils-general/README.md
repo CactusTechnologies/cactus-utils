@@ -90,7 +90,7 @@ npm install --save @cactus-technologies/utils
         -   [.extend(mergeInto, ...mergeFrom)](#module_@cactus-technologies/utils.extend) ⇒ <code>Object</code>
         -   [.diff(objA, objB)](#module_@cactus-technologies/utils.diff) ⇒ <code>Object</code>
         -   [.clone(obj)](#module_@cactus-technologies/utils.clone) ⇒ <code>Object</code>
-        -   [.singleton(obj, key)](#module_@cactus-technologies/utils.singleton) ⇒ <code>Object</code>
+        -   [.singleton(Obj, key, \[isClass\], \[...args\])](#module_@cactus-technologies/utils.singleton) ⇒ <code>Object</code>
     -   _Promise Chains_
         -   [.tap](#module_@cactus-technologies/utils.tap) ⇒ <code>Promise</code>
         -   [.forEach(coll, iteratee)](#module_@cactus-technologies/utils.forEach) ⇒ <code>Promise</code>
@@ -972,7 +972,7 @@ with the returned object without affecting the input object.
 
 <a name="module_@cactus-technologies/utils.singleton"></a>
 
-### utils.singleton(obj, key) ⇒ <code>Object</code>
+### utils.singleton(Obj, key, [isClass], [...args]) ⇒ <code>Object</code>
 
 This is used to ensure there is only one instance of a module or class,
 useful when the dependency tree has slighlty variations on the versions.
@@ -981,10 +981,12 @@ useful when the dependency tree has slighlty variations on the versions.
 **Returns**: <code>Object</code> - Singleton  
 **Category**: Object Utils
 
-| Param | Type                | Description                                                      |
-| ----- | ------------------- | ---------------------------------------------------------------- |
-| obj   | <code>Object</code> | The object to make in to a singleton (prefered: package.name)    |
-| key   | <code>Object</code> | The key that will be used as a `global Symbol` for the singleton |
+| Param     | Type                                      | Default            | Description                                                                                  |
+| --------- | ----------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------- |
+| Obj       | <code>Object</code> \| <code>Class</code> |                    | The object to make in to a singleton                                                         |
+| key       | <code>Object</code>                       |                    | The key that will be used as a `global Symbol` for the singleton (recommended: package.name) |
+| [isClass] | <code>Boolean</code>                      | <code>false</code> | if `true` will create a new instance `new obj()`                                             |
+| [...args] | <code>args</code>                         |                    | if `instanciate=true` will use the rest parameters for the instace.                          |
 
 <a name="module_@cactus-technologies/utils.tap"></a>
 
@@ -1159,4 +1161,4 @@ Promisified version of process.nextTick
 | Filename | line # | TODO                                           |
 | :------- | :----: | :--------------------------------------------- |
 | index.js |   8    | Propper attributions                           |
-| index.js |  106   | Detect and use the native promisified versions |
+| index.js |  111   | Detect and use the native promisified versions |
