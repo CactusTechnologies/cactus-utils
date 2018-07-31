@@ -3,6 +3,8 @@
  * @typicalname utils
  */
 
+const fp = require('lodash/fp')
+
 // TODO: Propper attributions
 
 /**
@@ -65,22 +67,43 @@ exports.diff = (objA, objB) => require('config').util.diffDeep(objA, objB)
 
 exports.clone = obj => require('config').util.cloneDeep(obj)
 
+/**
+ * This is used to ensure there is only one instance of a module or class,
+ *   useful when the dependency tree has slighlty variations on the versions.
+ *
+ * @param {Object} obj - The object to make in to a singleton (prefered:
+ *   package.name)
+ * @param {Object} key - The key that will be used as a `global Symbol` for
+ *   the singleton
+ *
+ * @return {Object} Singleton
+ *
+ * @category Object Utils
+ */
+
+exports.singleton = (obj, key) => {
+  if (!require('./lib/assert').isString(key)) {
+    throw new Error('parameter: key is required')
+  }
+
+  /* Create a single unique symbol for the object */
+  const KEY = Symbol.for(key)
+
+  /*
+   * Check if the global object has the symbol. If it does not have the
+   *   symbol, add the object as the value of it
+   */
+
+  if (Object.getOwnPropertySymbols(global).indexOf(KEY) === -1) {
+    global[KEY] = obj
+  }
+
+  return global[KEY]
+}
+
 // ──────────────────────────────  File system  ────────────────────────────────
 
 // TODO: Detect and use the native promisified versions
-
-/**
- * Returns true if the path exists, false otherwise.
- *
- * @param {String} path - Location to be tested
- *
- * @return {Boolean}
- *
- * @category File system
- * @function
- */
-
-exports.exists = require('fs').existsSync
 
 /**
  * Make a directory and its parents if needed - Think` mkdir -p`.
@@ -279,7 +302,14 @@ exports.writeJson = require('write-json-file')
  */
 
 exports.exec = (command, args = [], options = {}) => {
-  if (typeof args === 'string') args = args.split(' ')
+  if (fp.isString(args)) {
+    args = fp.pipe(
+      fp.split(/(['"``])((?:\\\1|.)+?)\1|([^\s"'``]+)/),
+      fp.map(fp.trim),
+      fp.compact,
+      fp.reject(t => fp.includes(t, ["'", '"', '`']))
+    )(args)
+  }
   return require('execa')(command, args, options)
 }
 
@@ -524,7 +554,6 @@ exports.getDuration = function getDuration (start) {
 
 exports.humanizeStatusCode = status => {
   const { STATUS_CODES } = require('http')
-  const fp = require('lodash/fp')
   return fp.getOr('Unknown', String(status), STATUS_CODES)
 }
 
@@ -591,12 +620,32 @@ exports.decrypt = (encrypted, decryptionKey) => {
 
 exports.hash = input => {
   const revHash = require('rev-hash')
-  const fp = require('lodash/fp')
   if (fp.isString(input)) return revHash(fp.kebabCase(input))
   return revHash(require('json-stable-stringify')(input))
 }
 
+// ──────────────────────────────  Validation  ─────────────────────────────────
+
+/** @type {Object} */
+exports.assert = require('./lib/assert')
+
+// ───────────────────────────────  Normalize  ─────────────────────────────────
+
+/** @type {Object} */
+exports.normalize = require('./lib/normalize')
+
 // ──────────────────────────────  Deprecated  ─────────────────────────────────
+
+/**
+ * @deprecated since version 1.0.4
+ * @function
+ * @see {@link utils.validate.exists}
+ */
+
+exports.exists = require('util').deprecate(
+  require('fs').existsSync,
+  'Moved to utils.validate.exists'
+)
 
 /**
  * @deprecated since version 1.0.3
