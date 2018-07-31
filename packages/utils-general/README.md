@@ -34,9 +34,7 @@ npm install --save @cactus-technologies/utils
 
         * [.deleteFile(filePath)](#module_@cactus-technologies/utils.deleteFile)
 
-        * ~~[.format()](#module_@cactus-technologies/utils.format)
-
-    \~~
+        * ~~[.format()](#module_@cactus-technologies/utils.format)~~
 
         * _Async helpers_
             * [.makeRetryable(fn, [opts])](#module_@cactus-technologies/utils.makeRetryable)
@@ -66,13 +64,9 @@ npm install --save @cactus-technologies/utils
 
             * [.writeJson(filepath, data, [options])](#module_@cactus-technologies/utils.writeJson)
 
-            * ~~[.saveFile()](#module_@cactus-technologies/utils.saveFile)
+            * ~~[.saveFile()](#module_@cactus-technologies/utils.saveFile)~~
 
-    \~~
-
-            * ~~[.saveJson()](#module_@cactus-technologies/utils.saveJson)
-
-    \~~
+            * ~~[.saveJson()](#module_@cactus-technologies/utils.saveJson)~~
 
         * _Humanizers_
             * [.getDuration(start)](#module_@cactus-technologies/utils.getDuration)
