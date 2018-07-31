@@ -99,26 +99,28 @@ const WHITELISTED_FILEDS = ['level', 'serializers', 'base']
  * Merge the given options with the default Options and returns a Logger
  *
  * @param  {String|Object} opts Logger's Name
+ * @param  {WritableStream} [stream=process.stdout] Print Stream
  *
  * @return {Object} Pino base logging instance
  */
 
-module.exports = function createLogger (opts) {
+module.exports = function createLogger (opts, stream = STREAM) {
   return fp.pipe(
     coerceOptions,
-    createWrapedInstance
+    createWrapedInstance(stream)
   )(opts)
 }
 
 /** @type {Object} Exports Serializers */
 module.exports.Serializers = SERIALIZERS
-module.exports.stream = STREAM
 
 // ──────────────────────────────  Pino Proxy  ─────────────────────────────────
 
-function createWrapedInstance (options) {
-  const instance = pino(options, STREAM)
-  return wrapPinoInstance(instance)
+function createWrapedInstance (stream) {
+  return options => {
+    const instance = pino(options, stream)
+    return wrapPinoInstance(instance)
+  }
 }
 
 function wrapPinoInstance (instance) {
@@ -203,11 +205,6 @@ function coerceOptions (opts) {
     return extend(current, extras)
   }
 }
-
-// function logStep (current) {
-//   console.log(current)
-//   return current
-// }
 
 function extend () {
   return config.util.extendDeep({}, ...arguments)
