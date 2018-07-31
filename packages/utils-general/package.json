@@ -17,12 +17,12 @@
     "precommit": "npm run docs && lint-staged",
     "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
     "docs:01authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
-    "docs:02usage": "jsdoc2md --template README.hbs --plugin dmd-clear --files index.js > README.md",
+    "docs:02usage": "jsdoc2md --template README.hbs --files index.js > README.md",
     "docs:03todos": "npm run todos -s -- --reporter markdown > TODO.md",
     "docs:04readme": "mos README.md",
     "docs:05readme": "cat TODO.md >> README.md",
     "test": "run-s test:* -sn",
-    "test:depcheck": "depcheck --ignores=husky,dmd-clear,config --ignore-bin-package",
+    "test:depcheck": "depcheck --ignores=husky,config --ignore-bin-package",
     "test:lint": "eslint --ignore-path .gitignore '**/*.js'",
     "test:outdated": "npm outdated --long || true",
     "todos": "leasot './**/*' -Sx -i './node_modules/**/*'"
@@ -42,7 +42,6 @@
   },
   "devDependencies": {
     "depcheck": "^0.6.8",
-    "dmd-clear": "^0.1.2",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.13.0",

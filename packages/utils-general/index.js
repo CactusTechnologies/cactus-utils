@@ -122,11 +122,13 @@ exports.rm = require('del')
  * @param {Object}          [options]
  *
  * @return {Promise}
+ *
+ * @category File system
+ * @async
  * @function
  */
 
-exports.readFile = (filePath, options) =>
-  require('fs').readFile(filePath, options)
+exports.readFile = exports.promisify(require('fs').readFile)
 
 /**
  * Asynchronously writes data to a file, replacing the file if it already
@@ -140,6 +142,9 @@ exports.readFile = (filePath, options) =>
  * @param {Object}          [options]
  *
  * @return {Promise}
+ *
+ * @category File system
+ * @async
  * @function
  */
 
@@ -153,13 +158,13 @@ exports.writeFile = exports.promisify(require('fs').writeFile)
  * @param {String} filePath - the file to delete
  *
  * @return {Promise}
+ *
+ * @category File system
  * @async
  * @function
  */
 
 exports.deleteFile = exports.promisify(require('fs').unlink)
-
-exports.readFile = exports.promisify(require('fs').readFile)
 
 /**
  * Read and parse a JSON file. Strips UTF-8 BOM, uses graceful-fs, and throws
