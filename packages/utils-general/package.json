@@ -20,7 +20,7 @@
     "docs:02usage": "jsdoc2md --template README.hbs --files index.js lib/*.js > README.md",
     "docs:03todos": "npm run todos -s -- --reporter markdown > TODO.md",
     "docs:04readme": "mos README.md",
-    "docs:05readme": "cat TODO.md >> README.md",
+    "docs:05concat": "cat TODO.md >> README.md",
     "test": "run-s test:* -sn",
     "test:depcheck": "depcheck --ignores=husky,config --ignore-bin-package",
     "test:lint": "eslint --ignore-path .gitignore '**/*.js'",

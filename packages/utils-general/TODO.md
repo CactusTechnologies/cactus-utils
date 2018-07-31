@@ -2,5 +2,5 @@
 
 | Filename | line # | TODO                                           |
 | :------- | :----: | :--------------------------------------------- |
-| index.js |   6    | Propper attributions                           |
-| index.js |   70   | Detect and use the native promisified versions |
+| index.js |   8    | Propper attributions                           |
+| index.js |  106   | Detect and use the native promisified versions |

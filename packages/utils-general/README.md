@@ -1,83 +1,556 @@
 <!--@h1([pkg.name])-->
+
 # @cactus-technologies/utils
+
 <!--/@-->
 
 <!--@pkg.description-->
+
 Utility functions for node base apps
+
 <!--/@-->
 
 <!--@installation()-->
+
 ## Installation
 
 ```sh
 npm install --save @cactus-technologies/utils
 ```
+
 <!--/@-->
 
 <a name="module_@cactus-technologies/utils"></a>
 
 ## @cactus-technologies/utils
 
-- [@cactus-technologies/utils](#module_@cactus-technologies/utils)
-  - [.promisify(fn)](#module_@cactus-technologies/utils.promisify) ⇒ <code>Promise</code>
-  - ~~[.format()](#module_@cactus-technologies/utils.format)~~
-  - _Async helpers_
-    - [.makeRetryable(fn, \[opts\])](#module_@cactus-technologies/utils.makeRetryable) ⇒ <code>Promise</code>
-    - [.retry(fn, \[opts\])](#module_@cactus-technologies/utils.retry) ⇒ <code>Promise</code>
-    - [.forever(fn)](#module_@cactus-technologies/utils.forever) ⇒ <code>Promise</code>
-  - _Child Process_
-    - [.exec(command, \[args\], \[options\])](#module_@cactus-technologies/utils.exec) ⇒ <code>Promise</code>
-  - _Crypto_
-    - [.encrypt(decrypted, encryptionKey)](#module_@cactus-technologies/utils.encrypt) ⇒ <code>String</code>
-    - [.decrypt(encrypted, decryptionKey)](#module_@cactus-technologies/utils.decrypt) ⇒ <code>String</code>
-    - [.hash(input)](#module_@cactus-technologies/utils.hash) ⇒ <code>String</code>
-  - _File system_
-    - [.rm](#module_@cactus-technologies/utils.rm) ⇒ <code>Promise</code>
-    - [.exists(path)](#module_@cactus-technologies/utils.exists) ⇒ <code>Boolean</code>
-    - [.mkd(path)](#module_@cactus-technologies/utils.mkd) ⇒ <code>Promise</code>
-    - [.readFile(filePath, \[options\])](#module_@cactus-technologies/utils.readFile) ⇒ <code>Promise</code>
-    - [.writeFile(filePath, data, \[options\])](#module_@cactus-technologies/utils.writeFile) ⇒ <code>Promise</code>
-    - [.deleteFile(filePath)](#module_@cactus-technologies/utils.deleteFile) ⇒ <code>Promise</code>
-    - [.readJson(filePath)](#module_@cactus-technologies/utils.readJson) ⇒ <code>Promise</code>
-    - [.writeJson(filepath, data, \[options\])](#module_@cactus-technologies/utils.writeJson) ⇒ <code>Promise</code>
-    - ~~[.saveFile()](#module_@cactus-technologies/utils.saveFile)~~
-    - ~~[.saveJson()](#module_@cactus-technologies/utils.saveJson)~~
-  - _Humanizers_
-    - [.getDuration(start)](#module_@cactus-technologies/utils.getDuration) ⇒ <code>Number</code>
-    - [.humanizeStatusCode(status)](#module_@cactus-technologies/utils.humanizeStatusCode) ⇒ <code>String</code>
-    - [.cleanUrl(url)](#module_@cactus-technologies/utils.cleanUrl) ⇒ <code>String</code>
-  - _Object Utils_
-    - [.extend(mergeInto, ...mergeFrom)](#module_@cactus-technologies/utils.extend) ⇒ <code>Object</code>
-    - [.diff(objA, objB)](#module_@cactus-technologies/utils.diff) ⇒ <code>Object</code>
-    - [.clone(obj)](#module_@cactus-technologies/utils.clone) ⇒ <code>Object</code>
-  - _Promise Chains_
-    - [.tap](#module_@cactus-technologies/utils.tap) ⇒ <code>Promise</code>
-    - [.forEach(coll, iteratee)](#module_@cactus-technologies/utils.forEach) ⇒ <code>Promise</code>
-    - [.forEachSeries(coll, iteratee)](#module_@cactus-technologies/utils.forEachSeries) ⇒ <code>Promise</code>
-    - [.forEachLimit(coll, limit, iteratee)](#module_@cactus-technologies/utils.forEachLimit) ⇒ <code>Promise</code>
-    - [.map(coll, iteratee)](#module_@cactus-technologies/utils.map) ⇒ <code>Promise</code>
-    - [.mapSeries(coll, iteratee)](#module_@cactus-technologies/utils.mapSeries) ⇒ <code>Promise</code>
-    - [.mapLimit(coll, limit, iteratee)](#module_@cactus-technologies/utils.mapLimit) ⇒ <code>Promise</code>
-    - [.mapValues(obj, iteratee)](#module_@cactus-technologies/utils.mapValues) ⇒ <code>Promise</code>
-    - [.pipe(...fn)](#module_@cactus-technologies/utils.pipe) ⇒ <code>Promise</code>
-  - _Promised Timers_
-    - [.wait(\[ms\])](#module_@cactus-technologies/utils.wait) ⇒ <code>Promise</code>
-    - [.nextTick()](#module_@cactus-technologies/utils.nextTick) ⇒ <code>Promise</code>
+-   [@cactus-technologies/utils](#module_@cactus-technologies/utils)
+    -   [.assert](#module_@cactus-technologies/utils.assert) : <code>Object</code>
+        -   _Date Validation_
+            -   [.isBeforeToday(entry)](#module_@cactus-technologies/utils.assert.isBeforeToday) ⇒ <code>Boolean</code>
+            -   [.isBefore(entry, \[date\])](#module_@cactus-technologies/utils.assert.isBefore) ⇒ <code>Boolean</code>
+            -   [.isAfter(entry, \[date\])](#module_@cactus-technologies/utils.assert.isAfter) ⇒ <code>Boolean</code>
+        -   _FileSystem Validation_
+            -   [.exists(path)](#module_@cactus-technologies/utils.assert.exists) ⇒ <code>Boolean</code>
+        -   _Negated Validation_
+            -   ~~[.notDate](#module_@cactus-technologies/utils.assert.notDate) ⇒ <code>Boolean</code>~~
+            -   [.notNil(entry)](#module_@cactus-technologies/utils.assert.notNil) ⇒ <code>Boolean</code>
+            -   [.notEmpty(entry)](#module_@cactus-technologies/utils.assert.notEmpty) ⇒ <code>Boolean</code>
+            -   [.notValidDate(entry)](#module_@cactus-technologies/utils.assert.notValidDate) ⇒ <code>Boolean</code>
+            -   [.notOkStatus(entry)](#module_@cactus-technologies/utils.assert.notOkStatus) ⇒ <code>Boolean</code>
+        -   _Validation_
+            -   ~~[.isDate](#module_@cactus-technologies/utils.assert.isDate) ⇒ <code>Boolean</code>~~
+            -   ~~[.inEnumeration](#module_@cactus-technologies/utils.assert.inEnumeration) ⇒ <code>function</code>~~
+            -   [.isNil(entry)](#module_@cactus-technologies/utils.assert.isNil) ⇒ <code>Boolean</code>
+            -   [.isEmpty(entry)](#module_@cactus-technologies/utils.assert.isEmpty) ⇒ <code>Boolean</code>
+            -   [.isNumber(entry)](#module_@cactus-technologies/utils.assert.isNumber) ⇒ <code>Boolean</code>
+            -   [.isString(entry)](#module_@cactus-technologies/utils.assert.isString) ⇒ <code>Boolean</code>
+            -   [.isEmail(entry)](#module_@cactus-technologies/utils.assert.isEmail) ⇒ <code>Boolean</code>
+            -   [.isCreditCard(entry)](#module_@cactus-technologies/utils.assert.isCreditCard) ⇒ <code>Boolean</code>
+            -   [.isFunction(entry)](#module_@cactus-technologies/utils.assert.isFunction) ⇒ <code>Boolean</code>
+            -   [.isObject(entry)](#module_@cactus-technologies/utils.assert.isObject) ⇒ <code>Boolean</code>
+            -   [.isArray(entry)](#module_@cactus-technologies/utils.assert.isArray) ⇒ <code>Boolean</code>
+            -   [.isValidDate(entry)](#module_@cactus-technologies/utils.assert.isValidDate) ⇒ <code>Boolean</code>
+            -   [.isOkStatus(entry)](#module_@cactus-technologies/utils.assert.isOkStatus) ⇒ <code>Boolean</code>
+            -   [.isIn(values)](#module_@cactus-technologies/utils.assert.isIn) ⇒ <code>function</code>
+    -   [.normalize](#module_@cactus-technologies/utils.normalize) : <code>Object</code>
+        -   [.day(input)](#module_@cactus-technologies/utils.normalize.day) ⇒ <code>String</code>
+        -   [.email(input)](#module_@cactus-technologies/utils.normalize.email) ⇒ <code>String</code>
+        -   [.statusCode(status)](#module_@cactus-technologies/utils.normalize.statusCode) ⇒ <code>Number</code>
+        -   [.string(input)](#module_@cactus-technologies/utils.normalize.string) ⇒ <code>String</code>
+        -   [.header(input)](#module_@cactus-technologies/utils.normalize.header) ⇒ <code>String</code>
+    -   [.promisify(fn)](#module_@cactus-technologies/utils.promisify) ⇒ <code>Promise</code>
+    -   ~~[.exists()](#module_@cactus-technologies/utils.exists)~~
+    -   ~~[.format()](#module_@cactus-technologies/utils.format)~~
+    -   _Async helpers_
+        -   [.makeRetryable(fn, \[opts\])](#module_@cactus-technologies/utils.makeRetryable) ⇒ <code>Promise</code>
+        -   [.retry(fn, \[opts\])](#module_@cactus-technologies/utils.retry) ⇒ <code>Promise</code>
+        -   [.forever(fn)](#module_@cactus-technologies/utils.forever) ⇒ <code>Promise</code>
+    -   _Child Process_
+        -   [.exec(command, \[args\], \[options\])](#module_@cactus-technologies/utils.exec) ⇒ <code>Promise</code>
+    -   _Crypto_
+        -   [.encrypt(decrypted, encryptionKey)](#module_@cactus-technologies/utils.encrypt) ⇒ <code>String</code>
+        -   [.decrypt(encrypted, decryptionKey)](#module_@cactus-technologies/utils.decrypt) ⇒ <code>String</code>
+        -   [.hash(input)](#module_@cactus-technologies/utils.hash) ⇒ <code>String</code>
+    -   _File system_
+        -   [.rm](#module_@cactus-technologies/utils.rm) ⇒ <code>Promise</code>
+        -   [.mkd(path)](#module_@cactus-technologies/utils.mkd) ⇒ <code>Promise</code>
+        -   [.readFile(filePath, \[options\])](#module_@cactus-technologies/utils.readFile) ⇒ <code>Promise</code>
+        -   [.writeFile(filePath, data, \[options\])](#module_@cactus-technologies/utils.writeFile) ⇒ <code>Promise</code>
+        -   [.deleteFile(filePath)](#module_@cactus-technologies/utils.deleteFile) ⇒ <code>Promise</code>
+        -   [.readJson(filePath)](#module_@cactus-technologies/utils.readJson) ⇒ <code>Promise</code>
+        -   [.writeJson(filepath, data, \[options\])](#module_@cactus-technologies/utils.writeJson) ⇒ <code>Promise</code>
+        -   ~~[.saveFile()](#module_@cactus-technologies/utils.saveFile)~~
+        -   ~~[.saveJson()](#module_@cactus-technologies/utils.saveJson)~~
+    -   _Humanizers_
+        -   [.getDuration(start)](#module_@cactus-technologies/utils.getDuration) ⇒ <code>Number</code>
+        -   [.humanizeStatusCode(status)](#module_@cactus-technologies/utils.humanizeStatusCode) ⇒ <code>String</code>
+        -   [.cleanUrl(url)](#module_@cactus-technologies/utils.cleanUrl) ⇒ <code>String</code>
+    -   _Object Utils_
+        -   [.extend(mergeInto, ...mergeFrom)](#module_@cactus-technologies/utils.extend) ⇒ <code>Object</code>
+        -   [.diff(objA, objB)](#module_@cactus-technologies/utils.diff) ⇒ <code>Object</code>
+        -   [.clone(obj)](#module_@cactus-technologies/utils.clone) ⇒ <code>Object</code>
+        -   [.singleton(obj, key)](#module_@cactus-technologies/utils.singleton) ⇒ <code>Object</code>
+    -   _Promise Chains_
+        -   [.tap](#module_@cactus-technologies/utils.tap) ⇒ <code>Promise</code>
+        -   [.forEach(coll, iteratee)](#module_@cactus-technologies/utils.forEach) ⇒ <code>Promise</code>
+        -   [.forEachSeries(coll, iteratee)](#module_@cactus-technologies/utils.forEachSeries) ⇒ <code>Promise</code>
+        -   [.forEachLimit(coll, limit, iteratee)](#module_@cactus-technologies/utils.forEachLimit) ⇒ <code>Promise</code>
+        -   [.map(coll, iteratee)](#module_@cactus-technologies/utils.map) ⇒ <code>Promise</code>
+        -   [.mapSeries(coll, iteratee)](#module_@cactus-technologies/utils.mapSeries) ⇒ <code>Promise</code>
+        -   [.mapLimit(coll, limit, iteratee)](#module_@cactus-technologies/utils.mapLimit) ⇒ <code>Promise</code>
+        -   [.mapValues(obj, iteratee)](#module_@cactus-technologies/utils.mapValues) ⇒ <code>Promise</code>
+        -   [.pipe(...fn)](#module_@cactus-technologies/utils.pipe) ⇒ <code>Promise</code>
+    -   _Promised Timers_
+        -   [.wait(\[ms\])](#module_@cactus-technologies/utils.wait) ⇒ <code>Promise</code>
+        -   [.nextTick()](#module_@cactus-technologies/utils.nextTick) ⇒ <code>Promise</code>
+
+<a name="module_@cactus-technologies/utils.assert"></a>
+
+### utils.assert : <code>Object</code>
+
+**Kind**: static property of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
+
+-   [.assert](#module_@cactus-technologies/utils.assert) : <code>Object</code>
+    -   _Date Validation_
+        -   [.isBeforeToday(entry)](#module_@cactus-technologies/utils.assert.isBeforeToday) ⇒ <code>Boolean</code>
+        -   [.isBefore(entry, \[date\])](#module_@cactus-technologies/utils.assert.isBefore) ⇒ <code>Boolean</code>
+        -   [.isAfter(entry, \[date\])](#module_@cactus-technologies/utils.assert.isAfter) ⇒ <code>Boolean</code>
+    -   _FileSystem Validation_
+        -   [.exists(path)](#module_@cactus-technologies/utils.assert.exists) ⇒ <code>Boolean</code>
+    -   _Negated Validation_
+        -   ~~[.notDate](#module_@cactus-technologies/utils.assert.notDate) ⇒ <code>Boolean</code>~~
+        -   [.notNil(entry)](#module_@cactus-technologies/utils.assert.notNil) ⇒ <code>Boolean</code>
+        -   [.notEmpty(entry)](#module_@cactus-technologies/utils.assert.notEmpty) ⇒ <code>Boolean</code>
+        -   [.notValidDate(entry)](#module_@cactus-technologies/utils.assert.notValidDate) ⇒ <code>Boolean</code>
+        -   [.notOkStatus(entry)](#module_@cactus-technologies/utils.assert.notOkStatus) ⇒ <code>Boolean</code>
+    -   _Validation_
+        -   ~~[.isDate](#module_@cactus-technologies/utils.assert.isDate) ⇒ <code>Boolean</code>~~
+        -   ~~[.inEnumeration](#module_@cactus-technologies/utils.assert.inEnumeration) ⇒ <code>function</code>~~
+        -   [.isNil(entry)](#module_@cactus-technologies/utils.assert.isNil) ⇒ <code>Boolean</code>
+        -   [.isEmpty(entry)](#module_@cactus-technologies/utils.assert.isEmpty) ⇒ <code>Boolean</code>
+        -   [.isNumber(entry)](#module_@cactus-technologies/utils.assert.isNumber) ⇒ <code>Boolean</code>
+        -   [.isString(entry)](#module_@cactus-technologies/utils.assert.isString) ⇒ <code>Boolean</code>
+        -   [.isEmail(entry)](#module_@cactus-technologies/utils.assert.isEmail) ⇒ <code>Boolean</code>
+        -   [.isCreditCard(entry)](#module_@cactus-technologies/utils.assert.isCreditCard) ⇒ <code>Boolean</code>
+        -   [.isFunction(entry)](#module_@cactus-technologies/utils.assert.isFunction) ⇒ <code>Boolean</code>
+        -   [.isObject(entry)](#module_@cactus-technologies/utils.assert.isObject) ⇒ <code>Boolean</code>
+        -   [.isArray(entry)](#module_@cactus-technologies/utils.assert.isArray) ⇒ <code>Boolean</code>
+        -   [.isValidDate(entry)](#module_@cactus-technologies/utils.assert.isValidDate) ⇒ <code>Boolean</code>
+        -   [.isOkStatus(entry)](#module_@cactus-technologies/utils.assert.isOkStatus) ⇒ <code>Boolean</code>
+        -   [.isIn(values)](#module_@cactus-technologies/utils.assert.isIn) ⇒ <code>function</code>
+
+<a name="module_@cactus-technologies/utils.assert.isBeforeToday"></a>
+
+#### assert.isBeforeToday(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a valid Date and the date is before today.
+(day precision)
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Date Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isBefore"></a>
+
+#### assert.isBefore(entry, [date]) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a valid Date and the date is before the given
+one. (ms presicion)
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Date Validation
+
+| Param  | Type                                     | Default                 | Description          |
+| ------ | ---------------------------------------- | ----------------------- | -------------------- |
+| entry  | <code>\*</code>                          |                         | Value to Check       |
+| [date] | <code>String</code> \| <code>Date</code> | <code>Date.now()</code> | Date to test against |
+
+<a name="module_@cactus-technologies/utils.assert.isAfter"></a>
+
+#### assert.isAfter(entry, [date]) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a valid Date and the date is after the given
+one. (ms presicion)
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Date Validation
+
+| Param  | Type                                     | Default                 | Description          |
+| ------ | ---------------------------------------- | ----------------------- | -------------------- |
+| entry  | <code>\*</code>                          |                         | Value to Check       |
+| [date] | <code>String</code> \| <code>Date</code> | <code>Date.now()</code> | Date to test against |
+
+<a name="module_@cactus-technologies/utils.assert.exists"></a>
+
+#### assert.exists(path) ⇒ <code>Boolean</code>
+
+Returns `true` if the path exists, false otherwise.
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: FileSystem Validation
+
+| Param | Type                | Description           |
+| ----- | ------------------- | --------------------- |
+| path  | <code>String</code> | Location to be tested |
+
+<a name="module_@cactus-technologies/utils.assert.notDate"></a>
+
+#### ~~assert.notDate ⇒ <code>Boolean</code>~~
+
+**_Deprecated_**
+
+Returns `true` if the value is not a valid Date
+
+**Kind**: static property of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Negated Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.notNil"></a>
+
+#### assert.notNil(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is not 'undefined' or 'null'
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Negated Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.notEmpty"></a>
+
+#### assert.notEmpty(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is not empty
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Negated Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.notValidDate"></a>
+
+#### assert.notValidDate(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is not a valid Date
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Negated Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.notOkStatus"></a>
+
+#### assert.notOkStatus(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is not a valid status code (>= 200 &lt; 400)
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Negated Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isDate"></a>
+
+#### ~~assert.isDate ⇒ <code>Boolean</code>~~
+
+**_Deprecated_**
+
+Returns `true` if the value is a valid Date
+
+**Kind**: static property of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.inEnumeration"></a>
+
+#### ~~assert.inEnumeration ⇒ <code>function</code>~~
+
+**_Deprecated_**
+
+Returns A function that will return `true` if the given entry exist ins the given array
+
+**Kind**: static property of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param  | Type               | Description    |
+| ------ | ------------------ | -------------- |
+| values | <code>Array</code> | Array to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isNil"></a>
+
+#### assert.isNil(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is undefined' or 'null'
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isEmpty"></a>
+
+#### assert.isEmpty(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is 'empty'
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isNumber"></a>
+
+#### assert.isNumber(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a number or can be casted as one. `Infinite`
+and `NaN` are consider `false`
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isString"></a>
+
+#### assert.isString(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a String
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isEmail"></a>
+
+#### assert.isEmail(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a valid phone Email address
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type                | Description    |
+| ----- | ------------------- | -------------- |
+| entry | <code>String</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isCreditCard"></a>
+
+#### assert.isCreditCard(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a valid CreditCard
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isFunction"></a>
+
+#### assert.isFunction(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a function
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isObject"></a>
+
+#### assert.isObject(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if if value is a plain object, that is, an `object` created
+by the `Object constructor` or one with a ` [[Prototype]]`` of `null\`.
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isArray"></a>
+
+#### assert.isArray(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if if value is an `Array`
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isValidDate"></a>
+
+#### assert.isValidDate(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a valid Date
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type            | Description    |
+| ----- | --------------- | -------------- |
+| entry | <code>\*</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isOkStatus"></a>
+
+#### assert.isOkStatus(entry) ⇒ <code>Boolean</code>
+
+Returns `true` if the value is a valid status code (>= 200 &lt; 400)
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param | Type                | Description    |
+| ----- | ------------------- | -------------- |
+| entry | <code>Number</code> | Value to Check |
+
+<a name="module_@cactus-technologies/utils.assert.isIn"></a>
+
+#### assert.isIn(values) ⇒ <code>function</code>
+
+Returns A function that will return `true` if the given entry exist ins the given array
+
+**Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
+**Category**: Validation
+
+| Param  | Type               | Description    |
+| ------ | ------------------ | -------------- |
+| values | <code>Array</code> | Array to Check |
+
+<a name="module_@cactus-technologies/utils.normalize"></a>
+
+### utils.normalize : <code>Object</code>
+
+**Kind**: static property of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
+
+-   [.normalize](#module_@cactus-technologies/utils.normalize) : <code>Object</code>
+    -   [.day(input)](#module_@cactus-technologies/utils.normalize.day) ⇒ <code>String</code>
+    -   [.email(input)](#module_@cactus-technologies/utils.normalize.email) ⇒ <code>String</code>
+    -   [.statusCode(status)](#module_@cactus-technologies/utils.normalize.statusCode) ⇒ <code>Number</code>
+    -   [.string(input)](#module_@cactus-technologies/utils.normalize.string) ⇒ <code>String</code>
+    -   [.header(input)](#module_@cactus-technologies/utils.normalize.header) ⇒ <code>String</code>
+
+<a name="module_@cactus-technologies/utils.normalize.day"></a>
+
+#### normalize.day(input) ⇒ <code>String</code>
+
+Normalizes the given date to the begining of the date. (This doesn't
+validate that the input)
+
+**Kind**: static method of [<code>normalize</code>](#module_@cactus-technologies/utils.normalize)  
+**Returns**: <code>String</code> - ISO8601 date.
+
+| Param | Type                                     |
+| ----- | ---------------------------------------- |
+| input | <code>String</code> \| <code>Date</code> |
+
+<a name="module_@cactus-technologies/utils.normalize.email"></a>
+
+#### normalize.email(input) ⇒ <code>String</code>
+
+Normalizes an email address. (This doesn't validate that the input is an
+email, if you want to validate the email use utils.validate.isEmail
+beforehand)
+
+**Kind**: static method of [<code>normalize</code>](#module_@cactus-technologies/utils.normalize)
+
+| Param | Type                |
+| ----- | ------------------- |
+| input | <code>String</code> |
+
+<a name="module_@cactus-technologies/utils.normalize.statusCode"></a>
+
+#### normalize.statusCode(status) ⇒ <code>Number</code>
+
+Normalizes an StatusCode.
+
+**Kind**: static method of [<code>normalize</code>](#module_@cactus-technologies/utils.normalize)
+
+| Param  | Type                |
+| ------ | ------------------- |
+| status | <code>Number</code> |
+
+<a name="module_@cactus-technologies/utils.normalize.string"></a>
+
+#### normalize.string(input) ⇒ <code>String</code>
+
+Trims an String.
+
+**Kind**: static method of [<code>normalize</code>](#module_@cactus-technologies/utils.normalize)
+
+| Param | Type                |
+| ----- | ------------------- |
+| input | <code>String</code> |
+
+<a name="module_@cactus-technologies/utils.normalize.header"></a>
+
+#### normalize.header(input) ⇒ <code>String</code>
+
+Transforms the string in to a Header Style one
+
+**Kind**: static method of [<code>normalize</code>](#module_@cactus-technologies/utils.normalize)
+
+| Param | Type                |
+| ----- | ------------------- |
+| input | <code>String</code> |
 
 <a name="module_@cactus-technologies/utils.promisify"></a>
 
 ### utils.promisify(fn) ⇒ <code>Promise</code>
 
 Takes a function following the common error-first callback style, i.e.
-  taking an `(err, value) => ... callback` as the last argument, and
-  returns a version that returns promises.
+taking an `(err, value) => ... callback` as the last argument, and
+returns a version that returns promises.
 
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
+**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
 
 | Param | Type                  | Description               |
 | ----- | --------------------- | ------------------------- |
 | fn    | <code>function</code> | Function to be converted. |
 
+<a name="module_@cactus-technologies/utils.exists"></a>
+
+### ~~utils.exists()~~
+
+**_Deprecated_**
+
+**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
+**See**: [utils.validate.exists](utils.validate.exists)  
 <a name="module_@cactus-technologies/utils.format"></a>
 
 ### ~~utils.format()~~
@@ -91,10 +564,10 @@ Takes a function following the common error-first callback style, i.e.
 ### utils.makeRetryable(fn, [opts]) ⇒ <code>Promise</code>
 
 A close relative of retry. This method wraps a task and makes it retryable,
-  rather than immediately calling it with retries.
+rather than immediately calling it with retries.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Async helpers  
+**Category**: Async helpers
 
 | Param  | Type                  | Default        | Description                                     |
 | ------ | --------------------- | -------------- | ----------------------------------------------- |
@@ -106,12 +579,12 @@ A close relative of retry. This method wraps a task and makes it retryable,
 ### utils.retry(fn, [opts]) ⇒ <code>Promise</code>
 
 Attempts to get a successful response from task no more than times times
-  before returning an error. If the task is successful, the Promise will
-  return the result of the successful task. If all attempts fail, the
-  Promise will Throw
+before returning an error. If the task is successful, the Promise will
+return the result of the successful task. If all attempts fail, the
+Promise will Throw
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Async helpers  
+**Category**: Async helpers
 
 | Param  | Type                  | Default        | Description                                     |
 | ------ | --------------------- | -------------- | ----------------------------------------------- |
@@ -123,10 +596,10 @@ Attempts to get a successful response from task no more than times times
 ### utils.forever(fn) ⇒ <code>Promise</code>
 
 Calls the asynchronous function in series, indefinitely. If the function
-  throws the execution will stop.
+throws the execution will stop.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Async helpers  
+**Category**: Async helpers
 
 | Param | Type                  | Description                          |
 | ----- | --------------------- | ------------------------------------ |
@@ -138,18 +611,18 @@ Calls the asynchronous function in series, indefinitely. If the function
 
 A better child_process:
 
-- Promise interface.
-- Strips EOF from the output so you don't have to `stdout.trim()`.
-- Supports shebang binaries cross-platform.
-- Higher max buffer. 10 MB instead of 200 KB.
-- Executes locally installed binaries by name. (from `node_modules`)
-- Cleans up spawned processes when the parent process dies.
+-   Promise interface.
+-   Strips EOF from the output so you don't have to `stdout.trim()`.
+-   Supports shebang binaries cross-platform.
+-   Higher max buffer. 10 MB instead of 200 KB.
+-   Executes locally installed binaries by name. (from `node_modules`)
+-   Cleans up spawned processes when the parent process dies.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Returns**: <code>Promise</code> - Returns a child_process instance, which is enhanced to
-  also be a Promise for a result Object with stdout and stderr properties.  
+also be a Promise for a result Object with stdout and stderr properties.  
 **Category**: Child Process  
-**See**: [execa](https://github.com/sindresorhus/execa#readme) for details  
+**See**: [execa](https://github.com/sindresorhus/execa#readme) for details
 
 | Param                 | Type                                                  | Default                    | Description                                                                                                                                                                            |
 | --------------------- | ----------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -171,27 +644,36 @@ A better child_process:
 | [options.timeout]     | <code>Boolean</code>                                  | <code>0</code>             | If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds. |
 | [options.killSignal]  | <code>String</code>                                   | <code>SIGTERM</code>       | Signal value to be used when the spawned process will be killed.                                                                                                                       |
 
-**Example**  
+**Example**
 
 ```js
-(async () => {
-    const result = await utils.exec('omxplayer', '~/color-factory/assets/videoFile')
-  })();
+;(async () => {
+    const result = await utils.exec(
+        'omxplayer',
+        '~/color-factory/assets/videoFile'
+    )
+})()
 ```
 
-**Example**  
+**Example**
 
 ```js
-(async () => {
-  const outputPath = '~/color-factory/assets/videoFile'
-  try {
-    await utils.exec('ffmpeg', ['-i', inputPath, '-vf', `crop=${crop}:${crop}:${startX}:${startY}`, outputPath])
-    return outputPath
-  } catch (err) {
-    log.error(err)
-    throw err
-  }
-  })();
+;(async () => {
+    const outputPath = '~/color-factory/assets/videoFile'
+    try {
+        await utils.exec('ffmpeg', [
+            '-i',
+            inputPath,
+            '-vf',
+            `crop=${crop}:${crop}:${startX}:${startY}`,
+            outputPath
+        ])
+        return outputPath
+    } catch (err) {
+        log.error(err)
+        throw err
+    }
+})()
 ```
 
 <a name="module_@cactus-technologies/utils.encrypt"></a>
@@ -201,7 +683,7 @@ A better child_process:
 Encrypts the given String using the aes192 algorithm.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Crypto  
+**Category**: Crypto
 
 | Param         | Type                |
 | ------------- | ------------------- |
@@ -215,7 +697,7 @@ Encrypts the given String using the aes192 algorithm.
 Decrypts the given String using the aes192 algorithm.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Crypto  
+**Category**: Crypto
 
 | Param         | Type                |
 | ------------- | ------------------- |
@@ -230,7 +712,7 @@ Creates a hash for file revving.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Returns**: <code>String</code> - an MD5 hash truncated to 10 characters  
-**Category**: Crypto  
+**Category**: Crypto
 
 | Param | Type                                       | Description             |
 | ----- | ------------------------------------------ | ----------------------- |
@@ -241,30 +723,17 @@ Creates a hash for file revving.
 ### utils.rm ⇒ <code>Promise</code>
 
 Delete files and folders using globs, It also protects you against deleting
-  the current working directory and above. - Think `rm -rf`.
+the current working directory and above. - Think `rm -rf`.
 
 **Kind**: static property of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: File system  
-**See**: [minimatch](https://github.com/isaacs/minimatch#usage) usage for patterns examples  
+**See**: [minimatch](https://github.com/isaacs/minimatch#usage) usage for patterns examples
 
 | Param           | Type                                      | Default            | Description                    |
 | --------------- | ----------------------------------------- | ------------------ | ------------------------------ |
 | patterns        | <code>String</code> \| <code>Array</code> |                    | Path, or globs to be deleted   |
 | [options]       | <code>Object</code>                       |                    | Options                        |
 | [options.force] | <code>Object</code>                       | <code>false</code> | Allow deleting outside the cwd |
-
-<a name="module_@cactus-technologies/utils.exists"></a>
-
-### utils.exists(path) ⇒ <code>Boolean</code>
-
-Returns true if the path exists, false otherwise.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: File system  
-
-| Param | Type                | Description           |
-| ----- | ------------------- | --------------------- |
-| path  | <code>String</code> | Location to be tested |
 
 <a name="module_@cactus-technologies/utils.mkd"></a>
 
@@ -275,7 +744,7 @@ Make a directory and its parents if needed - Think`mkdir -p`.
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Returns**: <code>Promise</code> - Promise for the path to the created directory.  
 **Category**: File system  
-**Author**: sindresorhus@gmail.com  
+**Author**: sindresorhus@gmail.com
 
 | Param | Type                | Description          |
 | ----- | ------------------- | -------------------- |
@@ -290,7 +759,7 @@ Asynchronously reads data to from a file
 Just a promisified version of fs.readFile
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: File system  
+**Category**: File system
 
 | Param     | Type                | Description            |
 | --------- | ------------------- | ---------------------- |
@@ -302,13 +771,13 @@ Just a promisified version of fs.readFile
 ### utils.writeFile(filePath, data, [options]) ⇒ <code>Promise</code>
 
 Asynchronously writes data to a file, replacing the file if it already
-  exists. data can be a string or a buffer. The Promise will be resolved
-  with no arguments upon success.
+exists. data can be a string or a buffer. The Promise will be resolved
+with no arguments upon success.
 
 Just a promisified version of fs.writeFile
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: File system  
+**Category**: File system
 
 | Param     | Type                                       | Description            |
 | --------- | ------------------------------------------ | ---------------------- |
@@ -325,7 +794,7 @@ Asynchronous unlink(2). The Promise is resolved with no arguments upon success.
 Just a promisified version of fs.unlink
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: File system  
+**Category**: File system
 
 | Param    | Type                | Description        |
 | -------- | ------------------- | ------------------ |
@@ -336,13 +805,13 @@ Just a promisified version of fs.unlink
 ### utils.readJson(filePath) ⇒ <code>Promise</code>
 
 Read and parse a JSON file. Strips UTF-8 BOM, uses graceful-fs, and throws
-  more helpful JSON errors.
+more helpful JSON errors.
 
-  Sync Version is also available under: `utils.readJson.sync`
+Sync Version is also available under: `utils.readJson.sync`
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Returns**: <code>Promise</code> - Returns a promise for the parsed JSON.  
-**Category**: File system  
+**Category**: File system
 
 | Param    | Type                |
 | -------- | ------------------- |
@@ -353,12 +822,12 @@ Read and parse a JSON file. Strips UTF-8 BOM, uses graceful-fs, and throws
 ### utils.writeJson(filepath, data, [options]) ⇒ <code>Promise</code>
 
 Stringify and write JSON to a file atomically, Creates directories for you
-  as needed.
+as needed.
 
-  Sync Version is also available under: `utils.writeJson.sync`
+Sync Version is also available under: `utils.writeJson.sync`
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: File system  
+**Category**: File system
 
 | Param                  | Type                                       | Default            | Description                                                                        |
 | ---------------------- | ------------------------------------------ | ------------------ | ---------------------------------------------------------------------------------- |
@@ -370,30 +839,29 @@ Stringify and write JSON to a file atomically, Creates directories for you
 | [options.sortKeys]     | <code>Boolean</code>                       | <code>false</code> | Sort the keys recursively.                                                         |
 | [options.replace]      | <code>function</code>                      |                    | Passed into `JSON.stringify`.                                                      |
 
-**Example**  
+**Example**
 
 ```js
 // Promise mode.
-  utils.writeJson('foo.json', {foo: true})
-    .then(() => console.log('done'))
+utils.writeJson('foo.json', { foo: true }).then(() => console.log('done'))
 ```
 
-**Example**  
+**Example**
 
 ```js
 // async/await mode.
-  (async () => {
-    await utils.writeJson('foo.json', {foo: true})
+;async () => {
+    await utils.writeJson('foo.json', { foo: true })
     console.log('done')
-  })
+}
 ```
 
-**Example**  
+**Example**
 
 ```js
 // Sync mode. (THIS BLOCKS THE EVENT LOOP)
-  utils.writeJson.sync('foo.json', {foo: true})
-  console.log('done')
+utils.writeJson.sync('foo.json', { foo: true })
+console.log('done')
 ```
 
 <a name="module_@cactus-technologies/utils.saveFile"></a>
@@ -421,7 +889,7 @@ Stringify and write JSON to a file atomically, Creates directories for you
 Gets the duration in milliseconds from the given start time.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Humanizers  
+**Category**: Humanizers
 
 | Param | Type                | Description                  |
 | ----- | ------------------- | ---------------------------- |
@@ -434,7 +902,7 @@ Gets the duration in milliseconds from the given start time.
 Humanizes the given status code
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Humanizers  
+**Category**: Humanizers
 
 | Param  | Type                |
 | ------ | ------------------- |
@@ -447,7 +915,7 @@ Humanizes the given status code
 Returns the path part of the given url
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Humanizers  
+**Category**: Humanizers
 
 | Param | Type                |
 | ----- | ------------------- |
@@ -458,13 +926,13 @@ Returns the path part of the given url
 ### utils.extend(mergeInto, ...mergeFrom) ⇒ <code>Object</code>
 
 Extend an object (and any object it contains) with one or more objects (and
-  objects contained in them). This does not replace deep objects as other
-  extend functions do, but dives into them extending individual elements
-  instead.
+objects contained in them). This does not replace deep objects as other
+extend functions do, but dives into them extending individual elements
+instead.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Returns**: <code>Object</code> - The altered mergeInto object is returned  
-**Category**: Object Utils  
+**Category**: Object Utils
 
 | Param        | Type                | Description                                |
 | ------------ | ------------------- | ------------------------------------------ |
@@ -479,7 +947,7 @@ Returns an object containing all elements that differ between two objects.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Returns**: <code>Object</code> - A differential object, which if extended onto objA would result in objB.  
-**Category**: Object Utils  
+**Category**: Object Utils
 
 | Param | Type                | Description                |
 | ----- | ------------------- | -------------------------- |
@@ -491,16 +959,32 @@ Returns an object containing all elements that differ between two objects.
 ### utils.clone(obj) ⇒ <code>Object</code>
 
 This returns a new object with all elements copied from the specified
-  object. Deep copies are made of objects and arrays so you can do anything
-  with the returned object without affecting the input object.
+object. Deep copies are made of objects and arrays so you can do anything
+with the returned object without affecting the input object.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Returns**: <code>Object</code> - A new object with the elements copied from the copyFrom object  
-**Category**: Object Utils  
+**Category**: Object Utils
 
 | Param | Type                | Description                      |
 | ----- | ------------------- | -------------------------------- |
 | obj   | <code>Object</code> | The original object to copy from |
+
+<a name="module_@cactus-technologies/utils.singleton"></a>
+
+### utils.singleton(obj, key) ⇒ <code>Object</code>
+
+This is used to ensure there is only one instance of a module or class,
+useful when the dependency tree has slighlty variations on the versions.
+
+**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
+**Returns**: <code>Object</code> - Singleton  
+**Category**: Object Utils
+
+| Param | Type                | Description                                                      |
+| ----- | ------------------- | ---------------------------------------------------------------- |
+| obj   | <code>Object</code> | The object to make in to a singleton (prefered: package.name)    |
+| key   | <code>Object</code> | The key that will be used as a `global Symbol` for the singleton |
 
 <a name="module_@cactus-technologies/utils.tap"></a>
 
@@ -510,13 +994,13 @@ Tap into a promise chain without affecting its value or state
 
 **Kind**: static property of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Returns**: <code>Promise</code> - An observer `corutine`.  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param | Type                  | Description                   |
 | ----- | --------------------- | ----------------------------- |
 | input | <code>function</code> | Async function to be wrapped. |
 
-**Example**  
+**Example**
 
 ```js
 Promise.resolve('unicorn')
@@ -531,7 +1015,7 @@ Promise.resolve('unicorn')
 Array.forEach in parallel
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param    | Type                                      | Description                                     |
 | -------- | ----------------------------------------- | ----------------------------------------------- |
@@ -545,7 +1029,7 @@ Array.forEach in parallel
 Array.forEach in series
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param    | Type                                      | Description                                     |
 | -------- | ----------------------------------------- | ----------------------------------------------- |
@@ -559,7 +1043,7 @@ Array.forEach in series
 Array.forEach in parallel with a concurrency limit
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param    | Type                                      | Description                                       |
 | -------- | ----------------------------------------- | ------------------------------------------------- |
@@ -574,7 +1058,7 @@ Array.forEach in parallel with a concurrency limit
 Array.map in parallel
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param    | Type                                      | Description                                     |
 | -------- | ----------------------------------------- | ----------------------------------------------- |
@@ -588,7 +1072,7 @@ Array.map in parallel
 Array.map in series
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param    | Type                                      | Description                                     |
 | -------- | ----------------------------------------- | ----------------------------------------------- |
@@ -602,7 +1086,7 @@ Array.map in series
 Array.map in parallel with a concurrency limit
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param    | Type                                      | Description                                       |
 | -------- | ----------------------------------------- | ------------------------------------------------- |
@@ -615,10 +1099,10 @@ Array.map in parallel with a concurrency limit
 ### utils.mapValues(obj, iteratee) ⇒ <code>Promise</code>
 
 Relative of `utils.map`, designed for use with `objects`. Produces a new
-  Object by mapping each `value` of `obj` through the `iteratee function`.
+Object by mapping each `value` of `obj` through the `iteratee function`.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param    | Type                  | Description                                                                                                                                                 |
 | -------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -630,11 +1114,11 @@ Relative of `utils.map`, designed for use with `objects`. Produces a new
 ### utils.pipe(...fn) ⇒ <code>Promise</code>
 
 Creates a Promise that returns the result of invoking the given Async
-  Functions, where each successive invocation is supplied the return value
-  of the previous. ALA fp.pipe but for async functions.
+Functions, where each successive invocation is supplied the return value
+of the previous. ALA fp.pipe but for async functions.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promise Chains  
+**Category**: Promise Chains
 
 | Param | Type                  | Description                                                                             |
 | ----- | --------------------- | --------------------------------------------------------------------------------------- |
@@ -647,7 +1131,7 @@ Creates a Promise that returns the result of invoking the given Async
 Will resolve the promise after the given miliseconds.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promised Timers  
+**Category**: Promised Timers
 
 | Param | Type                | Default           | Description         |
 | ----- | ------------------- | ----------------- | ------------------- |
@@ -660,18 +1144,21 @@ Will resolve the promise after the given miliseconds.
 Promisified version of process.nextTick
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Category**: Promised Timers  
+**Category**: Promised Timers
 
 <!--@license()-->
+
 ## License
 
 [UNLICENCED](./LICENSE) © [Cactus Technologies, LLC](https://www.cactus.is)
+
 <!--/@-->
 
 ## TODOs
+
 ### TODOs
 
 | Filename | line # | TODO                                           |
 | :------- | :----: | :--------------------------------------------- |
-| index.js |   6    | Propper attributions                           |
-| index.js |   70   | Detect and use the native promisified versions |
+| index.js |   8    | Propper attributions                           |
+| index.js |  106   | Detect and use the native promisified versions |
