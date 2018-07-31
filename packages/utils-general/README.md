@@ -28,6 +28,12 @@ npm install --save @cactus-technologies/utils
 
         * [.promisify(fn)](#module_@cactus-technologies/utils.promisify)
 
+        * [.readFile(filePath, [options])](#module_@cactus-technologies/utils.readFile)
+
+        * [.writeFile(filePath, data, [options])](#module_@cactus-technologies/utils.writeFile)
+
+        * [.deleteFile(filePath)](#module_@cactus-technologies/utils.deleteFile)
+
         * ~~[.format()](#module_@cactus-technologies/utils.format)
 
     \~~
@@ -56,6 +62,10 @@ npm install --save @cactus-technologies/utils
 
             * [.mkd(path)](#module_@cactus-technologies/utils.mkd)
 
+            * [.readJson(filePath)](#module_@cactus-technologies/utils.readJson)
+
+            * [.writeJson(filepath, data, [options])](#module_@cactus-technologies/utils.writeJson)
+
             * ~~[.saveFile()](#module_@cactus-technologies/utils.saveFile)
 
     \~~
@@ -81,6 +91,20 @@ npm install --save @cactus-technologies/utils
         * _Promise Chains_
             * [.tap](#module_@cactus-technologies/utils.tap)
 
+            * [.forEach(coll, iteratee)](#module_@cactus-technologies/utils.forEach)
+
+            * [.forEachSeries(coll, iteratee)](#module_@cactus-technologies/utils.forEachSeries)
+
+            * [.forEachLimit(coll, limit, iteratee)](#module_@cactus-technologies/utils.forEachLimit)
+
+            * [.map(coll, iteratee)](#module_@cactus-technologies/utils.map)
+
+            * [.mapSeries(coll, iteratee)](#module_@cactus-technologies/utils.mapSeries)
+
+            * [.mapLimit(coll, limit, iteratee)](#module_@cactus-technologies/utils.mapLimit)
+
+            * [.mapValues(obj, iteratee)](#module_@cactus-technologies/utils.mapValues)
+
             * [.pipe(...fn)](#module_@cactus-technologies/utils.pipe)
 
         * _Promised Timers_
@@ -99,6 +123,47 @@ npm install --save @cactus-technologies/utils
 Takes a function following the common error-first callback style, i.e.
 taking an `(err, value) => ... callback` as the last argument, and
 returns a version that returns promises.
+
+<a name="module_@cactus-technologies/utils.readFile"></a>
+
+### _utils_.readFile(filePath, [options])
+
+| Param     | Type                | Description            |
+| --------- | ------------------- | ---------------------- |
+| filePath  | <code>String</code> | Where to save the data |
+| [options] | <code>Object</code> |                        |
+
+Asynchronously reads data to from a file
+
+Just a promisified version of fs.readFile
+
+<a name="module_@cactus-technologies/utils.writeFile"></a>
+
+### _utils_.writeFile(filePath, data, [options])
+
+| Param     | Type                                       | Description            |
+| --------- | ------------------------------------------ | ---------------------- |
+| filePath  | <code>String</code>                        | Where to save the data |
+| data      | <code>String</code> \| <code>Buffer</code> | Data to be saved       |
+| [options] | <code>Object</code>                        |                        |
+
+Asynchronously writes data to a file, replacing the file if it already
+exists. data can be a string or a buffer. The Promise will be resolved
+with no arguments upon success.
+
+Just a promisified version of fs.writeFile
+
+<a name="module_@cactus-technologies/utils.deleteFile"></a>
+
+### _utils_.deleteFile(filePath)
+
+| Param    | Type                | Description        |
+| -------- | ------------------- | ------------------ |
+| filePath | <code>String</code> | the file to delete |
+
+Asynchronous unlink(2). The Promise is resolved with no arguments upon success.
+
+Just a promisified version of fs.unlink
 
 <a name="module_@cactus-technologies/utils.format"></a>
 
@@ -264,8 +329,7 @@ Creates a hash for file revving.
 ### _utils_.rm
 
 **Category**: File system  
-**See**: [minimatch](https://github.com/isaacs/minimatch#usage) usage for
-patterns examples
+**See**: [minimatch](https://github.com/isaacs/minimatch#usage) usage for patterns examples
 
 | Param           | Type                                      | Default            | Description                    |
 | --------------- | ----------------------------------------- | ------------------ | ------------------------------ |
@@ -274,7 +338,7 @@ patterns examples
 | [options.force] | <code>Object</code>                       | <code>false</code> | Allow deleting outside the cwd |
 
 Delete files and folders using globs, It also protects you against deleting
-the current working directory and above. - Think rm -rf.
+the current working directory and above. - Think `rm -rf`.
 
 <a name="module_@cactus-technologies/utils.exists"></a>
 
@@ -299,8 +363,70 @@ Returns true if the path exists, false otherwise.
 | ----- | ------------------- | -------------------- |
 | path  | <code>String</code> | Directory to create. |
 
-Make a directory and its parents if needed - Think mkdir -p. Returns a
-Promise for the path to the created directory.
+Make a directory and its parents if needed - Think`mkdir -p`.
+
+**Returns**: <code>Promise</code> - Promise for the path to the created directory.  
+<a name="module_@cactus-technologies/utils.readJson"></a>
+
+### _utils_.readJson(filePath)
+
+**Category**: File system
+
+| Param    | Type                |
+| -------- | ------------------- |
+| filePath | <code>String</code> |
+
+Read and parse a JSON file. Strips UTF-8 BOM, uses graceful-fs, and throws
+more helpful JSON errors.
+
+Sync Version is also available under: `utils.readJson.sync`
+
+**Returns**: <code>Promise</code> - Returns a promise for the parsed JSON.  
+<a name="module_@cactus-technologies/utils.writeJson"></a>
+
+### _utils_.writeJson(filepath, data, [options])
+
+**Category**: File system
+
+| Param                  | Type                                       | Default            | Description                                                                        |
+| ---------------------- | ------------------------------------------ | ------------------ | ---------------------------------------------------------------------------------- |
+| filepath               | <code>String</code>                        |                    | Where to save the data                                                             |
+| data                   | <code>Object</code>                        |                    | Data to be saved                                                                   |
+| [options]              | <code>Object</code>                        |                    |                                                                                    |
+| [options.indent]       | <code>String</code> \| <code>Number</code> | <code>'\\t'</code> | Indentation as a `string` or `number` of spaces. Pass in `null` for no formatting. |
+| [options.detectIndent] | <code>Boolean</code>                       | <code>false</code> | Detect indentation automatically if the file exists.                               |
+| [options.sortKeys]     | <code>Boolean</code>                       | <code>false</code> | Sort the keys recursively.                                                         |
+| [options.replace]      | <code>function</code>                      |                    | Passed into `JSON.stringify`.                                                      |
+
+Stringify and write JSON to a file atomically, Creates directories for you
+as needed.
+
+Sync Version is also available under: `utils.writeJson.sync`
+
+**Example**
+
+```js
+// Promise mode.
+utils.writeJson('foo.json', { foo: true }).then(() => console.log('done'))
+```
+
+**Example**
+
+```js
+// async/await mode.
+;async () => {
+    await utils.writeJson('foo.json', { foo: true })
+    console.log('done')
+}
+```
+
+**Example**
+
+```js
+// Sync mode. (THIS BLOCKS THE EVENT LOOP)
+utils.writeJson.sync('foo.json', { foo: true })
+console.log('done')
+```
 
 <a name="module_@cactus-technologies/utils.saveFile"></a>
 
@@ -384,8 +510,7 @@ instead.
 
 Returns an object containing all elements that differ between two objects.
 
-**Returns**: <code>Object</code> - A differential object, which if extended onto objA would
-result in objB.  
+**Returns**: <code>Object</code> - A differential object, which if extended onto objA would result in objB.  
 <a name="module_@cactus-technologies/utils.clone"></a>
 
 ### _utils_.clone(obj)
@@ -400,8 +525,7 @@ This returns a new object with all elements copied from the specified
 object. Deep copies are made of objects and arrays so you can do anything
 with the returned object without affecting the input object.
 
-**Returns**: <code>Object</code> - A new object with the elements copied from the copyFrom
-object  
+**Returns**: <code>Object</code> - A new object with the elements copied from the copyFrom object  
 <a name="module_@cactus-technologies/utils.tap"></a>
 
 ### _utils_.tap
@@ -414,6 +538,7 @@ object
 
 Tap into a promise chain without affecting its value or state
 
+**Returns**: <code>Promise</code> - An observer `corutine`.  
 **Example**
 
 ```js
@@ -421,6 +546,100 @@ Promise.resolve('unicorn')
     .then(utils.tap(console.log)) // Logs `unicorn`
     .then(value => { // `value` is still `unicorn` })
 ```
+
+<a name="module_@cactus-technologies/utils.forEach"></a>
+
+### _utils_.forEach(coll, iteratee)
+
+**Category**: Promise Chains
+
+| Param    | Type                                      | Description                                     |
+| -------- | ----------------------------------------- | ----------------------------------------------- |
+| coll     | <code>Array</code> \| <code>Object</code> | A collection to iterate over.                   |
+| iteratee | <code>function</code>                     | An async function to apply to each item in coll |
+
+Array.forEach in parallel
+
+<a name="module_@cactus-technologies/utils.forEachSeries"></a>
+
+### _utils_.forEachSeries(coll, iteratee)
+
+**Category**: Promise Chains
+
+| Param    | Type                                      | Description                                     |
+| -------- | ----------------------------------------- | ----------------------------------------------- |
+| coll     | <code>Array</code> \| <code>Object</code> | A collection to iterate over.                   |
+| iteratee | <code>function</code>                     | An async function to apply to each item in coll |
+
+Array.forEach in series
+
+<a name="module_@cactus-technologies/utils.forEachLimit"></a>
+
+### _utils_.forEachLimit(coll, limit, iteratee)
+
+**Category**: Promise Chains
+
+| Param    | Type                                      | Description                                       |
+| -------- | ----------------------------------------- | ------------------------------------------------- |
+| coll     | <code>Array</code> \| <code>Object</code> | A collection to iterate over.                     |
+| limit    | <code>Number</code>                       | The maximum number of async operations at a time. |
+| iteratee | <code>function</code>                     | An async function to apply to each item in coll   |
+
+Array.forEach in parallel with a concurrency limit
+
+<a name="module_@cactus-technologies/utils.map"></a>
+
+### _utils_.map(coll, iteratee)
+
+**Category**: Promise Chains
+
+| Param    | Type                                      | Description                                     |
+| -------- | ----------------------------------------- | ----------------------------------------------- |
+| coll     | <code>Array</code> \| <code>Object</code> | A collection to iterate over.                   |
+| iteratee | <code>function</code>                     | An async function to apply to each item in coll |
+
+Array.map in parallel
+
+<a name="module_@cactus-technologies/utils.mapSeries"></a>
+
+### _utils_.mapSeries(coll, iteratee)
+
+**Category**: Promise Chains
+
+| Param    | Type                                      | Description                                     |
+| -------- | ----------------------------------------- | ----------------------------------------------- |
+| coll     | <code>Array</code> \| <code>Object</code> | A collection to iterate over.                   |
+| iteratee | <code>function</code>                     | An async function to apply to each item in coll |
+
+Array.map in series
+
+<a name="module_@cactus-technologies/utils.mapLimit"></a>
+
+### _utils_.mapLimit(coll, limit, iteratee)
+
+**Category**: Promise Chains
+
+| Param    | Type                                      | Description                                       |
+| -------- | ----------------------------------------- | ------------------------------------------------- |
+| coll     | <code>Array</code> \| <code>Object</code> | A collection to iterate over.                     |
+| limit    | <code>Number</code>                       | The maximum number of async operations at a time. |
+| iteratee | <code>function</code>                     | An async function to apply to each item in coll   |
+
+Array.map in parallel with a concurrency limit
+
+<a name="module_@cactus-technologies/utils.mapValues"></a>
+
+### _utils_.mapValues(obj, iteratee)
+
+**Category**: Promise Chains
+
+| Param    | Type                  | Description                                                                                                                                                 |
+| -------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| obj      | <code>Object</code>   | A collection to iterate over.                                                                                                                               |
+| iteratee | <code>function</code> | An Async function to apply to each `value` in `obj`. The iteratee should return the transformed value as its result. Invoked with `(value, key, callback)`. |
+
+Relative of `utils.map`, designed for use with `objects`. Produces a new
+Object by mapping each `value` of `obj` through the `iteratee function`.
 
 <a name="module_@cactus-technologies/utils.pipe"></a>
 
@@ -467,6 +686,7 @@ Promisified version of process.nextTick
 
 ### TODOs
 
-| Filename | line # | TODO |
-| :------- | :----: | :--- |
-
+| Filename | line # | TODO                                           |
+| :------- | :----: | :--------------------------------------------- |
+| index.js |   6    | Propper attributions                           |
+| index.js |   70   | Detect and use the native promisified versions |

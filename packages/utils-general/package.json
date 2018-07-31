@@ -22,14 +22,14 @@
     "docs:04readme": "mos README.md",
     "docs:05readme": "cat TODO.md >> README.md",
     "test": "run-s test:* -sn",
-    "test:depcheck": "depcheck --ignores=husky,config --ignore-bin-package",
+    "test:depcheck": "depcheck --ignores=husky,dmd-clear,config --ignore-bin-package",
     "test:lint": "eslint --ignore-path .gitignore '**/*.js'",
     "test:outdated": "npm outdated --long || true",
     "todos": "leasot './**/*' -Sx -i './node_modules/**/*'"
   },
   "dependencies": {
     "async": "^2.6.1",
-    "config": "/Users/mechanicalhuman/Active/forked/forked-node-config",
+    "config": "^2.0.1",
     "del": "^3.0.0",
     "execa": "^0.10.0",
     "json-stable-stringify": "^1.0.1",
@@ -55,6 +55,6 @@
     "lint-staged": "^7.2.0",
     "mos": "^1.3.1",
     "npm-run-all": "^4.1.3",
-    "prettier": "^1.13.6"
+    "prettier": "^1.14.0"
   }
 }

@@ -3,6 +3,8 @@
  * @typicalname utils
  */
 
+// TODO: Propper attributions
+
 /**
  * Takes a function following the common error-first callback style, i.e.
  *   taking an `(err, value) => ... callback` as the last argument, and
@@ -42,8 +44,7 @@ exports.extend = (mergeInto, ...mergeFrom) =>
  * @param {Object} objA - The object to compare from
  * @param {Object} objB - The object to compare with
  *
- * @return {Object} A differential object, which if extended onto objA would
- *   result in objB.
+ * @return {Object} A differential object, which if extended onto objA would result in objB.
  *
  * @category Object Utils
  */
@@ -57,8 +58,7 @@ exports.diff = (objA, objB) => require('config').util.diffDeep(objA, objB)
  *
  * @param {Object} obj - The original object to copy from
  *
- * @return {Object} A new object with the elements copied from the copyFrom
- *   object
+ * @return {Object} A new object with the elements copied from the copyFrom object
  *
  * @category Object Utils
  */
@@ -66,6 +66,8 @@ exports.diff = (objA, objB) => require('config').util.diffDeep(objA, objB)
 exports.clone = obj => require('config').util.cloneDeep(obj)
 
 // ──────────────────────────────  File system  ────────────────────────────────
+
+// TODO: Detect and use the native promisified versions
 
 /**
  * Returns true if the path exists, false otherwise.
@@ -75,24 +77,21 @@ exports.clone = obj => require('config').util.cloneDeep(obj)
  * @return {Boolean}
  *
  * @category File system
- *
  * @function
  */
 
 exports.exists = require('fs').existsSync
 
 /**
- * Make a directory and its parents if needed - Think mkdir -p. Returns a
- *   Promise for the path to the created directory.
+ * Make a directory and its parents if needed - Think` mkdir -p`.
+ *
  *
  * @param {String} path - Directory to create.
  *
- * @return {Promise}
+ * @return {Promise} Promise for the path to the created directory.
  *
  * @author sindresorhus@gmail.com
- *
  * @category File system
- *
  * @function
  */
 
@@ -100,29 +99,123 @@ exports.mkd = require('make-dir')
 
 /**
  * Delete files and folders using globs, It also protects you against deleting
- *   the current working directory and above. - Think rm -rf.
+ *   the current working directory and above. - Think `rm -rf`.
  *
- * @param {(String|Array)} patterns              - Path, or globs to be
- *   deleted
+ * @param {(String|Array)} patterns              - Path, or globs to be deleted
  * @param {Object}         [options]             - Options
- * @param {Object}         [options.force=false] - Allow deleting outside the
- *   cwd
- *
- * @see {@link https://github.com/isaacs/minimatch#usage minimatch} usage for
- *   patterns examples
+ * @param {Object}         [options.force=false] - Allow deleting outside the cwd
  *
  * @return {Promise}
  *
+ * @see {@link https://github.com/isaacs/minimatch#usage minimatch} usage for patterns examples
  * @category File system
  */
 
 exports.rm = require('del')
 
-exports.readFile = exports.promisify(require('fs').readFile)
+/**
+ * Asynchronously reads data to from a file
+ *
+ * Just a promisified version of fs.readFile
+ *
+ * @param {String}          filePath  - Where to save the data
+ * @param {Object}          [options]
+ *
+ * @return {Promise}
+ * @function
+ */
+
+exports.readFile = (filePath, options) =>
+  require('fs').readFile(filePath, options)
+
+/**
+ * Asynchronously writes data to a file, replacing the file if it already
+ *   exists. data can be a string or a buffer. The Promise will be resolved
+ *   with no arguments upon success.
+ *
+ * Just a promisified version of fs.writeFile
+ *
+ * @param {String}          filePath  - Where to save the data
+ * @param {(String|Buffer)} data      - Data to be saved
+ * @param {Object}          [options]
+ *
+ * @return {Promise}
+ * @function
+ */
+
 exports.writeFile = exports.promisify(require('fs').writeFile)
+
+/**
+ * Asynchronous unlink(2). The Promise is resolved with no arguments upon success.
+ *
+ * Just a promisified version of fs.unlink
+ *
+ * @param {String} filePath - the file to delete
+ *
+ * @return {Promise}
+ * @async
+ * @function
+ */
+
 exports.deleteFile = exports.promisify(require('fs').unlink)
 
+exports.readFile = exports.promisify(require('fs').readFile)
+
+/**
+ * Read and parse a JSON file. Strips UTF-8 BOM, uses graceful-fs, and throws
+ *   more helpful JSON errors.
+ *
+ *   Sync Version is also available under: `utils.readJson.sync`
+ *
+ * @param {String} filePath
+ *
+ * @return {Promise} Returns a promise for the parsed JSON.
+ *
+ * @category File system
+ * @async
+ * @function
+ */
+
 exports.readJson = require('load-json-file')
+
+/**
+ * Stringify and write JSON to a file atomically, Creates directories for you
+ *   as needed.
+ *
+ *   Sync Version is also available under: `utils.writeJson.sync`
+ *
+ * @param {String}          filepath                     - Where to save the data
+ * @param {Object}          data                         - Data to be saved
+ * @param {Object}          [options]
+ * @param {(String|Number)} [options.indent='\t']        - Indentation as a `string` or `number` of spaces. Pass in `null` for no formatting.
+ * @param {Boolean}         [options.detectIndent=false] - Detect indentation automatically if the file exists.
+ * @param {Boolean}         [options.sortKeys=false]     - Sort the keys recursively.
+ * @param {Function}        [options.replace]            - Passed into `JSON.stringify`.
+ *
+ * @return {Promise}
+ *
+ * @example
+ *   // Promise mode.
+ *   utils.writeJson('foo.json', {foo: true})
+ *     .then(() => console.log('done'))
+ *
+ * @example
+ *   // async/await mode.
+ *   (async () => {
+ *     await utils.writeJson('foo.json', {foo: true})
+ *     console.log('done')
+ *   })
+ *
+ * @example
+ *   // Sync mode. (THIS BLOCKS THE EVENT LOOP)
+ *   utils.writeJson.sync('foo.json', {foo: true})
+ *   console.log('done')
+ *
+ * @category File system
+ * @async
+ * @function
+ */
+
 exports.writeJson = require('write-json-file')
 
 // ─────────────────────────────  child process  ───────────────────────────────
@@ -154,14 +247,8 @@ exports.writeJson = require('write-json-file')
  * @param {Boolean}           [options.timeout=0]              - If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds.
  * @param {String}            [options.killSignal=SIGTERM]     - Signal value to be used when the spawned process will be killed.
  *
- * @see {@link https://github.com/sindresorhus/execa#readme execa} for details
- *
  * @return {Promise} Returns a child_process instance, which is enhanced to
  *   also be a Promise for a result Object with stdout and stderr properties.
- *
- * @category Child Process
- *
- * @function
  *
  * @example
  *   (async () => {
@@ -179,6 +266,11 @@ exports.writeJson = require('write-json-file')
  *     throw err
  *   }
  *   })();
+ *
+ * @category Child Process
+ * @async
+ * @function
+ * @see {@link https://github.com/sindresorhus/execa#readme execa} for details
  */
 
 exports.exec = (command, args = [], options = {}) => {
@@ -193,25 +285,118 @@ exports.exec = (command, args = [], options = {}) => {
  *
  * @param {Function} input - Async function to be wrapped.
  *
+ * @return {Promise} An observer `corutine`.
+ *
  * @example
  *   Promise.resolve('unicorn')
  *     .then(utils.tap(console.log)) // Logs `unicorn`
  *     .then(value => { // `value` is still `unicorn` })
- *
- * @type {Promise} A Promised thunk that returns a Promise.
  *
  * @category Promise Chains
  */
 
 exports.tap = require('p-tap')
 
+/**
+ * Array.forEach in parallel
+ *
+ * @param {Array|Object} coll     - A collection to iterate over.
+ * @param {Function}     iteratee - An async function to apply to each item in coll
+ *
+ * @return {Promise}
+ *
+ * @function
+ * @category Promise Chains
+ */
+
 exports.forEach = exports.promisify(require('async').forEach)
+
+/**
+ * Array.forEach in series
+ *
+ * @param {Array|Object} coll     - A collection to iterate over.
+ * @param {Function}     iteratee - An async function to apply to each item in coll
+ *
+ * @return {Promise}
+ *
+ * @function
+ * @category Promise Chains
+ */
+
 exports.forEachSeries = exports.promisify(require('async').forEachSeries)
+
+/**
+ * Array.forEach in parallel with a concurrency limit
+ *
+ * @param {Array|Object} coll     - A collection to iterate over.
+ * @param {Number}       limit    - The maximum number of async operations at a time.
+ * @param {Function}     iteratee - An async function to apply to each item in coll
+ *
+ * @return {Promise}
+ *
+ * @function
+ * @category Promise Chains
+ */
+
 exports.forEachLimit = exports.promisify(require('async').eachLimit)
 
+/**
+ * Array.map in parallel
+ *
+ * @param {Array|Object} coll     - A collection to iterate over.
+ * @param {Function}     iteratee - An async function to apply to each item in coll
+ *
+ * @return {Promise}
+ *
+ * @function
+ * @category Promise Chains
+ */
+
 exports.map = exports.promisify(require('async').map)
+
+/**
+ * Array.map in series
+ *
+ * @param {Array|Object} coll     - A collection to iterate over.
+ * @param {Function}     iteratee - An async function to apply to each item in coll
+ *
+ * @return {Promise}
+ *
+ * @function
+ * @category Promise Chains
+ */
+
 exports.mapSeries = exports.promisify(require('async').mapSeries)
+
+/**
+ * Array.map in parallel with a concurrency limit
+ *
+ * @param {Array|Object} coll     - A collection to iterate over.
+ * @param {Number}       limit    - The maximum number of async operations at a time.
+ * @param {Function}     iteratee - An async function to apply to each item in coll
+ *
+ * @return {Promise}
+ *
+ * @function
+ *
+ * @category Promise Chains
+ */
+
 exports.mapLimit = exports.promisify(require('async').mapLimit)
+
+/**
+ * Relative of `utils.map`, designed for use with `objects`. Produces a new
+ *   Object by mapping each `value` of `obj` through the `iteratee function`.
+ *
+ * @param {Object}   obj      - A collection to iterate over.
+ * @param {Function} iteratee - An Async function to apply to each `value` in `obj`. The iteratee should return the transformed value as its result. Invoked with `(value, key, callback)`.
+ *
+ * @return {Promise}
+ *
+ * @function
+ * @category Promise Chains
+ */
+
 exports.mapValues = exports.promisify(require('async').mapValues)
 
 /**
@@ -219,8 +404,7 @@ exports.mapValues = exports.promisify(require('async').mapValues)
  *   Functions, where each successive invocation is supplied the return value
  *   of the previous. ALA fp.pipe but for async functions.
  *
- * @param {...Function} fn - Any number of Async Functions where each consumes
- *   the return value of the previous one.
+ * @param {...Function} fn - Any number of Async Functions where each consumes the return value of the previous one.
  *
  * @return {Promise}
  *
@@ -237,8 +421,7 @@ exports.pipe = (...fn) =>
  *   rather than immediately calling it with retries.
  *
  * @param {Function} fn       - Async function to be wrapped.
- * @param {Number}   [opts=5] - The number of attempts to make before giving
- *   up
+ * @param {Number}   [opts=5] - The number of attempts to make before giving up
  *
  * @return {Promise}
  *
@@ -255,8 +438,7 @@ exports.makeRetryable = (fn, opts = 5) =>
  *   Promise will Throw
  *
  * @param {Function} fn       - Async function or Callback Style taks
- * @param {Number}   [opts=5] - The number of attempts to make before giving
- *   up
+ * @param {Number}   [opts=5] - The number of attempts to make before giving up
  *
  * @return {Promise}
  *
@@ -275,7 +457,6 @@ exports.retry = (fn, opts = 5) =>
  * @return {Promise}
  *
  * @category Async helpers
- *
  * @function
  */
 
@@ -362,7 +543,7 @@ exports.cleanUrl = url => {
 /**
  * Encrypts the given String using the aes192 algorithm.
  *
- * @param  {String} decrypted
+ * @param {String} decrypted
  * @param {String} encryptionKey
  *
  * @return {String}
@@ -414,11 +595,8 @@ exports.hash = input => {
 
 /**
  * @deprecated since version 1.0.3
- *
  * @function
- *
  * @see {@link https://nodejs.org/api/util.html#util_util_format_format_args util.format} from the native Node Docs.
- *
  */
 
 exports.format = require('util').deprecate(
@@ -428,11 +606,8 @@ exports.format = require('util').deprecate(
 
 /**
  * @deprecated since version 1.0.3
- *
  * @function
- *
  * @see {@link utils.writeFile}
- *
  * @category File system
  */
 
@@ -443,11 +618,8 @@ exports.saveFile = require('util').deprecate(
 
 /**
  * @deprecated since version 1.0.3
- *
  * @function
- *
  * @see {@link utils.writeJson}
- *
  * @category File system
  */
 
