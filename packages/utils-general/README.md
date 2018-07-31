@@ -1154,8 +1154,6 @@ Promisified version of process.nextTick
 
 <!--/@-->
 
-## TODOs
-
 ### TODOs
 
 | Filename | line # | TODO                                           |
