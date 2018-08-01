@@ -1,5 +1,7 @@
 /**
  * @module @cactus-technologies/utils
+ * @example
+ * const utils = require('@cactus-technologies/utils')
  * @typicalname utils
  */
 
@@ -66,45 +68,6 @@ exports.diff = (objA, objB) => require('config').util.diffDeep(objA, objB)
  */
 
 exports.clone = obj => require('config').util.cloneDeep(obj)
-
-/**
- * This is used to ensure there is only one instance of a module or class,
- *   useful when the dependency tree has slighlty variations on the versions.
- *
- * @param {Object|Class} Obj             - The object to make in to a singleton
- * @param {Object}       key             - The key that will be used as a `global Symbol` for the singleton (recommended: package.name)
- * @param {Boolean}      [isClass=false] - if `true` will create a new instance `new obj()`
- * @param {...args}      [args]          - if `instanciate=true` will use the rest parameters for the instace.
- *
- * @return {Object} Singleton
- *
- * @category Object Utils
- */
-
-exports.singleton = (Obj, key, instanciate = false, ...args) => {
-  if (!require('./lib/assert').isString(key)) {
-    throw new Error('parameter: key is required')
-  }
-
-  /* Create a single unique symbol for the object */
-  const KEY = Symbol.for(key)
-
-  /*
-   * Check if the global object has the symbol. If it does not have the
-   *   symbol, add the object as the value of it
-   */
-
-  if (Object.getOwnPropertySymbols(global).indexOf(KEY) === -1) {
-    global[KEY] =
-      instanciate === false
-        ? Obj
-        : args.lenght > 0
-          ? new Obj(...args)
-          : new Obj()
-  }
-
-  return global[KEY]
-}
 
 // ──────────────────────────────  File system  ────────────────────────────────
 
@@ -631,12 +594,10 @@ exports.hash = input => {
 
 // ──────────────────────────────  Validation  ─────────────────────────────────
 
-/** @type {Object} */
 exports.assert = require('./lib/assert')
 
 // ───────────────────────────────  Normalize  ─────────────────────────────────
 
-/** @type {Object} */
 exports.normalize = require('./lib/normalize')
 
 // ──────────────────────────────  Deprecated  ─────────────────────────────────

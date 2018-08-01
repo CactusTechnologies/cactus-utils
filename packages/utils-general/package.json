@@ -3,9 +3,6 @@
   "version": "1.0.5",
   "description": "Utility functions for node base apps",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils#readme",
-  "bugs": {
-    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CactusTechnologies/cactus-utils.git"
@@ -15,12 +12,11 @@
   "main": "index.js",
   "scripts": {
     "precommit": "npm run docs && lint-staged",
-    "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
-    "docs:01authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
-    "docs:02usage": "jsdoc2md --template README.hbs --files index.js lib/*.js > README.md",
-    "docs:03todos": "npm run todos -s -- --reporter markdown > TODO.md",
-    "docs:04readme": "mos README.md",
-    "docs:05concat": "cat TODO.md >> README.md",
+    "docs": "run-s docs:* -sn  && git add README.md AUTHORS",
+    "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
+    "docs:compile": "jsdoc2md --template .readme.hbs --files index.js lib/*.js > README.md",
+    "docs:readme": "mos README.md",
+    "docs:todos": "npm run todos -s -- --reporter vscode >> README.md",
     "test": "run-s test:* -sn",
     "test:depcheck": "depcheck --ignores=husky,config --ignore-bin-package",
     "test:lint": "eslint --ignore-path .gitignore '**/*.js'",
@@ -43,7 +39,7 @@
     "write-json-file": "^2.3.0"
   },
   "devDependencies": {
-    "depcheck": "^0.6.8",
+    "depcheck": "^0.6.9",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.13.0",

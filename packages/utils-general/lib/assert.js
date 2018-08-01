@@ -3,6 +3,12 @@ const moment = require('moment')
 const validator = require('validator')
 
 /**
+ * Assert functions for quick validations.
+ * @namespace {Object} assert
+ * @memberOf module:@cactus-technologies/utils
+ */
+
+/**
  * Returns `true` if the value is undefined' or 'null'
  *
  * @param {*} entry - Value to Check
@@ -10,7 +16,7 @@ const validator = require('validator')
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isNil
  */
 
@@ -24,7 +30,7 @@ exports.isNil = entry => fp.isNil(entry)
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isEmpty
  */
 
@@ -58,7 +64,7 @@ exports.isNumber = entry =>
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isString
  */
 
@@ -72,7 +78,7 @@ exports.isString = entry => fp.allPass([exports.notEmpty, fp.isString])(entry)
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isEmail
  */
 
@@ -87,7 +93,7 @@ exports.isEmail = entry =>
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isCreditCard
  */
 
@@ -102,7 +108,7 @@ exports.isCreditCard = entry =>
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isFunction
  */
 
@@ -110,14 +116,14 @@ exports.isFunction = entry => fp.isFunction(entry)
 
 /**
  * Returns `true` if if value is a plain object, that is, an `object` created
- *   by the `Object constructor` or one with a `[[Prototype]]`` of `null`.
+ *   by the `Object constructor` or one with a `[[Prototype]]` of `null`.
  *
  * @param {*} entry - Value to Check
  *
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isObject
  */
 
@@ -131,7 +137,7 @@ exports.isObject = entry => fp.isPlainObject(entry)
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isArray
  */
 exports.isArray = entry => fp.isArray(entry)
@@ -144,7 +150,7 @@ exports.isArray = entry => fp.isArray(entry)
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isValidDate
  */
 
@@ -160,7 +166,7 @@ exports.isValidDate = entry =>
  *
  * @category Validation
  * @deprecated since version 1.0.4
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isDate
  */
 
@@ -178,7 +184,7 @@ exports.isDate = require('util').deprecate(
  * @return {Boolean}
  *
  * @category Date Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isBeforeToday
  */
 
@@ -199,7 +205,7 @@ exports.isBeforeToday = entry =>
  * @return {Boolean}
  *
  * @category Date Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isBefore
  */
 
@@ -220,7 +226,7 @@ exports.isBefore = (entry, date = Date.now()) =>
  * @return {Boolean}
  *
  * @category Date Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isAfter
  */
 
@@ -239,7 +245,7 @@ exports.isAfter = (entry, date = Date.now()) =>
  * @return {Boolean}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isOkStatus
  */
 
@@ -253,7 +259,7 @@ exports.isOkStatus = entry => entry >= 200 && entry < 400
  * @return {Function}
  *
  * @category Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.isIn
  */
 
@@ -268,7 +274,7 @@ exports.isIn = values => entry => values.includes(entry)
  *
  * @category Validation
  * @deprecated since version 1.0.4
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.inEnumeration
  */
 
@@ -285,7 +291,7 @@ exports.inEnumeration = require('util').deprecate(
  * @return {Boolean}
  *
  * @category Negated Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.notNil
  */
 
@@ -299,7 +305,7 @@ exports.notNil = entry => fp.negate(fp.isNil)(entry)
  * @return {Boolean}
  *
  * @category Negated Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.notEmpty
  */
 
@@ -313,7 +319,7 @@ exports.notEmpty = entry => fp.negate(exports.isEmpty)
  * @return {Boolean}
  *
  * @category Negated Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.notValidDate
  */
 exports.notValidDate = entry => fp.negate(exports.isValidDate)
@@ -327,7 +333,7 @@ exports.notValidDate = entry => fp.negate(exports.isValidDate)
  *
  * @category Negated Validation
  * @deprecated since version 1.0.4
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.notDate
  */
 exports.notDate = require('util').deprecate(
@@ -343,7 +349,7 @@ exports.notDate = require('util').deprecate(
  * @return {Boolean}
  *
  * @category Negated Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.notOkStatus
  */
 
@@ -357,7 +363,7 @@ exports.notOkStatus = entry => fp.negate(exports.isOkStatus)(entry)
  * @return {Boolean}
  *
  * @category FileSystem Validation
- * @memberOf module:@cactus-technologies/utils.assert
+ * @memberOf assert
  * @alias module:@cactus-technologies/utils.assert.exists
  */
 exports.exists = path => require('fs').existsSync(path)

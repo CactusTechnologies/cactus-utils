@@ -3,6 +3,12 @@ const moment = require('moment')
 const validator = require('validator')
 
 /**
+ * Normalize common data.
+ * @namespace {Object} normalize
+ * @memberOf module:@cactus-technologies/utils
+ */
+
+/**
  * Normalizes the given date to the begining of the date. (This doesn't
  *   validate that the input)
  *

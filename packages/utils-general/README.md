@@ -24,8 +24,14 @@ npm install --save @cactus-technologies/utils
 
 ## @cactus-technologies/utils
 
+**Example**
+
+```js
+const utils = require('@cactus-technologies/utils')
+```
+
 -   [@cactus-technologies/utils](#module_@cactus-technologies/utils)
-    -   [.assert](#module_@cactus-technologies/utils.assert) : <code>Object</code>
+    -   [.assert](#module_@cactus-technologies/utils.assert) : <code>object</code>
         -   _Date Validation_
             -   [.isBeforeToday(entry)](#module_@cactus-technologies/utils.assert.isBeforeToday) ⇒ <code>Boolean</code>
             -   [.isBefore(entry, \[date\])](#module_@cactus-technologies/utils.assert.isBefore) ⇒ <code>Boolean</code>
@@ -53,7 +59,7 @@ npm install --save @cactus-technologies/utils
             -   [.isValidDate(entry)](#module_@cactus-technologies/utils.assert.isValidDate) ⇒ <code>Boolean</code>
             -   [.isOkStatus(entry)](#module_@cactus-technologies/utils.assert.isOkStatus) ⇒ <code>Boolean</code>
             -   [.isIn(values)](#module_@cactus-technologies/utils.assert.isIn) ⇒ <code>function</code>
-    -   [.normalize](#module_@cactus-technologies/utils.normalize) : <code>Object</code>
+    -   [.normalize](#module_@cactus-technologies/utils.normalize) : <code>object</code>
         -   [.day(input)](#module_@cactus-technologies/utils.normalize.day) ⇒ <code>String</code>
         -   [.email(input)](#module_@cactus-technologies/utils.normalize.email) ⇒ <code>String</code>
         -   [.statusCode(status)](#module_@cactus-technologies/utils.normalize.statusCode) ⇒ <code>Number</code>
@@ -90,7 +96,6 @@ npm install --save @cactus-technologies/utils
         -   [.extend(mergeInto, ...mergeFrom)](#module_@cactus-technologies/utils.extend) ⇒ <code>Object</code>
         -   [.diff(objA, objB)](#module_@cactus-technologies/utils.diff) ⇒ <code>Object</code>
         -   [.clone(obj)](#module_@cactus-technologies/utils.clone) ⇒ <code>Object</code>
-        -   [.singleton(Obj, key, \[isClass\], \[...args\])](#module_@cactus-technologies/utils.singleton) ⇒ <code>Object</code>
     -   _Promise Chains_
         -   [.tap](#module_@cactus-technologies/utils.tap) ⇒ <code>Promise</code>
         -   [.forEach(coll, iteratee)](#module_@cactus-technologies/utils.forEach) ⇒ <code>Promise</code>
@@ -107,11 +112,13 @@ npm install --save @cactus-technologies/utils
 
 <a name="module_@cactus-technologies/utils.assert"></a>
 
-### utils.assert : <code>Object</code>
+### utils.assert : <code>object</code>
 
-**Kind**: static property of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
+Assert functions for quick validations.
 
--   [.assert](#module_@cactus-technologies/utils.assert) : <code>Object</code>
+**Kind**: static namespace of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
+
+-   [.assert](#module_@cactus-technologies/utils.assert) : <code>object</code>
     -   _Date Validation_
         -   [.isBeforeToday(entry)](#module_@cactus-technologies/utils.assert.isBeforeToday) ⇒ <code>Boolean</code>
         -   [.isBefore(entry, \[date\])](#module_@cactus-technologies/utils.assert.isBefore) ⇒ <code>Boolean</code>
@@ -391,7 +398,7 @@ Returns `true` if the value is a function
 #### assert.isObject(entry) ⇒ <code>Boolean</code>
 
 Returns `true` if if value is a plain object, that is, an `object` created
-by the `Object constructor` or one with a ` [[Prototype]]`` of `null\`.
+by the `Object constructor` or one with a `[[Prototype]]` of `null`.
 
 **Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
 **Category**: Validation
@@ -454,11 +461,13 @@ Returns A function that will return `true` if the given entry exist ins the give
 
 <a name="module_@cactus-technologies/utils.normalize"></a>
 
-### utils.normalize : <code>Object</code>
+### utils.normalize : <code>object</code>
 
-**Kind**: static property of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
+Normalize common data.
 
--   [.normalize](#module_@cactus-technologies/utils.normalize) : <code>Object</code>
+**Kind**: static namespace of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
+
+-   [.normalize](#module_@cactus-technologies/utils.normalize) : <code>object</code>
     -   [.day(input)](#module_@cactus-technologies/utils.normalize.day) ⇒ <code>String</code>
     -   [.email(input)](#module_@cactus-technologies/utils.normalize.email) ⇒ <code>String</code>
     -   [.statusCode(status)](#module_@cactus-technologies/utils.normalize.statusCode) ⇒ <code>Number</code>
@@ -970,24 +979,6 @@ with the returned object without affecting the input object.
 | ----- | ------------------- | -------------------------------- |
 | obj   | <code>Object</code> | The original object to copy from |
 
-<a name="module_@cactus-technologies/utils.singleton"></a>
-
-### utils.singleton(Obj, key, [isClass], [...args]) ⇒ <code>Object</code>
-
-This is used to ensure there is only one instance of a module or class,
-useful when the dependency tree has slighlty variations on the versions.
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
-**Returns**: <code>Object</code> - Singleton  
-**Category**: Object Utils
-
-| Param     | Type                                      | Default            | Description                                                                                  |
-| --------- | ----------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------- |
-| Obj       | <code>Object</code> \| <code>Class</code> |                    | The object to make in to a singleton                                                         |
-| key       | <code>Object</code>                       |                    | The key that will be used as a `global Symbol` for the singleton (recommended: package.name) |
-| [isClass] | <code>Boolean</code>                      | <code>false</code> | if `true` will create a new instance `new obj()`                                             |
-| [...args] | <code>args</code>                         |                    | if `instanciate=true` will use the rest parameters for the instace.                          |
-
 <a name="module_@cactus-technologies/utils.tap"></a>
 
 ### utils.tap ⇒ <code>Promise</code>
@@ -1158,7 +1149,7 @@ Promisified version of process.nextTick
 
 ### TODOs
 
-| Filename | line # | TODO                                           |
-| :------- | :----: | :--------------------------------------------- |
-| index.js |   8    | Propper attributions                           |
-| index.js |  111   | Detect and use the native promisified versions |
+| Filename                 | line # | TODO                                           |
+| :----------------------- | :----: | :--------------------------------------------- |
+| [index.js](index.js#L10) |   10   | Propper attributions                           |
+| [index.js](index.js#L74) |   74   | Detect and use the native promisified versions |
