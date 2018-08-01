@@ -138,24 +138,52 @@ exports.rm = require('del')
 exports.readFile = exports.promisify(require('fs').readFile)
 
 /**
- * Asynchronously writes data to a file, replacing the file if it already
- *   exists. data can be a string or a buffer. The Promise will be resolved
- *   with no arguments upon success.
+ * Athomically writes data to a file, replacing the file if it already
+ *   exists. Creates directories for you as needed.
  *
- * Just a promisified version of fs.writeFile
+ *   Sync Version is also available under: `utils.writeFile.sync`
  *
- * @param {String}          filePath  - Where to save the data
- * @param {(String|Buffer)} data      - Data to be saved
- * @param {Object}          [options]
+ * @param {String}          filePath - Where to save the data
+ * @param {(String|Buffer)} data     - Data to be saved
+ * @param {Object}          [opts]
  *
  * @return {Promise}
+ *
+ * @example
+ *   // Promise mode.
+ *   utils.writeFile('path/to/foo.jpg', imageData)
+ *     .then(() => console.log('done'))
+ *
+ * @example
+ *   // async/await mode.
+ *   (async () => {
+ *   utils.writeFile('path/to/foo.jpg', imageData)
+ *     console.log('done')
+ *   })
+ *
+ * @example
+ *   // Sync mode. (THIS BLOCKS THE EVENT LOOP)
+ *   utils.writeFile.sync('path/to/foo.jpg', imageData)
+ *   console.log('done')
  *
  * @category File system
  * @async
  * @function
  */
 
-exports.writeFile = exports.promisify(require('fs').writeFile)
+exports.writeFile = async function writeFile (filePath, data, opts = {}) {
+  if (!filePath) throw new TypeError('"filePath" is required.')
+  if (!data) throw new TypeError('"data" is required.')
+  await exports.mkd(require('path').dirname(filePath))
+  await exports.promisify(require('write-file-atomic'))(filePath, data, opts)
+}
+
+exports.writeFile.sync = function writeFileSync (filePath, data, opts = {}) {
+  if (!filePath) throw new TypeError('"filePath" is required.')
+  if (!data) throw new TypeError('"data" is required.')
+  exports.mkd.sync(require('path').dirname(filePath))
+  require('write-file-atomic').sync(filePath, data, opts)
+}
 
 /**
  * Asynchronous unlink(2). The Promise is resolved with no arguments upon success.
