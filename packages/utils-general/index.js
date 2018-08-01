@@ -69,6 +69,22 @@ exports.diff = (objA, objB) => require('config').util.diffDeep(objA, objB)
 
 exports.clone = obj => require('config').util.cloneDeep(obj)
 
+/**
+ * Returns a copy of an object with all keys sorted.
+ *
+ * @param {Object}            obj       - The Object to sort.
+ * @param {(Array|Function)} [sortWith] - An `Array` containing ordered keys or a `Function` (same signature as in `Array.prototype.sort()`).
+ *
+ * @return {Object}
+ *
+ * @category Object Utils
+ * @function
+ * @author keithamus
+ * @requires sort-object-keys
+ */
+
+exports.sortKeys = require('sort-object-keys')
+
 // ──────────────────────────────  File system  ────────────────────────────────
 
 // TODO: Detect and use the native promisified versions
