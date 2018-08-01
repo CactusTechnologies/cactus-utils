@@ -43,18 +43,6 @@ child.info('hello child!')
 
 <!--/@-->
 
-<!--@snippet('./TODO.md')-->
-
-```md
-### TODOs
-
-| Filename                 | line # | TODO                                                     |
-| :----------------------- | :----: | :------------------------------------------------------- |
-| [index.js](index.js#L38) |   38   | Investigate how to pass the stream via the config files. |
-```
-
-<!--/@-->
-
 <!--@license()-->
 
 ## License
@@ -62,3 +50,9 @@ child.info('hello child!')
 [UNLICENCED](./LICENSE) © [Cactus Technologies, LLC](https://www.cactus.is)
 
 <!--/@-->
+
+### TODOs
+
+| Filename                 | line # | TODO                                                     |
+| :----------------------- | :----: | :------------------------------------------------------- |
+| [index.js](index.js#L38) |   38   | Investigate how to pass the stream via the config files. |

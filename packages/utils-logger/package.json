@@ -13,10 +13,10 @@
   "main": "index.js",
   "scripts": {
     "precommit": "npm test && npm run docs && lint-staged",
-    "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
+    "docs": "run-s docs:* -sn  && git add README.md AUTHORS",
     "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
-    "docs:readme": "mos README.md",
-    "docs:todos": "npm run todos -s -- --reporter vscode > TODO.md",
+    "docs:readme": "cat .readme.mos > README.md && mos README.md",
+    "docs:todos": "npm run todos -s -- --reporter vscode >> README.md",
     "test": "run-s test:* -sn",
     "test:lint": "eslint --ignore-path .gitignore '**/*.js'",
     "test:outdated": "npm outdated --long || true",

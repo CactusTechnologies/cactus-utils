@@ -1,0 +1,16 @@
+<!--@h1([pkg.name])-->
+<!--/@-->
+
+<!--@pkg.description-->
+<!--/@-->
+
+<!--@installation()-->
+<!--/@-->
+
+## Example
+
+<!--@snippet('./example/index.js')-->
+<!--/@-->
+
+<!--@license()-->
+<!--/@-->
