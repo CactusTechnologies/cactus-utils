@@ -67,11 +67,9 @@ const utils = require('@cactus-technologies/utils')
         -   [.statusCode(status)](#module_@cactus-technologies/utils.normalize.statusCode) ⇒ <code>Number</code>
         -   [.string(input)](#module_@cactus-technologies/utils.normalize.string) ⇒ <code>String</code>
         -   [.header(input)](#module_@cactus-technologies/utils.normalize.header) ⇒ <code>String</code>
-    -   [.random](#module_@cactus-technologies/utils.random) : <code>object</code>
     -   [.promisify(fn)](#module_@cactus-technologies/utils.promisify) ⇒ <code>Promise</code>
     -   ~~[.exists()](#module_@cactus-technologies/utils.exists)~~
     -   ~~[.format()](#module_@cactus-technologies/utils.format)~~
-    -   [.random(entry)](#module_@cactus-technologies/utils.random) ⇒ <code>Boolean</code>
     -   _Async helpers_
         -   [.makeRetryable(fn, \[opts\])](#module_@cactus-technologies/utils.makeRetryable) ⇒ <code>Promise</code>
         -   [.retry(fn, \[opts\])](#module_@cactus-technologies/utils.retry) ⇒ <code>Promise</code>
@@ -558,13 +556,6 @@ Transforms the string in to a Header Style one
 | ----- | ------------------- |
 | input | <code>String</code> |
 
-<a name="module_@cactus-technologies/utils.random"></a>
-
-### utils.random : <code>object</code>
-
-A mathematically correct random generator
-
-**Kind**: static namespace of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 <a name="module_@cactus-technologies/utils.promisify"></a>
 
 ### utils.promisify(fn) ⇒ <code>Promise</code>
@@ -595,18 +586,6 @@ returns a version that returns promises.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **See**: [util.format](https://nodejs.org/api/util.html#util_util_format_format_args) from the native Node Docs.  
-<a name="module_@cactus-technologies/utils.random"></a>
-
-### utils.random(entry) ⇒ <code>Boolean</code>
-
-Returns `true` if the value is undefined' or 'null'
-
-**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)
-
-| Param | Type            | Description    |
-| ----- | --------------- | -------------- |
-| entry | <code>\*</code> | Value to Check |
-
 <a name="module_@cactus-technologies/utils.makeRetryable"></a>
 
 ### utils.makeRetryable(fn, [opts]) ⇒ <code>Promise</code>
