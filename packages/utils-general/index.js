@@ -580,7 +580,7 @@ exports.humanizeStatusCode = status => {
  */
 
 exports.cleanUrl = url => {
-  const parsed = URL.parse(url)
+  const parsed = require('url').parse(url)
   return parsed.pathname || url
 }
 
@@ -599,6 +599,8 @@ exports.cleanUrl = url => {
 
 exports.encrypt = (decrypted, encryptionKey) => {
   if (!encryptionKey) throw new Error('encryptionKey is required')
+  // TODO: Use cripto.createCipheriv
+  // eslint-disable-next-line node/no-deprecated-api
   const cipher = require('crypto').createCipher('aes192', encryptionKey)
   return cipher.update(decrypted, 'utf8', 'hex') + cipher.final('hex')
 }
@@ -616,6 +618,8 @@ exports.encrypt = (decrypted, encryptionKey) => {
 
 exports.decrypt = (encrypted, decryptionKey) => {
   if (!decryptionKey) throw new Error('decryptionKey is required')
+  // TODO: Use cripto.createDecipheriv
+  // eslint-disable-next-line node/no-deprecated-api
   const decipher = require('crypto').createDecipher('aes192', decryptionKey)
   return decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8')
 }
