@@ -1,9 +1,7 @@
 /**
  * A set of Unique ID generators
  *
- * @module UUID
- *
- * @author Jorge Proaño <jorge@hiddennodeproblem.com>
+ * @module @cactus-technologies/uuid
  */
 
 const Random = require('random-js')
@@ -17,7 +15,6 @@ const damnTable = require('./lib/damn-table.json')
 // ───────────────────────────────  SINGLETON  ─────────────────────────────────
 
 /* Create a single unique symbol for the engenie */
-const SYMBOL = Symbol.for('@cactus-technologies/uuid')
 const SYMBOL = Symbol.for('@cactus-technologies/random')
 /* Check if the symbol exists and add it if not found */
 if (!Object.getOwnPropertySymbols(global).includes(SYMBOL)) {
@@ -25,7 +22,7 @@ if (!Object.getOwnPropertySymbols(global).includes(SYMBOL)) {
   global[SYMBOL].autoSeed()
 }
 
-/**
+/*
  * Random Engenie: https://en.wikipedia.org/wiki/Mersenne_Twister
  * This is the random engenie that powers the entire UUID module.
  */
@@ -138,6 +135,7 @@ function maxNumber (digits) {
  * @param {String} input - Must only have digits
  *
  * @return {String}       Check Digit
+ * @private
  */
 function generateCheckDigit (input) {
   let row = 0
