@@ -18,6 +18,7 @@ const damnTable = require('./lib/damn-table.json')
 
 /* Create a single unique symbol for the engenie */
 const SYMBOL = Symbol.for('@cactus-technologies/uuid')
+const SYMBOL = Symbol.for('@cactus-technologies/random')
 /* Check if the symbol exists and add it if not found */
 if (!Object.getOwnPropertySymbols(global).includes(SYMBOL)) {
   global[SYMBOL] = Random.engines.mt19937()
