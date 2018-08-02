@@ -82,7 +82,7 @@ const utils = require('@cactus-technologies/utils')
         -   [.rm](#module_@cactus-technologies/utils.rm) ⇒ <code>Promise</code>
         -   [.mkd(path)](#module_@cactus-technologies/utils.mkd) ⇒ <code>Promise</code>
         -   [.readFile(filePath, \[options\])](#module_@cactus-technologies/utils.readFile) ⇒ <code>Promise</code>
-        -   [.writeFile(filePath, data, \[options\])](#module_@cactus-technologies/utils.writeFile) ⇒ <code>Promise</code>
+        -   [.writeFile(filePath, data, \[opts\])](#module_@cactus-technologies/utils.writeFile) ⇒ <code>Promise</code>
         -   [.deleteFile(filePath)](#module_@cactus-technologies/utils.deleteFile) ⇒ <code>Promise</code>
         -   [.readJson(filePath)](#module_@cactus-technologies/utils.readJson) ⇒ <code>Promise</code>
         -   [.writeJson(filepath, data, \[options\])](#module_@cactus-technologies/utils.writeJson) ⇒ <code>Promise</code>
@@ -96,6 +96,7 @@ const utils = require('@cactus-technologies/utils')
         -   [.extend(mergeInto, ...mergeFrom)](#module_@cactus-technologies/utils.extend) ⇒ <code>Object</code>
         -   [.diff(objA, objB)](#module_@cactus-technologies/utils.diff) ⇒ <code>Object</code>
         -   [.clone(obj)](#module_@cactus-technologies/utils.clone) ⇒ <code>Object</code>
+        -   [.sortKeys(obj, \[sortWith\])](#module_@cactus-technologies/utils.sortKeys) ⇒ <code>Object</code>
     -   _Promise Chains_
         -   [.tap](#module_@cactus-technologies/utils.tap) ⇒ <code>Promise</code>
         -   [.forEach(coll, iteratee)](#module_@cactus-technologies/utils.forEach) ⇒ <code>Promise</code>
@@ -777,22 +778,46 @@ Just a promisified version of fs.readFile
 
 <a name="module_@cactus-technologies/utils.writeFile"></a>
 
-### utils.writeFile(filePath, data, [options]) ⇒ <code>Promise</code>
+### utils.writeFile(filePath, data, [opts]) ⇒ <code>Promise</code>
 
-Asynchronously writes data to a file, replacing the file if it already
-exists. data can be a string or a buffer. The Promise will be resolved
-with no arguments upon success.
+Athomically writes data to a file, replacing the file if it already
+exists. Creates directories for you as needed.
 
-Just a promisified version of fs.writeFile
+Sync Version is also available under: `utils.writeFile.sync`
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: File system
 
-| Param     | Type                                       | Description            |
-| --------- | ------------------------------------------ | ---------------------- |
-| filePath  | <code>String</code>                        | Where to save the data |
-| data      | <code>String</code> \| <code>Buffer</code> | Data to be saved       |
-| [options] | <code>Object</code>                        |                        |
+| Param    | Type                                       | Description            |
+| -------- | ------------------------------------------ | ---------------------- |
+| filePath | <code>String</code>                        | Where to save the data |
+| data     | <code>String</code> \| <code>Buffer</code> | Data to be saved       |
+| [opts]   | <code>Object</code>                        |                        |
+
+**Example**
+
+```js
+// Promise mode.
+utils.writeFile('path/to/foo.jpg', imageData).then(() => console.log('done'))
+```
+
+**Example**
+
+```js
+// async/await mode.
+;async () => {
+    utils.writeFile('path/to/foo.jpg', imageData)
+    console.log('done')
+}
+```
+
+**Example**
+
+```js
+// Sync mode. (THIS BLOCKS THE EVENT LOOP)
+utils.writeFile.sync('path/to/foo.jpg', imageData)
+console.log('done')
+```
 
 <a name="module_@cactus-technologies/utils.deleteFile"></a>
 
@@ -979,6 +1004,22 @@ with the returned object without affecting the input object.
 | ----- | ------------------- | -------------------------------- |
 | obj   | <code>Object</code> | The original object to copy from |
 
+<a name="module_@cactus-technologies/utils.sortKeys"></a>
+
+### utils.sortKeys(obj, [sortWith]) ⇒ <code>Object</code>
+
+Returns a copy of an object with all keys sorted.
+
+**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
+**Category**: Object Utils  
+**Requires**: <code>module:sort-object-keys</code>  
+**Author**: keithamus
+
+| Param      | Type                                        | Description                                                                                         |
+| ---------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| obj        | <code>Object</code>                         | The Object to sort.                                                                                 |
+| [sortWith] | <code>Array</code> \| <code>function</code> | An `Array` containing ordered keys or a `Function` (same signature as in `Array.prototype.sort()`). |
+
 <a name="module_@cactus-technologies/utils.tap"></a>
 
 ### utils.tap ⇒ <code>Promise</code>
@@ -1152,4 +1193,4 @@ Promisified version of process.nextTick
 | Filename                 | line # | TODO                                           |
 | :----------------------- | :----: | :--------------------------------------------- |
 | [index.js](index.js#L10) |   10   | Propper attributions                           |
-| [index.js](index.js#L74) |   74   | Detect and use the native promisified versions |
+| [index.js](index.js#L90) |   90   | Detect and use the native promisified versions |
