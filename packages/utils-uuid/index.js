@@ -105,31 +105,6 @@ exports.humanized = function humanized (words = 6) {
   return Random.sample(ENGENIE, english, words).join('.')
 }
 
-// ─────────────────────────────────  Utils  ───────────────────────────────────
-
-/* Public utils */
-exports.util = {}
-
-/**
- * Checks if the given input string against the Damm algorithm
- *
- * @param {String} input - Numeric String, probs from uuid.numeric()
- *
- * @return {Boolean}
- */
-
-exports.util.verifyNumeric = input => generateCheckDigit(input) === '0'
-
-/**
- * Return a random value within the provided array
- *
- * @param  {Array} inputArray
- *
- * @return {*} A random element of the array
- */
-
-exports.util.pick = input => Random.pick(ENGENIE, input)
-
 // ────────────────────────────────  Exports  ──────────────────────────────────
 
 /* Freze the API */
