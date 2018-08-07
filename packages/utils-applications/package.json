@@ -26,13 +26,18 @@
     "todos": "leasot './**/*' -Sx -i './node_modules/**/*'"
   },
   "dependencies": {
+    "@cactus-technologies/errors": "/Users/mechanicalhuman/Active/cactus/utils/utils-errors",
+    "@cactus-technologies/logger": "/Users/mechanicalhuman/Active/cactus/utils/utils-logger",
+    "@cactus-technologies/utils": "^1.0.5",
     "@pm2/io": "^2.0.3",
     "async-exit-hook": "^2.0.1",
-    "config": "^1.30.0",
+    "config": "/Users/mechanicalhuman/Active/forked/forked-node-config",
+    "debug": "^3.1.0",
     "dev-ip": "^1.0.1",
     "dotenv": "^6.0.0",
     "env-paths": "^1.0.0",
     "lodash": "^4.17.10",
+    "moment-timezone": "^0.5.21",
     "pretty-ms": "^3.2.0",
     "request": "^2.87.0"
   },
@@ -50,8 +55,5 @@
     "mos": "^1.3.1",
     "npm-run-all": "^4.1.3",
     "prettier": "^1.13.7"
-  },
-  "peerDependencies": {
-    "@cactus-technologies/logger": "^2.0.2"
   }
 }
