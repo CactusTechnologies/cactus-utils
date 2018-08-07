@@ -26,12 +26,12 @@
     "todos": "leasot './**/*' -Sx -i './node_modules/**/*'"
   },
   "dependencies": {
-    "@cactus-technologies/errors": "/Users/mechanicalhuman/Active/cactus/utils/utils-errors",
-    "@cactus-technologies/logger": "/Users/mechanicalhuman/Active/cactus/utils/utils-logger",
-    "@cactus-technologies/utils": "^1.0.5",
-    "@pm2/io": "^2.0.3",
+    "@cactus-technologies/errors": "^1.2.0",
+    "@cactus-technologies/logger": "^2.1.0",
+    "@cactus-technologies/utils": "^1.0.8",
+    "@pm2/io": "^2.2.0",
     "async-exit-hook": "^2.0.1",
-    "config": "/Users/mechanicalhuman/Active/forked/forked-node-config",
+    "config": "^2.0.1",
     "debug": "^3.1.0",
     "dev-ip": "^1.0.1",
     "dotenv": "^6.0.0",

@@ -23,7 +23,7 @@
     "todos": "leasot './**/**' -Sx -i './node_modules/**/*'"
   },
   "dependencies": {
-    "@mechanicalhuman/bunyan-pretty": "^2.0.7",
+    "@mechanicalhuman/bunyan-pretty": "^2.0.8",
     "config": "^2.0.1",
     "lodash": "^4.17.10",
     "pino": "^4.17.6"

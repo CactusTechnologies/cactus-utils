@@ -28,9 +28,9 @@
     "todos": "leasot -xS --ignore './node_modules/**/**' './**/**'"
   },
   "dependencies": {
-    "@cactus-technologies/errors": "/Users/mechanicalhuman/Active/cactus/utils/utils-errors",
-    "@cactus-technologies/logger": "^2.0.4",
-    "@cactus-technologies/utils": "^1.0.5",
+    "@cactus-technologies/errors": "^1.2.0",
+    "@cactus-technologies/logger": "^2.1.0",
+    "@cactus-technologies/utils": "^1.0.8",
     "bottleneck": "^2.5.0",
     "lodash": "^4.17.5",
     "pretty-bytes": "^5.1.0",
