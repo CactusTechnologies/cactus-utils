@@ -17,8 +17,8 @@
     "bootstrap": "lerna bootstrap --hoist",
     "test": "run-s test:* -sn",
     "test:depcheck": "depcheck --ignores=husky --ignore-bin-package",
-    "test:lint": "eslint --ignore-path .gitignore 'packages/**/*.js'",
-    "test:outdated": "npm outdated --long",
+    "test:lint": "eslint --ignore-path .gitignore 'packages/**/*.js' || true",
+    "test:outdated": "npm outdated --long || true",
     "precommit": "run-s test docs && lint-staged",
     "docs": "run-s docs:** -sn",
     "docs:01:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
@@ -26,7 +26,7 @@
     "docs:03:todos": "npm run todos -s -- --reporter vscode >> README.md",
     "docs:04:update": "projectz compile",
     "docs:05:add": "git add README.md AUTHORS LICENSE package.json",
-    "todos": "leasot './packages/**/*' -Sx -i './node_modules/**/*'"
+    "todos": "leasot './packages/**/*' '!**/node_modules/**' -Sx"
   },
   "devDependencies": {
     "lerna": "^3.0.0-rc.0",
