@@ -1,6 +1,21 @@
 {
-  "name": "root",
+  "name": "@cactus-technologies/tools",
+  "version": "0.0.1",
   "private": true,
+  "description": "",
+  "homepage": "https://github.com/CactusTechnologies/cactus-node-tools#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-node-tools/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:CactusTechnologies/cactus-node-tools.git"
+  },
+  "license": "MIT",
+  "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "lerna": "^3.0.0-rc.0"
   }

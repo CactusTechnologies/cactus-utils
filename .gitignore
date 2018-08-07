@@ -1,7 +1,23 @@
-/utils-applications
-/utils-errors
-/utils-general
-/utils-logger
-/utils-request
-/utils-server
-/utils-uuid
+# PROJECT ESPECIFIC IGNORES #
+
+## Project Managment
+private
+
+# Node.js
+node_modules
+*.log
+*.pid
+*.seed
+.npm
+
+# OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# sublime
+*.sublime-workspace
+
+# vagrant
+.vagrant
