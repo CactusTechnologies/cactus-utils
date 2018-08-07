@@ -15,7 +15,7 @@ Request helper
 ## Installation
 
 ```sh
-npm install --save @cactus-technologies/errors @cactus-technologies/logger @cactus-technologies/api-request
+npm install --save @cactus-technologies/api-request
 ```
 
 <!--/@-->
