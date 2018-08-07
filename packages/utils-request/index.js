@@ -8,7 +8,7 @@ const errors = require('@cactus-technologies/errors')
 const logger = require('@cactus-technologies/logger')
 const utils = require('@cactus-technologies/utils')
 
-// const normalize = utils.normalize
+const normalize = utils.normalize
 const assert = utils.assert
 const ApiTimeOutError = errors.ApiTimeOutError
 const ApiError = errors.ApiError
