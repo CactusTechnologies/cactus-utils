@@ -20,8 +20,6 @@ npm install --save @cactus-technologies/errors
 
 <!--/@-->
 
-[TODO]('TODO.md')
-
 <!--@license()-->
 
 ## License

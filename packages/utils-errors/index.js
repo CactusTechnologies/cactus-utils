@@ -269,3 +269,33 @@ exports.FileNotFoundError = class FileNotFoundError extends CactusError {
     this.status = 500
   }
 }
+
+exports.ApiError = class ApiError extends CactusError {
+  constructor (cause, ...props) {
+    if (props.length === 0) props.unshift('Request Error')
+    super({ cause: cause, constructorOpt: ApiError }, ...props)
+    this.name = 'ApiError'
+    this.code = 'EAPIERR'
+    this.status = 500
+  }
+}
+
+exports.ApiTimeOutError = class ApiTimeOutError extends CactusError {
+  constructor (cause, ...props) {
+    if (props.length === 0) props.unshift('Request TimedOut')
+    super({ cause: cause, constructorOpt: ApiTimeOutError }, ...props)
+    this.name = 'ApiTimeOutError'
+    this.code = 'ETIMEOUT'
+    this.status = 500
+  }
+}
+
+exports.ApiFailError = class ApiFailError extends CactusError {
+  constructor (...props) {
+    if (props.length === 0) props.unshift('Bad Response')
+    super({ constructorOpt: ApiFailError }, ...props)
+    this.name = 'ApiFailError'
+    this.code = 'EAPIERR'
+    this.status = 500
+  }
+}
