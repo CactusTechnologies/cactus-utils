@@ -2,15 +2,16 @@
 
 const compression = require('compression')
 const express = require('express')
+const fs = require('fs')
 const ipaddr = require('ipaddr.js')
+const lo = require('lodash')
 const fp = require('lodash/fp')
 const onHeaders = require('on-headers')
 const path = require('path')
-const fs = require('fs')
 const favicon = require('serve-favicon')
 
 const uuid = require('@cactus-technologies/uuid')
-const logger = require('@cactus-technologies/logger')
+const logger = require('@cactus-technologies/logger')('http')
 
 const { getDuration, humanizeStatusCode } = require('./utils')
 
@@ -168,10 +169,79 @@ exports.setRequestId = function setRequestId (request, response, next) {
  * @param     {HttpRequest}       request
  * @param     {HttpResponse}      response
  * @param     {Function}          next
- * @todo Port the middleware from the logger module
  */
-exports.logRequests = logger.Middleware()
 
+exports.logRequests = function logRequests (request, response, next) {
+  // const blacklist = [...config.get('logs.http.skipUserAgents')]
+  const blacklist = []
+  const debugHeader = 'X-Lab100-Debug'
+  const uaTest = lo.overSome(
+    blacklist.map(i => {
+      const uaRegex = new RegExp(i, 'gmi')
+      return uaRegex.test.bind(uaRegex)
+    })
+  )
+
+  response.startTime = response.startTime || process.hrtime()
+  request.log = logger.child({ req_id: request.reqId })
+
+  if (uaTest(request.get('user-agent'))) return next()
+  const j = request.get(debugHeader)
+  console.log(j)
+  /* Use the Debug Header */
+  if (!fp.isEmpty(request.get(debugHeader))) {
+    request.log.level = 'trace'
+  }
+
+  response.on('finish', onFinish)
+  response.on('error', onError)
+
+  request.log.trace(`Request Start: ${request.method} ${request.originalUrl}`)
+
+  next()
+
+  function onFinish () {
+    this.removeListener('error', onError)
+    this.removeListener('finish', onFinish)
+    const status = this.statusCode || 200
+    const level = status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info'
+    request.log[level]({
+      req: request,
+      res: this,
+      duration: this.duration || getDuration(this.startTime)
+    })
+  }
+
+  function onError (error) {
+    this.removeListener('error', onError)
+    this.removeListener('finish', onFinish)
+    this.statusCode = 500
+    request.log.warn(
+      {
+        req: request,
+        res: this,
+        duration: this.duration || getDuration(this.startTime)
+      },
+      error.message
+    )
+  }
+}
+
+/* http: {
+  obscureHeaders: ['authorization', 'set-cookie'],
+    excludeHeaders: [
+      'x-amzn-trace-id',
+      'x-content-type-options',
+      'x-dns-prefetch-control',
+      'x-download-options',
+      'x-forwarded-port',
+      'x-forwarded-proto',
+      'x-frame-options',
+      'x-xss-protection'
+    ],
+      skipUserAgents: ['ELB-HealthChecker']
+}
+ */
 /**
  * parses incoming requests with JSON payloads
  *

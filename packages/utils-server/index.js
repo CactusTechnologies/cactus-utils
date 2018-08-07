@@ -9,7 +9,9 @@
 const express = require('express')
 const http = require('http')
 
-const { io, exitHook } = require('@cactus-technologies/node-application')
+const {
+  App: { io, exitHook }
+} = require('@cactus-technologies/node-application')
 const errors = require('@cactus-technologies/errors')
 const logger = require('@cactus-technologies/logger')
 
@@ -181,6 +183,6 @@ function onError (error) {
     case 'EADDRINUSE':
       throw new InternalServerError(error, 'Port is already in use')
     default:
-      throw new InternalServerError(error)
+      throw new InternalServerError(error, error.message)
   }
 }
