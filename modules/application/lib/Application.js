@@ -1,8 +1,8 @@
 'use strict'
 
 /* Create a single unique symbol for the app */
-const APP_KEY = Symbol.for('@cactus-technologies/node-application')
-const APP_EXISTS = Object.getOwnPropertySymbols(global).indexOf(APP_KEY) > -1
+// const APP_KEY = Symbol.for('@cactus-technologies/node-application')
+// const APP_EXISTS = Object.getOwnPropertySymbols(global).indexOf(APP_KEY) > -1
 
 const io = require('@pm2/io')
 const fp = require('lodash/fp')
@@ -14,97 +14,97 @@ debug.status = require('debug')('cactus:app:status')
 debug.paths = require('debug')('cactus:app:paths')
 
 class CactusApplication {
-  constructor() {
+  constructor () {
     this.metric = io.metric.bind(io)
     this.action = io.action.bind(io)
     this.onExit = require('async-exit-hook')
     this.hasInit = false
   }
 
-  get config() {
+  get config () {
     return require('./config')
   }
 
-  get uuid() {
+  get uuid () {
     return [this.domain, fp.kebabCase(this.name)]
       .map(v => fp.toLower(v))
       .join('-')
   }
 
-  get name() {
+  get name () {
     return this.config.get('name')
   }
 
-  get domain() {
+  get domain () {
     return this.config.get('domain')
   }
 
-  get service() {
+  get service () {
     return this.config.get('service')
   }
 
-  get version() {
+  get version () {
     return this.config.get('version')
   }
 
-  get env() {
+  get env () {
     return this.config.get('env')
   }
 
-  get isDev() {
+  get isDev () {
     return this.config.get('isDev')
   }
 
-  get host() {
+  get host () {
     return this.config.get('host')
   }
 
-  get uptime() {
+  get uptime () {
     return ms(process.uptime() * 1000)
   }
 
-  addMetric(name, defaultValue = true) {
-    if (!utils.assert.isString(name)) throw new TypeError('name is required')
+  // addMetric (name, defaultValue = true) {
+  //   if (!utils.assert.isString(name)) throw new TypeError('name is required')
 
-    if (metrics.has(name)) {
-      process.log.warn(`The metric ${name} is already registered.`)
-      return
-    }
+  //   if (metrics.has(name)) {
+  //     process.log.warn(`The metric ${name} is already registered.`)
+  //     return
+  //   }
 
-    debug.status('Creating status: %s with value [ %o ]', name, defaultValue)
+  //   debug.status('Creating status: %s with value [ %o ]', name, defaultValue)
 
-    statuses.set(name, defaultValue)
+  //   statuses.set(name, defaultValue)
 
-    metrics.set(
-      name,
-      this.metric({
-        type: 'metric',
-        name: `cactus:${name}`,
-        value: () => this.status[name]
-      })
-    )
+  //   metrics.set(
+  //     name,
+  //     this.metric({
+  //       type: 'metric',
+  //       name: `cactus:${name}`,
+  //       value: () => this.status[name]
+  //     })
+  //   )
 
-    Object.defineProperty(this.status, name, {
-      get() {
-        return statuses.get(name)
-      },
-      set(newValue) {
-        const oldValue = statuses.get(name)
-        debug.status(
-          'Changing status %s to %o from %o',
-          name,
-          newValue,
-          oldValue
-        )
-        statuses.set(name, newValue)
-        return statuses.get(name)
-      },
-      enumerable: true,
-      configurable: false
-    })
-  }
+  //   Object.defineProperty(this.status, name, {
+  //     get () {
+  //       return statuses.get(name)
+  //     },
+  //     set (newValue) {
+  //       const oldValue = statuses.get(name)
+  //       debug.status(
+  //         'Changing status %s to %o from %o',
+  //         name,
+  //         newValue,
+  //         oldValue
+  //       )
+  //       statuses.set(name, newValue)
+  //       return statuses.get(name)
+  //     },
+  //     enumerable: true,
+  //     configurable: false
+  //   })
+  // }
 
-  async init(...modules) {
+  async init (...modules) {
     /* Ensures the config gets loaded now */
     debug('Process name: %s', this.service)
 
@@ -145,7 +145,7 @@ class CactusApplication {
     return true
   }
 
-  async ready() {
+  async ready () {
     /* Add the exit hook message */
     this.onExit(() => {
       const code = process.exitCode || 0
@@ -158,7 +158,7 @@ class CactusApplication {
     if ('send' in process) process.send('ready')
   }
 
-  async kill(err) {
+  async kill (err) {
     process.log.info('Falied to initialize the App, Commiting suicide.')
     if (err instanceof Error) throw err
     throw new Error('Falied to initialize.')

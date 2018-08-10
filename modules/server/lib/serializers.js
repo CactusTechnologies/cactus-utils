@@ -53,7 +53,7 @@ function redactHeaders (headers = {}) {
   const obscure = [...config.get('logs.http.obscureHeaders')].map(fp.toLower)
   const exclude = [...config.get('logs.http.excludeHeaders')].map(fp.toLower)
 
-  headers = sortKeys(headers)
+  // headers = sortKeys(headers)
 
   return Object.keys(headers).reduce((acc, current) => {
     const test = fp.toLower(current)

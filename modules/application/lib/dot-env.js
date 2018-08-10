@@ -9,7 +9,7 @@ const debug = require('debug')('cactus:app:env')
 
 // ─────────────────────────────────  MAIN  ────────────────────────────────────
 
-module.exports = function main() {
+module.exports = function main () {
   /* Allways run on strict mode */
   process.env.NODE_CONFIG_STRICT_MODE = true
 
@@ -40,7 +40,7 @@ module.exports = function main() {
   if (fs.existsSync(env)) debug('Loading .env file from %s', prettyPath(env))
   if (fs.existsSync(env)) dotenv.config({ path: env })
 
-  function prettyPath(path) {
+  function prettyPath (path) {
     return fp.pipe(
       fp.replace(appRoot + '/', appRoot === process.cwd() ? '[cwd]' : '[app]'),
       fp.replace(process.cwd() + '/', '[cwd]'),

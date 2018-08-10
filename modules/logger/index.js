@@ -8,6 +8,8 @@ const config = require('config')
 const fp = require('lodash/fp')
 const pino = require('pino')
 
+// TODO: SUPPRESS_NO_CONFIG_WARNING
+
 // ─────────────────────────────────  Init  ────────────────────────────────────
 
 /* Load the default configuration */

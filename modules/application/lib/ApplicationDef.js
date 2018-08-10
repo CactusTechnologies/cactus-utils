@@ -71,7 +71,7 @@ require('config').util.setModuleDefaults('pm2', {
  */
 
 class ApplicationDef {
-  constructor(name, script, args = [], env = {}) {
+  constructor (name, script, args = [], env = {}) {
     if (!assert.isString(name)) throw new Error('Parameter "name" is required.')
     if (!assert.isString(script)) {
       throw new Error('Parameter "script" is required.')
@@ -125,13 +125,13 @@ class ApplicationDef {
     }
   }
 
-  get name() {
+  get name () {
     return [this.config.get('domain'), fp.kebabCase(this.id)]
       .map(v => fp.toLower(v))
       .join('-')
   }
 
-  get service() {
+  get service () {
     return this.config
       .get('extDomain')
       .split('.')
@@ -140,19 +140,19 @@ class ApplicationDef {
       .join('.')
   }
 
-  get instances() {
+  get instances () {
     return this.development ? 1 : this.targetInstances
   }
 
-  set instances(val) {
+  set instances (val) {
     this.targetInstances = val
   }
 
-  get exec_mode() {
+  get exec_mode () {
     return this.instances === 1 ? 'fork' : 'cluster'
   }
 
-  get watch() {
+  get watch () {
     return this.development || this.forceWatch
       ? fp.endsWith('js', this.script)
         ? [...new Set([this.script, ...this._watch])]
@@ -160,43 +160,43 @@ class ApplicationDef {
       : false
   }
 
-  set watch(val) {
+  set watch (val) {
     val = assert.isArray(val) ? val : [val]
     this._watch = this._watch || []
     this._watch = [...this._watch, ...val]
   }
 
-  get ignore_watch() {
+  get ignore_watch () {
     return [...new Set(this._ignore_watch)]
   }
 
-  set ignore_watch(val) {
+  set ignore_watch (val) {
     val = assert.isArray(val) ? val : [val]
     this._ignore_watch = this._ignore_watch || ['node_modules/**', '*.log']
     this._ignore_watch = [...this._ignore_watch, ...val]
   }
 
-  get max_restarts() {
+  get max_restarts () {
     return this.development ? 1 : this._max_restarts
   }
 
-  set max_restarts(val) {
+  set max_restarts (val) {
     this._max_restarts = val
   }
 
-  get error_file() {
+  get error_file () {
     return this.development
       ? '/dev/null'
       : path.resolve(this.config.get('paths.log'), `${this.name}.log`)
   }
 
-  get out_file() {
+  get out_file () {
     return this.development
       ? '/dev/null'
       : path.resolve(this.config.get('paths.log'), `${this.name}.log`)
   }
 
-  get env() {
+  get env () {
     const base = {
       NODE_ENV: 'development',
       APP_NAME: this.id,
@@ -210,11 +210,11 @@ class ApplicationDef {
     return this.config.util.extendDeep({}, base, this._env)
   }
 
-  set env(val) {
+  set env (val) {
     this._env = val
   }
 
-  toJSON() {
+  toJSON () {
     return fp.pipe(
       fp.map(key => [key, fp.getOr(null, key)(this)]),
       fp.filter(([key, val]) => assert.notNil(val)),
@@ -222,18 +222,18 @@ class ApplicationDef {
     )(keys)
   }
 
-  [util.inspect.custom](depth, options) {
+  [util.inspect.custom] (depth, options) {
     return this.toJSON()
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator] () {
     const it = this.toJSON()
     for (const key of Object.keys(it)) {
       yield [key, it[key]]
     }
   }
 
-  static isDev() {
+  static isDev () {
     return path.basename(process.mainModule.filename) === 'pm2-dev'
   }
 }

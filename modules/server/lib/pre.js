@@ -147,7 +147,7 @@ exports.setRequestIp = function reqIP (request, response, next) {
     set: val => (ip = ipaddr.process(val).toString())
   })
 
-  request.ip = request.ip
+  request.ip = ip
 
   next()
 }

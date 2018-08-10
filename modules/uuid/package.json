@@ -20,7 +20,6 @@
     "lib": "lib"
   },
   "scripts": {
-    "precommit": "run-s test docs && lint-staged",
     "docs": "run-s docs:** -sn",
     "docs:01:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
     "docs:02:readme": "jsdoc2md --template .readme.hbs index.js > README.md",

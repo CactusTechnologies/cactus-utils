@@ -12,7 +12,7 @@ module.exports = app => {
   app.addMetric = addMetric.bind(app)
 }
 
-function addMetric(name, defaultValue = true) {
+function addMetric (name, defaultValue = true) {
   if (!assert.isString(name)) throw new TypeError('name is required')
 
   if (metrics.has(name)) {
@@ -34,10 +34,10 @@ function addMetric(name, defaultValue = true) {
   )
 
   Object.defineProperty(this.status, name, {
-    get() {
+    get () {
       return statuses.get(name)
     },
-    set(newValue) {
+    set (newValue) {
       const oldValue = statuses.get(name)
       debug('Changing status %s to %o from %o', name, newValue, oldValue)
       statuses.set(name, newValue)

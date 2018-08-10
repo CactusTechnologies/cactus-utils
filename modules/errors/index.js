@@ -1,5 +1,6 @@
 const fp = require('lodash/fp')
-const { WError } = require('verror')
+const verror = require('verror')
+const { WError } = verror
 
 class CactusError extends WError {
   constructor (opts, ...props) {
@@ -14,7 +15,7 @@ class CactusError extends WError {
       message: this.message,
       name: this.name,
       code: this.code,
-      errors: this.errors || this.info || {}
+      errors: this.errors || verror.info(this) || {}
     }
   }
 }

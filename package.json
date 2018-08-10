@@ -15,10 +15,6 @@
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
-    "test": "run-s test:* -sn",
-    "test:depcheck": "depcheck --ignores=husky --ignore-bin-package",
-    "test:lint": "eslint --ignore-path .gitignore 'packages/**/*.js' || true",
-    "test:outdated": "npm outdated --long || true",
     "precommit": "run-s test docs && lint-staged",
     "docs": "run-s docs:** -sn",
     "docs:01:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
@@ -26,7 +22,11 @@
     "docs:03:todos": "npm run todos -s -- --reporter vscode >> README.md",
     "docs:04:update": "mos README.md",
     "docs:05:add": "git add README.md AUTHORS LICENSE package.json",
-    "todos": "leasot './packages/**/*' '!**/node_modules/**' -Sx"
+    "test": "run-s test:* -sn",
+    "test:depcheck": "depcheck --ignores=husky --ignore-bin-package",
+    "test:lint": "eslint --ignore-path .gitignore 'modules/**/*.js' || true",
+    "test:outdated": "npm outdated --long || true",
+    "todos": "leasot './modules/**/*' '!**/node_modules/**' -Sx"
   },
   "devDependencies": {
     "eslint": "^5.3.0",

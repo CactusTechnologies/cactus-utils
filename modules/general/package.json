@@ -1,33 +1,43 @@
 {
-  "name": "@cactus-technologies/errors",
-  "version": "1.2.0",
-  "description": "Errors module for Cactus Servers and Applications",
-  "homepage": "https://github.com/CactusTechnologies/cactus-server-errors#readme",
-  "bugs": {
-    "url": "https://github.com/CactusTechnologies/cactus-server-errors/issues"
-  },
+  "name": "@cactus-technologies/utils",
+  "version": "1.0.8",
+  "description": "Utility functions for node base apps",
+  "homepage": "https://github.com/CactusTechnologies/cactus-utils#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/cactus-server-errors.git"
+    "url": "git+https://github.com/CactusTechnologies/cactus-utils.git"
   },
   "license": "UNLICENCED",
   "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
   "main": "index.js",
   "scripts": {
-    "precommit": "npm run docs && lint-staged",
-    "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
+    "docs": "run-s docs:* -sn  && git add README.md AUTHORS",
     "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
+    "docs:compile": "jsdoc2md --template .readme.hbs --files index.js lib/*.js > README.md",
     "docs:readme": "mos README.md",
-    "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md",
+    "docs:todos": "npm run todos -s -- --reporter vscode >> README.md",
     "test": "run-s test:* -sn",
-    "test:depcheck": "depcheck --ignores=husky --ignore-bin-package",
+    "test:depcheck": "depcheck --ignores=husky,config --ignore-bin-package",
     "test:lint": "eslint --ignore-path .gitignore '**/*.js'",
     "test:outdated": "npm outdated --long || true",
     "todos": "leasot './**/*' -Sx -i './node_modules/**/*'"
   },
   "dependencies": {
+    "async": "^2.6.1",
+    "config": "^2.0.1",
+    "del": "^3.0.0",
+    "execa": "^0.10.0",
+    "json-stable-stringify": "^1.0.1",
+    "load-json-file": "^5.0.0",
     "lodash": "^4.17.10",
-    "verror": "^1.10.0"
+    "make-dir": "^1.3.0",
+    "moment": "^2.22.2",
+    "p-tap": "^2.0.0",
+    "rev-hash": "^2.0.0",
+    "sort-object-keys": "^1.1.2",
+    "validator": "^10.4.0",
+    "write-file-atomic": "^2.3.0",
+    "write-json-file": "^2.3.0"
   },
   "devDependencies": {
     "depcheck": "^0.6.9",
@@ -38,6 +48,7 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
     "husky": "^0.14.3",
+    "jsdoc-to-markdown": "^4.0.1",
     "leasot": "^6.3.0",
     "lint-staged": "^7.2.0",
     "mos": "^1.3.1",

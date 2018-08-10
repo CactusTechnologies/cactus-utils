@@ -47,7 +47,7 @@ module.exports = createBaseConfig
  * @returns {baseConfig}
  */
 
-function createBaseConfig(pkg = {}, baseDomain = 'cactus.is') {
+function createBaseConfig (pkg = {}, baseDomain = 'cactus.is') {
   const { name = false, version = '0.0.1', domain = baseDomain } = pkg
 
   const config = {}
@@ -83,7 +83,7 @@ function createBaseConfig(pkg = {}, baseDomain = 'cactus.is') {
  * @private
  * @returns {object}
  */
-function getPaths(basename = 'cactus') {
+function getPaths (basename = 'cactus') {
   return fp.pipe(
     getEnvPaths,
     setPathFromEnv('log', 'logsPath', null),
@@ -92,7 +92,7 @@ function getPaths(basename = 'cactus') {
     setPathFromEnv('root', 'appRoot', process.cwd())
   )(basename)
 
-  function setPathFromEnv(prop, target, defaultPath) {
+  function setPathFromEnv (prop, target, defaultPath) {
     let outPath = null
     const domainENV = makeEnvName(target, basename)
     const cactusENV = makeEnvName(target, 'cactus')
@@ -107,17 +107,17 @@ function getPaths(basename = 'cactus') {
       outPath = defaultPath
     }
 
-    return function setter(paths) {
+    return function setter (paths) {
       if (fp.isNil(outPath)) return paths
       else return fp.set(prop, path.resolve(process.cwd(), outPath))(paths)
     }
 
-    function makeEnvName(targetPath, base) {
+    function makeEnvName (targetPath, base) {
       return fp.toUpper(`${base}_${fp.snakeCase(targetPath)}`)
     }
   }
 
-  function getEnvPaths(basename) {
+  function getEnvPaths (basename) {
     return envPaths(basename, { suffix: '' })
   }
 }

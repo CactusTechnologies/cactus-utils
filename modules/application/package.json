@@ -14,7 +14,6 @@
   "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
   "main": "index.js",
   "scripts": {
-    "precommit": "npm run docs && lint-staged",
     "depcheck": "depcheck --ignores=husky,config,electron --ignore-bin-package",
     "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
     "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",

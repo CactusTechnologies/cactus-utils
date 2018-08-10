@@ -10,7 +10,7 @@ module.exports = notifier
 
 // ────────────────────────────────  Private  ──────────────────────────────────
 
-function slack(payload = {}) {
+function slack (payload = {}) {
   return req({
     uri: require('config').get('notifier.slack'),
     body: payload,
@@ -19,7 +19,7 @@ function slack(payload = {}) {
   })
 }
 
-function notifier(level, source, attachment, done = fp.noop) {
+function notifier (level, source, attachment, done = fp.noop) {
   debug('level: %s', level)
 
   const config = require('config')
@@ -194,7 +194,7 @@ function notifier(level, source, attachment, done = fp.noop) {
       done(err, false)
     })
 
-  function prepareAttachment(obj) {
+  function prepareAttachment (obj) {
     const prepared = {
       color: color,
       fields: fp.pipe(
