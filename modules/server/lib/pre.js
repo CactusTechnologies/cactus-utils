@@ -65,7 +65,7 @@ exports.serverHeaders = function serverHeaders (request, response, next) {
  * Cors Middleware
  *
  * @type {Function}
- * @todo AllowHeaders should be read as an array.
+ * @todo AllowHeaders should read as an array.
  *
  */
 

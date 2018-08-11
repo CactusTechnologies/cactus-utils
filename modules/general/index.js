@@ -270,7 +270,7 @@ exports.writeJson = require('write-json-file')
  *   - Cleans up spawned processes when the parent process dies.
  *
  * @param {String}            command
- * @param {(Array|String)}    [args=[]]                           - Either an Array of arguments or a String with the arguments.
+ * @param {Array}             [args=[]]                        - Either an Array of arguments or a String with the arguments.
  * @param {Object}            [options]
  * @param {String}            [options.cwd=process.cwd()]      - Current working directory of the child process.
  * @param {Object}            [options.env=process.env]        - Environment key-value pairs. Extends automatically from `process.env`
@@ -292,19 +292,7 @@ exports.writeJson = require('write-json-file')
  *
  * @example
  *   (async () => {
- *     const result = await utils.exec('omxplayer', '~/color-factory/assets/videoFile')
- *   })();
- *
- * @example
- *   (async () => {
- *   const outputPath = '~/color-factory/assets/videoFile'
- *   try {
- *     await utils.exec('ffmpeg', ['-i', inputPath, '-vf', `crop=${crop}:${crop}:${startX}:${startY}`, outputPath])
- *     return outputPath
- *   } catch (err) {
- *     log.error(err)
- *     throw err
- *   }
+ *     const result = await utils.exec('omxplayer', ['~/color-factory/assets/videoFile'])
  *   })();
  *
  * @category Child Process
@@ -313,17 +301,38 @@ exports.writeJson = require('write-json-file')
  * @see {@link https://github.com/sindresorhus/execa#readme execa} for details
  */
 
-exports.exec = (command, args = [], options = {}) => {
-  if (fp.isString(args)) {
-    args = fp.pipe(
-      fp.split(/(['"``])((?:\\\1|.)+?)\1|([^\s"'``]+)/),
-      fp.map(fp.trim),
-      fp.compact,
-      fp.reject(t => fp.includes(t, ["'", '"', '`']))
-    )(args)
-  }
-  return require('execa')(command, args, options)
-}
+exports.exec = require('execa')
+
+/**
+ * A better child_process.exec:
+ *
+ * @param {String}            command
+ * @param {Object}            [options]
+ * @param {String}            [options.cwd=process.cwd()]      - Current working directory of the child process.
+ * @param {Object}            [options.env=process.env]        - Environment key-value pairs. Extends automatically from `process.env`
+ * @param {Boolean}           [options.extendEnv=true]         - Set to false if you don't want to extend the environment variables when providing the env property.
+ * @param {String}            [options.argv0]                  - Explicitly set the value of `argv[0]`
+ * @param {(String|String[])} [options.stdio=pipe]             - Child's stdio configuration.
+ * @param {Boolean}           [options.detached=false]         - Prepare child to run independently of its parent process.
+ * @param {Boolean}           [options.shell=false]            - If `true`, runs command inside of a shell. Uses `/bin/sh` on `UNIX` and `cmd.exe` on `Windows`.
+ * @param {Boolean}           [options.preferLocal=true]       - Prefer locally installed binaries when looking for a binary to execute. If you `npm install foo`, you can then `utils.exec('foo')`.
+ * @param {String}            [options.localDir=process.cwd()] - Preferred path to find locally installed binaries in (use with `preferLocal`).
+ * @param {String}            [options.input]                  - Write some input to the `stdin` of your binary.
+ * @param {Boolean}           [options.reject=true]            - Setting this to `false` resolves the promise with the error instead of rejecting it.
+ * @param {Boolean}           [options.cleanup=true]           - Keep track of the spawned process and `kill` it when the parent process exits.
+ * @param {Boolean}           [options.timeout=0]              - If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds.
+ * @param {String}            [options.killSignal=SIGTERM]     - Signal value to be used when the spawned process will be killed.
+ *
+ * @return {Promise} Returns a child_process instance, which is enhanced to
+ *   also be a Promise for a result Object with stdout and stderr properties.
+ *
+ * @category Child Process
+ * @async
+ * @function
+ * @see {@link https://github.com/sindresorhus/execa#readme execa} for details
+ */
+
+exports.shell = require('execa').shell
 
 // ───────────────────────────── Promise Chains  ───────────────────────────────
 

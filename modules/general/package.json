@@ -14,13 +14,7 @@
     "docs": "run-s docs:* -sn  && git add README.md AUTHORS",
     "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
     "docs:compile": "jsdoc2md --template .readme.hbs --files index.js lib/*.js > README.md",
-    "docs:readme": "mos README.md",
-    "docs:todos": "npm run todos -s -- --reporter vscode >> README.md",
-    "test": "run-s test:* -sn",
-    "test:depcheck": "depcheck --ignores=husky,config --ignore-bin-package",
-    "test:lint": "eslint --ignore-path .gitignore '**/*.js'",
-    "test:outdated": "npm outdated --long || true",
-    "todos": "leasot './**/*' -Sx -i './node_modules/**/*'"
+    "docs:readme": "mos README.md"
   },
   "dependencies": {
     "async": "^2.6.1",
@@ -47,7 +41,6 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "husky": "^0.14.3",
     "jsdoc-to-markdown": "^4.0.1",
     "leasot": "^6.3.0",
     "lint-staged": "^7.2.0",

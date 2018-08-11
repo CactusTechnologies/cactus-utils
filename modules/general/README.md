@@ -76,6 +76,7 @@ const utils = require('@cactus-technologies/utils')
         -   [.forever(fn)](#module_@cactus-technologies/utils.forever) ⇒ <code>Promise</code>
     -   _Child Process_
         -   [.exec(command, \[args\], \[options\])](#module_@cactus-technologies/utils.exec) ⇒ <code>Promise</code>
+        -   [.shell(command, \[options\])](#module_@cactus-technologies/utils.shell) ⇒ <code>Promise</code>
     -   _Crypto_
         -   [.encrypt(decrypted, encryptionKey)](#module_@cactus-technologies/utils.encrypt) ⇒ <code>String</code>
         -   [.decrypt(encrypted, decryptionKey)](#module_@cactus-technologies/utils.decrypt) ⇒ <code>String</code>
@@ -654,7 +655,7 @@ also be a Promise for a result Object with stdout and stderr properties.
 | Param                 | Type                                                  | Default                    | Description                                                                                                                                                                            |
 | --------------------- | ----------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | command               | <code>String</code>                                   |                            |                                                                                                                                                                                        |
-| [args]                | <code>Array</code> \| <code>String</code>             | <code>\[]</code>           | Either an Array of arguments or a String with the arguments.                                                                                                                           |
+| [args]                | <code>Array</code>                                    | <code>\[]</code>           | Either an Array of arguments or a String with the arguments.                                                                                                                           |
 | [options]             | <code>Object</code>                                   |                            |                                                                                                                                                                                        |
 | [options.cwd]         | <code>String</code>                                   | <code>process.cwd()</code> | Current working directory of the child process.                                                                                                                                        |
 | [options.env]         | <code>Object</code>                                   | <code>process.env</code>   | Environment key-value pairs. Extends automatically from `process.env`                                                                                                                  |
@@ -675,33 +676,42 @@ also be a Promise for a result Object with stdout and stderr properties.
 
 ```js
 ;(async () => {
-    const result = await utils.exec(
-        'omxplayer',
+    const result = await utils.exec('omxplayer', [
         '~/color-factory/assets/videoFile'
-    )
+    ])
 })()
 ```
 
-**Example**
+<a name="module_@cactus-technologies/utils.shell"></a>
 
-```js
-;(async () => {
-    const outputPath = '~/color-factory/assets/videoFile'
-    try {
-        await utils.exec('ffmpeg', [
-            '-i',
-            inputPath,
-            '-vf',
-            `crop=${crop}:${crop}:${startX}:${startY}`,
-            outputPath
-        ])
-        return outputPath
-    } catch (err) {
-        log.error(err)
-        throw err
-    }
-})()
-```
+### utils.shell(command, [options]) ⇒ <code>Promise</code>
+
+A better child_process.exec:
+
+**Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
+**Returns**: <code>Promise</code> - Returns a child_process instance, which is enhanced to
+also be a Promise for a result Object with stdout and stderr properties.  
+**Category**: Child Process  
+**See**: [execa](https://github.com/sindresorhus/execa#readme) for details
+
+| Param                 | Type                                                  | Default                    | Description                                                                                                                                                                            |
+| --------------------- | ----------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| command               | <code>String</code>                                   |                            |                                                                                                                                                                                        |
+| [options]             | <code>Object</code>                                   |                            |                                                                                                                                                                                        |
+| [options.cwd]         | <code>String</code>                                   | <code>process.cwd()</code> | Current working directory of the child process.                                                                                                                                        |
+| [options.env]         | <code>Object</code>                                   | <code>process.env</code>   | Environment key-value pairs. Extends automatically from `process.env`                                                                                                                  |
+| [options.extendEnv]   | <code>Boolean</code>                                  | <code>true</code>          | Set to false if you don't want to extend the environment variables when providing the env property.                                                                                    |
+| [options.argv0]       | <code>String</code>                                   |                            | Explicitly set the value of `argv[0]`                                                                                                                                                  |
+| [options.stdio]       | <code>String</code> \| <code>Array.&lt;String></code> | <code>pipe</code>          | Child's stdio configuration.                                                                                                                                                           |
+| [options.detached]    | <code>Boolean</code>                                  | <code>false</code>         | Prepare child to run independently of its parent process.                                                                                                                              |
+| [options.shell]       | <code>Boolean</code>                                  | <code>false</code>         | If `true`, runs command inside of a shell. Uses `/bin/sh` on `UNIX` and `cmd.exe` on `Windows`.                                                                                        |
+| [options.preferLocal] | <code>Boolean</code>                                  | <code>true</code>          | Prefer locally installed binaries when looking for a binary to execute. If you `npm install foo`, you can then `utils.exec('foo')`.                                                    |
+| [options.localDir]    | <code>String</code>                                   | <code>process.cwd()</code> | Preferred path to find locally installed binaries in (use with `preferLocal`).                                                                                                         |
+| [options.input]       | <code>String</code>                                   |                            | Write some input to the `stdin` of your binary.                                                                                                                                        |
+| [options.reject]      | <code>Boolean</code>                                  | <code>true</code>          | Setting this to `false` resolves the promise with the error instead of rejecting it.                                                                                                   |
+| [options.cleanup]     | <code>Boolean</code>                                  | <code>true</code>          | Keep track of the spawned process and `kill` it when the parent process exits.                                                                                                         |
+| [options.timeout]     | <code>Boolean</code>                                  | <code>0</code>             | If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds. |
+| [options.killSignal]  | <code>String</code>                                   | <code>SIGTERM</code>       | Signal value to be used when the spawned process will be killed.                                                                                                                       |
 
 <a name="module_@cactus-technologies/utils.encrypt"></a>
 
@@ -1204,12 +1214,3 @@ Promisified version of process.nextTick
 [UNLICENCED](./LICENSE) © [Cactus Technologies, LLC](https://www.cactus.is)
 
 <!--/@-->
-
-### TODOs
-
-| Filename                  | line # | TODO                                           |
-| :------------------------ | :----: | :--------------------------------------------- |
-| [index.js](index.js#L10)  |   10   | Propper attributions                           |
-| [index.js](index.js#L90)  |   90   | Detect and use the native promisified versions |
-| [index.js](index.js#L602) |  602   | Use cripto.createCipheriv                      |
-| [index.js](index.js#L621) |  621   | Use cripto.createDecipheriv                    |

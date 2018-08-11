@@ -7,6 +7,13 @@
             "follow_symlinks": true
         },
         {
+            "name": "Modules",
+            "path": "modules",
+            "folder_exclude_patterns": [],
+            "file_exclude_patterns": [],
+            "follow_symlinks": true
+        },
+        {
             "name": "📦 node_modules",
             "path": "node_modules",
             "folder_exclude_patterns": [],
@@ -14,7 +21,9 @@
             "follow_symlinks": true
         }
     ],
-    "settings": {},
+    "settings": {
+        "index_exclude_patterns": ["*.log", "*.min.*", "*/build/**"]
+    },
     "build_systems": [],
     "autoFormatter": {
         "format_on_save": true,
