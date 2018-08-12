@@ -26,4 +26,4 @@
 | [./modules/general/index.js](./modules/general/index.js#L630)  |  630   | Use cripto.createDecipheriv                              |
 | [./modules/logger/index.js](./modules/logger/index.js#L11)     |   11   | SUPPRESS_NO_CONFIG_WARNING                               |
 | [./modules/logger/index.js](./modules/logger/index.js#L40)     |   40   | Investigate how to pass the stream via the config files. |
-| [./modules/server/lib/pre.js](./modules/server/lib/pre.js#L80) |   80   | AllowHeaders should read as an array.                    |
+| [./modules/server/lib/pre.js](./modules/server/lib/pre.js#L69) |   69   | AllowHeaders should read as an array.                    |

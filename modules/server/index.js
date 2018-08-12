@@ -48,15 +48,15 @@ class CactusServer {
     this.app.use(pre.setAuthDefaults)
     this.app.use(pre.compressResponses)
 
-    this.app.use(security.dnsPrefetchControl)
-    this.app.use(security.frameguard)
+    this.app.use(security.dnsPreFetchControl)
+    this.app.use(security.frameGuard)
     this.app.use(security.ieNoOpen)
     this.app.use(security.noSniff)
     this.app.use(security.xssFilter)
     this.app.use(security.referrerPolicy)
 
     this.app.use(pre.crossOrigin)
-    this.app.use(pre.preFligth)
+    this.app.use(pre.preFlight)
     this.app.use(pre.serveFavicon)
     this.app.use(pre.serveFiles)
     this.app.use(pre.logRequests)
@@ -107,13 +107,18 @@ class CactusServer {
       error = new InternalServerError(error, error.message)
     }
 
-    request.log.error(error)
+    if (error.status >= 500) {
+      request.log.error(error, error.message)
+    } else {
+      error.stack = '\n'
+      request.log.warn(error, error.message)
+    }
 
     next(error)
   }
 
   /**
-   * Sends the error to keymetrics and calls next
+   * Sends the error to pm2.io and calls next
    *
    * @param {Error}        error
    * @param {HttpRequest}  request

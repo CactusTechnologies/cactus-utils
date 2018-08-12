@@ -9,23 +9,12 @@ const fp = require('lodash/fp')
 const onHeaders = require('on-headers')
 const path = require('path')
 const favicon = require('serve-favicon')
-
 const uuid = require('@cactus-technologies/uuid')
-const logger = require('@cactus-technologies/logger')({
-  name: 'http',
-  serializers: {
-    req: requestSerializer,
-    res: responseSerializer
-  }
-})
+const logger = require('@cactus-technologies/logger')
+const serializers = require('../../logger/lib/serializers')
+const { getDuration, humanizeStatusCode } = require('./utils')
 
-const {
-  getDuration,
-  humanizeStatusCode,
-  getCleanUrl,
-  redactHeaders,
-  redactResponseHeaders
-} = require('./utils')
+const reqLogger = logger({ name: 'http', serializers: serializers })
 
 /**
  * Sets response.startTime and duration
@@ -130,8 +119,8 @@ exports.compressResponses = compression()
  * @type {Function}
  */
 exports.serveFavicon = (() => {
-  const faviTarget = path.resolve(process.cwd(), 'assets', 'favicon.ico')
-  if (fs.existsSync(faviTarget)) return favicon(faviTarget)
+  const target = path.resolve(process.cwd(), 'assets', 'favicon.ico')
+  if (fs.existsSync(target)) return favicon(target)
   return (req, res, next) => next()
 })()
 
@@ -140,9 +129,9 @@ exports.serveFavicon = (() => {
  *
  * @type {Function}
  */
-exports.serveFiles = ((publicDir = 'path') => {
-  const publicTarget = path.resolve(process.cwd(), publicDir)
-  if (fs.existsSync(publicTarget)) return express.static(publicTarget)
+exports.serveFiles = (() => {
+  const target = path.resolve(process.cwd(), 'public')
+  if (fs.existsSync(target)) return express.static(target)
   return (req, res, next) => next()
 })()
 
@@ -194,7 +183,7 @@ exports.logRequests = function logRequests (request, response, next) {
   )
 
   response.startTime = response.startTime || process.hrtime()
-  request.log = logger.child({ req_id: request.reqId })
+  request.log = reqLogger.child({ req_id: request.reqId })
 
   if (uaTest(request.get('user-agent'))) return next()
 
@@ -293,42 +282,5 @@ exports.setAuthDefaults = function setAuthDefaults (request, response, next) {
       `X-${request.app.get('domain')}-Auth-Method`,
       request.authMethod || 'None'
     )
-  }
-}
-
-/**
- * Serializes HTTPRequest Objects
- *
- * @param  {Object} req HTTPRequest
- *
- * @return {Object}
- */
-
-function requestSerializer (req) {
-  if (!req || !req.connection) return req
-
-  return {
-    method: req.method,
-    url: getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
-    headers: redactHeaders(req.headers),
-    userId: req.userId || 'nobody',
-    httpVersion: `${req.httpVersionMajor}.${req.httpVersionMinor}`,
-    remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
-    remotePort: req.connection.remotePort
-  }
-}
-
-/**
- * Serializes HTTPResponse Objects
- *
- * @param  {Object} res HTTPResponse
- *
- * @return {Object}
- */
-function responseSerializer (res) {
-  if (!res || !res.statusCode) return res
-  return {
-    statusCode: res.statusCode,
-    header: redactResponseHeaders(res._header)
   }
 }
