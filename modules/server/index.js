@@ -9,9 +9,7 @@
 const express = require('express')
 const http = require('http')
 
-const {
-  App: { io, exitHook }
-} = require('@cactus-technologies/node-application')
+const { io, exitHook } = require('@cactus-technologies/node-application')
 const errors = require('@cactus-technologies/errors')
 const logger = require('@cactus-technologies/logger')
 
