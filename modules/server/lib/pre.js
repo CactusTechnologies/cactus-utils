@@ -11,9 +11,21 @@ const path = require('path')
 const favicon = require('serve-favicon')
 
 const uuid = require('@cactus-technologies/uuid')
-const logger = require('@cactus-technologies/logger')('http')
+const logger = require('@cactus-technologies/logger')({
+  name: 'http',
+  serializers: {
+    req: requestSerializer,
+    res: responseSerializer
+  }
+})
 
-const { getDuration, humanizeStatusCode } = require('./utils')
+const {
+  getDuration,
+  humanizeStatusCode,
+  getCleanUrl,
+  redactHeaders,
+  redactResponseHeaders
+} = require('./utils')
 
 /**
  * Sets response.startTime and duration
@@ -172,9 +184,8 @@ exports.setRequestId = function setRequestId (request, response, next) {
  */
 
 exports.logRequests = function logRequests (request, response, next) {
-  // const blacklist = [...config.get('logs.http.skipUserAgents')]
-  const blacklist = []
-  const debugHeader = 'X-Lab100-Debug'
+  const blacklist = ['ELB-HealthChecker']
+  const debugHeader = 'X-Cactus-Debug'
   const uaTest = lo.overSome(
     blacklist.map(i => {
       const uaRegex = new RegExp(i, 'gmi')
@@ -186,10 +197,9 @@ exports.logRequests = function logRequests (request, response, next) {
   request.log = logger.child({ req_id: request.reqId })
 
   if (uaTest(request.get('user-agent'))) return next()
-  const j = request.get(debugHeader)
-  console.log(j)
+
   /* Use the Debug Header */
-  if (!fp.isEmpty(request.get(debugHeader))) {
+  if (!lo.isEmpty(request.get(debugHeader))) {
     request.log.level = 'trace'
   }
 
@@ -227,21 +237,6 @@ exports.logRequests = function logRequests (request, response, next) {
   }
 }
 
-/* http: {
-  obscureHeaders: ['authorization', 'set-cookie'],
-    excludeHeaders: [
-      'x-amzn-trace-id',
-      'x-content-type-options',
-      'x-dns-prefetch-control',
-      'x-download-options',
-      'x-forwarded-port',
-      'x-forwarded-proto',
-      'x-frame-options',
-      'x-xss-protection'
-    ],
-      skipUserAgents: ['ELB-HealthChecker']
-}
- */
 /**
  * parses incoming requests with JSON payloads
  *
@@ -298,5 +293,42 @@ exports.setAuthDefaults = function setAuthDefaults (request, response, next) {
       `X-${request.app.get('domain')}-Auth-Method`,
       request.authMethod || 'None'
     )
+  }
+}
+
+/**
+ * Serializes HTTPRequest Objects
+ *
+ * @param  {Object} req HTTPRequest
+ *
+ * @return {Object}
+ */
+
+function requestSerializer (req) {
+  if (!req || !req.connection) return req
+
+  return {
+    method: req.method,
+    url: getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
+    headers: redactHeaders(req.headers),
+    userId: req.userId || 'nobody',
+    httpVersion: `${req.httpVersionMajor}.${req.httpVersionMinor}`,
+    remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
+    remotePort: req.connection.remotePort
+  }
+}
+
+/**
+ * Serializes HTTPResponse Objects
+ *
+ * @param  {Object} res HTTPResponse
+ *
+ * @return {Object}
+ */
+function responseSerializer (res) {
+  if (!res || !res.statusCode) return res
+  return {
+    statusCode: res.statusCode,
+    header: redactResponseHeaders(res._header)
   }
 }
