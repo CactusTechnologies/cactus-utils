@@ -43,7 +43,7 @@ exports.requestStart = function requestStart (request, response, next) {
  */
 
 exports.serverHeaders = function serverHeaders (request, response, next) {
-  const mesageHeader = `X-${request.app.get('domain')}-Message`
+  const messageHeader = `X-${request.app.get('domain')}-Message`
   const domain = request.app.get('domain')
 
   response.set({
@@ -57,8 +57,8 @@ exports.serverHeaders = function serverHeaders (request, response, next) {
   next()
 
   function setMessage () {
-    if (this.get(mesageHeader)) return
-    this.set(mesageHeader, humanizeStatusCode(this.statusCode || 200))
+    if (this.get(messageHeader)) return
+    this.set(messageHeader, humanizeStatusCode(this.statusCode || 200))
   }
 }
 
@@ -97,11 +97,11 @@ exports.crossOrigin = function crossOrigin (request, response, next) {
 }
 
 /**
- * Answer to the Prefligth OPTIONS request
+ * Answer to the preFlight OPTIONS request
  *
  * @type {Function}
  */
-exports.preFligth = function preFligth (request, response, next) {
+exports.preFlight = function preFlight (request, response, next) {
   if (request.method === 'OPTIONS') return response.sendStatus(200)
   next()
 }
