@@ -1,4 +1,5 @@
 const { STATUS_CODES } = require('http')
+const URL = require('url')
 const fp = require('lodash/fp')
 
 exports.humanizeStatusCode = input => fp.getOr('Unknown', input, STATUS_CODES)

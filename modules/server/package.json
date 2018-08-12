@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/server",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Basic Server for Cactus Webservices",
   "homepage": "https://github.com/CactusTechnologies/cactus-bare-server#readme",
   "bugs": {
