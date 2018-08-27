@@ -39,14 +39,14 @@ A set of Unique ID generators
 
 <a name="module_@cactus-technologies/uuid.v4"></a>
 
-### @cactus-technologies/uuid.v4() ⇒ <code>String</code>
+### uuid.v4() ⇒ <code>String</code>
 
 Creates a 'UUID4 Random String'
 
 **Kind**: static method of [<code>@cactus-technologies/uuid</code>](#module_@cactus-technologies/uuid)  
 <a name="module_@cactus-technologies/uuid.hex"></a>
 
-### @cactus-technologies/uuid.hex(length) ⇒ <code>String</code>
+### uuid.hex(length) ⇒ <code>String</code>
 
 Produce a random string comprised of numbers or the characters ABCDEF of
 length 'length'
@@ -60,7 +60,7 @@ length 'length'
 
 <a name="module_@cactus-technologies/uuid.numeric"></a>
 
-### @cactus-technologies/uuid.numeric(digits) ⇒ <code>String</code>
+### uuid.numeric(digits) ⇒ <code>String</code>
 
 Creates a 'Numeric Random String' with the last digit being used as a
 CheckDigit using the Damn algorithm.
@@ -74,22 +74,22 @@ CheckDigit using the Damn algorithm.
 
 <a name="module_@cactus-technologies/uuid.timeStamp"></a>
 
-### @cactus-technologies/uuid.timeStamp() ⇒ <code>String</code>
+### uuid.timeStamp() ⇒ <code>String</code>
 
-Returns the number of milliseconds since the Unix Epoch. Appatently is called
+Returns the number of milliseconds since the Unix Epoch. Apparently is called
 ["TimeValue"](https://www.ecma-international.org/ecma-262/6.0/#sec-time-values-and-time-range)
 
 **Kind**: static method of [<code>@cactus-technologies/uuid</code>](#module_@cactus-technologies/uuid)  
 <a name="module_@cactus-technologies/uuid.shortStamp"></a>
 
-### @cactus-technologies/uuid.shortStamp() ⇒ <code>String</code>
+### uuid.shortStamp() ⇒ <code>String</code>
 
 Outputs a Unix Timestamp (the number of seconds since the Unix Epoch).
 
 **Kind**: static method of [<code>@cactus-technologies/uuid</code>](#module_@cactus-technologies/uuid)  
 <a name="module_@cactus-technologies/uuid.pokemon"></a>
 
-### @cactus-technologies/uuid.pokemon([hex]) ⇒ <code>String</code>
+### uuid.pokemon([hex]) ⇒ <code>String</code>
 
 Outputs a Random Pokemon Name, ONLY FROM THE ORIGINAL 151
 
@@ -102,14 +102,14 @@ Outputs a Random Pokemon Name, ONLY FROM THE ORIGINAL 151
 
 <a name="module_@cactus-technologies/uuid.heroku"></a>
 
-### @cactus-technologies/uuid.heroku() ⇒ <code>String</code>
+### uuid.heroku() ⇒ <code>String</code>
 
 Generate Heroku-like random names
 
 **Kind**: static method of [<code>@cactus-technologies/uuid</code>](#module_@cactus-technologies/uuid)  
 <a name="module_@cactus-technologies/uuid.humanized"></a>
 
-### @cactus-technologies/uuid.humanized(words) ⇒ <code>String</code>
+### uuid.humanized(words) ⇒ <code>String</code>
 
 Generates a Humanized String delimited by '.'
 
@@ -133,11 +133,3 @@ and licensed under:
 <ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
 
 <!-- /LICENSE -->
-
-+++
-
-### TODOs
-
-| Filename | line # | TODO |
-| :------- | :----: | :--- |
-

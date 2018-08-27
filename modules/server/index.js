@@ -72,7 +72,7 @@ class CactusServer {
    *
    * @param  {Number} port
    *
-   * @return {Promisse}
+   * @return {Promise}
    */
 
   listen () {

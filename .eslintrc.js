@@ -1,8 +1,8 @@
 module.exports = {
   extends: 'standard',
-  // rules: {
-  //   'valid-jsdoc': 1
-  // },
+  rules: {
+    'valid-jsdoc': 1
+  },
   env: {
     node: true
   }

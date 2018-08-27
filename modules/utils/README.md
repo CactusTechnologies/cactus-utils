@@ -1,24 +1,25 @@
-<!--@h1([pkg.name])-->
+<!-- TITLE/ -->
 
-# @cactus-technologies/utils
+<h1>@cactus-technologies/utils</h1>
 
-<!--/@-->
+<!-- /TITLE -->
 
-<!--@pkg.description-->
+<!-- DESCRIPTION/ -->
 
 Utility functions for node base apps
 
-<!--/@-->
+<!-- /DESCRIPTION -->
 
-<!--@installation()-->
+<!-- INSTALL/ -->
 
-## Installation
+<h2>Install</h2>
 
-```sh
-npm install --save @cactus-technologies/utils
-```
+<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
 
-<!--/@-->
+<li>Install: <code>npm install --save @cactus-technologies/utils</code></li>
+<li>Module: <code>require('@cactus-technologies/utils')</code></li></ul>
+
+<!-- /INSTALL -->
 
 <a name="module_@cactus-technologies/utils"></a>
 
@@ -34,8 +35,8 @@ const utils = require('@cactus-technologies/utils')
     -   [.assert](#module_@cactus-technologies/utils.assert) : <code>object</code>
         -   _Date Validation_
             -   [.isBeforeToday(entry)](#module_@cactus-technologies/utils.assert.isBeforeToday) ⇒ <code>Boolean</code>
-            -   [.isBefore(entry, \[date\])](#module_@cactus-technologies/utils.assert.isBefore) ⇒ <code>Boolean</code>
-            -   [.isAfter(entry, \[date\])](#module_@cactus-technologies/utils.assert.isAfter) ⇒ <code>Boolean</code>
+            -   [.isBefore(entry, [date])](#module_@cactus-technologies/utils.assert.isBefore) ⇒ <code>Boolean</code>
+            -   [.isAfter(entry, [date])](#module_@cactus-technologies/utils.assert.isAfter) ⇒ <code>Boolean</code>
         -   _FileSystem Validation_
             -   [.exists(path)](#module_@cactus-technologies/utils.assert.exists) ⇒ <code>Boolean</code>
         -   _Integrity Validation_
@@ -71,12 +72,12 @@ const utils = require('@cactus-technologies/utils')
     -   ~~[.exists()](#module_@cactus-technologies/utils.exists)~~
     -   ~~[.format()](#module_@cactus-technologies/utils.format)~~
     -   _Async helpers_
-        -   [.makeRetryable(fn, \[opts\])](#module_@cactus-technologies/utils.makeRetryable) ⇒ <code>Promise</code>
-        -   [.retry(fn, \[opts\])](#module_@cactus-technologies/utils.retry) ⇒ <code>Promise</code>
+        -   [.makeRetryable(fn, [opts])](#module_@cactus-technologies/utils.makeRetryable) ⇒ <code>Promise</code>
+        -   [.retry(fn, [opts])](#module_@cactus-technologies/utils.retry) ⇒ <code>Promise</code>
         -   [.forever(fn)](#module_@cactus-technologies/utils.forever) ⇒ <code>Promise</code>
     -   _Child Process_
-        -   [.exec(command, \[args\], \[options\])](#module_@cactus-technologies/utils.exec) ⇒ <code>Promise</code>
-        -   [.shell(command, \[options\])](#module_@cactus-technologies/utils.shell) ⇒ <code>Promise</code>
+        -   [.exec(command, [args], [options])](#module_@cactus-technologies/utils.exec) ⇒ <code>Promise</code>
+        -   [.shell(command, [options])](#module_@cactus-technologies/utils.shell) ⇒ <code>Promise</code>
     -   _Crypto_
         -   [.encrypt(decrypted, encryptionKey)](#module_@cactus-technologies/utils.encrypt) ⇒ <code>String</code>
         -   [.decrypt(encrypted, decryptionKey)](#module_@cactus-technologies/utils.decrypt) ⇒ <code>String</code>
@@ -84,11 +85,11 @@ const utils = require('@cactus-technologies/utils')
     -   _File system_
         -   [.rm](#module_@cactus-technologies/utils.rm) ⇒ <code>Promise</code>
         -   [.mkd(path)](#module_@cactus-technologies/utils.mkd) ⇒ <code>Promise</code>
-        -   [.readFile(filePath, \[options\])](#module_@cactus-technologies/utils.readFile) ⇒ <code>Promise</code>
-        -   [.writeFile(filePath, data, \[opts\])](#module_@cactus-technologies/utils.writeFile) ⇒ <code>Promise</code>
+        -   [.readFile(filePath, [options])](#module_@cactus-technologies/utils.readFile) ⇒ <code>Promise</code>
+        -   [.writeFile(filePath, data, [opts])](#module_@cactus-technologies/utils.writeFile) ⇒ <code>Promise</code>
         -   [.deleteFile(filePath)](#module_@cactus-technologies/utils.deleteFile) ⇒ <code>Promise</code>
         -   [.readJson(filePath)](#module_@cactus-technologies/utils.readJson) ⇒ <code>Promise</code>
-        -   [.writeJson(filepath, data, \[options\])](#module_@cactus-technologies/utils.writeJson) ⇒ <code>Promise</code>
+        -   [.writeJson(filepath, data, [options])](#module_@cactus-technologies/utils.writeJson) ⇒ <code>Promise</code>
         -   ~~[.saveFile()](#module_@cactus-technologies/utils.saveFile)~~
         -   ~~[.saveJson()](#module_@cactus-technologies/utils.saveJson)~~
     -   _Humanizers_
@@ -99,7 +100,7 @@ const utils = require('@cactus-technologies/utils')
         -   [.extend(mergeInto, ...mergeFrom)](#module_@cactus-technologies/utils.extend) ⇒ <code>Object</code>
         -   [.diff(objA, objB)](#module_@cactus-technologies/utils.diff) ⇒ <code>Object</code>
         -   [.clone(obj)](#module_@cactus-technologies/utils.clone) ⇒ <code>Object</code>
-        -   [.sortKeys(obj, \[sortWith\])](#module_@cactus-technologies/utils.sortKeys) ⇒ <code>Object</code>
+        -   [.sortKeys(obj, [sortWith])](#module_@cactus-technologies/utils.sortKeys) ⇒ <code>Object</code>
     -   _Promise Chains_
         -   [.tap](#module_@cactus-technologies/utils.tap) ⇒ <code>Promise</code>
         -   [.forEach(coll, iteratee)](#module_@cactus-technologies/utils.forEach) ⇒ <code>Promise</code>
@@ -111,7 +112,7 @@ const utils = require('@cactus-technologies/utils')
         -   [.mapValues(obj, iteratee)](#module_@cactus-technologies/utils.mapValues) ⇒ <code>Promise</code>
         -   [.pipe(...fn)](#module_@cactus-technologies/utils.pipe) ⇒ <code>Promise</code>
     -   _Promised Timers_
-        -   [.wait(\[ms\])](#module_@cactus-technologies/utils.wait) ⇒ <code>Promise</code>
+        -   [.wait([ms])](#module_@cactus-technologies/utils.wait) ⇒ <code>Promise</code>
         -   [.nextTick()](#module_@cactus-technologies/utils.nextTick) ⇒ <code>Promise</code>
 
 <a name="module_@cactus-technologies/utils.assert"></a>
@@ -125,8 +126,8 @@ Assert functions for quick validations.
 -   [.assert](#module_@cactus-technologies/utils.assert) : <code>object</code>
     -   _Date Validation_
         -   [.isBeforeToday(entry)](#module_@cactus-technologies/utils.assert.isBeforeToday) ⇒ <code>Boolean</code>
-        -   [.isBefore(entry, \[date\])](#module_@cactus-technologies/utils.assert.isBefore) ⇒ <code>Boolean</code>
-        -   [.isAfter(entry, \[date\])](#module_@cactus-technologies/utils.assert.isAfter) ⇒ <code>Boolean</code>
+        -   [.isBefore(entry, [date])](#module_@cactus-technologies/utils.assert.isBefore) ⇒ <code>Boolean</code>
+        -   [.isAfter(entry, [date])](#module_@cactus-technologies/utils.assert.isAfter) ⇒ <code>Boolean</code>
     -   _FileSystem Validation_
         -   [.exists(path)](#module_@cactus-technologies/utils.assert.exists) ⇒ <code>Boolean</code>
     -   _Integrity Validation_
@@ -281,7 +282,7 @@ Returns `true` if the value is not a valid Date
 
 #### assert.notOkStatus(entry) ⇒ <code>Boolean</code>
 
-Returns `true` if the value is not a valid status code (>= 200 &lt; 400)
+Returns `true` if the value is not a valid status code (>= 200 < 400)
 
 **Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
 **Category**: Negated Validation
@@ -456,7 +457,7 @@ Returns `true` if the value is a valid Date
 
 #### assert.isOkStatus(entry) ⇒ <code>Boolean</code>
 
-Returns `true` if the value is a valid status code (>= 200 &lt; 400)
+Returns `true` if the value is a valid status code (>= 200 < 400)
 
 **Kind**: static method of [<code>assert</code>](#module_@cactus-technologies/utils.assert)  
 **Category**: Validation
@@ -652,25 +653,25 @@ also be a Promise for a result Object with stdout and stderr properties.
 **Category**: Child Process  
 **See**: [execa](https://github.com/sindresorhus/execa#readme) for details
 
-| Param                 | Type                                                  | Default                    | Description                                                                                                                                                                            |
-| --------------------- | ----------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| command               | <code>String</code>                                   |                            |                                                                                                                                                                                        |
-| [args]                | <code>Array</code>                                    | <code>\[]</code>           | Either an Array of arguments or a String with the arguments.                                                                                                                           |
-| [options]             | <code>Object</code>                                   |                            |                                                                                                                                                                                        |
-| [options.cwd]         | <code>String</code>                                   | <code>process.cwd()</code> | Current working directory of the child process.                                                                                                                                        |
-| [options.env]         | <code>Object</code>                                   | <code>process.env</code>   | Environment key-value pairs. Extends automatically from `process.env`                                                                                                                  |
-| [options.extendEnv]   | <code>Boolean</code>                                  | <code>true</code>          | Set to false if you don't want to extend the environment variables when providing the env property.                                                                                    |
-| [options.argv0]       | <code>String</code>                                   |                            | Explicitly set the value of `argv[0]`                                                                                                                                                  |
-| [options.stdio]       | <code>String</code> \| <code>Array.&lt;String></code> | <code>pipe</code>          | Child's stdio configuration.                                                                                                                                                           |
-| [options.detached]    | <code>Boolean</code>                                  | <code>false</code>         | Prepare child to run independently of its parent process.                                                                                                                              |
-| [options.shell]       | <code>Boolean</code>                                  | <code>false</code>         | If `true`, runs command inside of a shell. Uses `/bin/sh` on `UNIX` and `cmd.exe` on `Windows`.                                                                                        |
-| [options.preferLocal] | <code>Boolean</code>                                  | <code>true</code>          | Prefer locally installed binaries when looking for a binary to execute. If you `npm install foo`, you can then `utils.exec('foo')`.                                                    |
-| [options.localDir]    | <code>String</code>                                   | <code>process.cwd()</code> | Preferred path to find locally installed binaries in (use with `preferLocal`).                                                                                                         |
-| [options.input]       | <code>String</code>                                   |                            | Write some input to the `stdin` of your binary.                                                                                                                                        |
-| [options.reject]      | <code>Boolean</code>                                  | <code>true</code>          | Setting this to `false` resolves the promise with the error instead of rejecting it.                                                                                                   |
-| [options.cleanup]     | <code>Boolean</code>                                  | <code>true</code>          | Keep track of the spawned process and `kill` it when the parent process exits.                                                                                                         |
-| [options.timeout]     | <code>Boolean</code>                                  | <code>0</code>             | If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds. |
-| [options.killSignal]  | <code>String</code>                                   | <code>SIGTERM</code>       | Signal value to be used when the spawned process will be killed.                                                                                                                       |
+| Param                 | Type                                                     | Default                    | Description                                                                                                                                                                            |
+| --------------------- | -------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| command               | <code>String</code>                                      |                            |                                                                                                                                                                                        |
+| [args]                | <code>Array</code>                                       | <code>[]</code>            | Either an Array of arguments or a String with the arguments.                                                                                                                           |
+| [options]             | <code>Object</code>                                      |                            |                                                                                                                                                                                        |
+| [options.cwd]         | <code>String</code>                                      | <code>process.cwd()</code> | Current working directory of the child process.                                                                                                                                        |
+| [options.env]         | <code>Object</code>                                      | <code>process.env</code>   | Environment key-value pairs. Extends automatically from `process.env`                                                                                                                  |
+| [options.extendEnv]   | <code>Boolean</code>                                     | <code>true</code>          | Set to false if you don't want to extend the environment variables when providing the env property.                                                                                    |
+| [options.argv0]       | <code>String</code>                                      |                            | Explicitly set the value of `argv[0]`                                                                                                                                                  |
+| [options.stdio]       | <code>String</code> \| <code>Array.&lt;String&gt;</code> | <code>pipe</code>          | Child's stdio configuration.                                                                                                                                                           |
+| [options.detached]    | <code>Boolean</code>                                     | <code>false</code>         | Prepare child to run independently of its parent process.                                                                                                                              |
+| [options.shell]       | <code>Boolean</code>                                     | <code>false</code>         | If `true`, runs command inside of a shell. Uses `/bin/sh` on `UNIX` and `cmd.exe` on `Windows`.                                                                                        |
+| [options.preferLocal] | <code>Boolean</code>                                     | <code>true</code>          | Prefer locally installed binaries when looking for a binary to execute. If you `npm install foo`, you can then `utils.exec('foo')`.                                                    |
+| [options.localDir]    | <code>String</code>                                      | <code>process.cwd()</code> | Preferred path to find locally installed binaries in (use with `preferLocal`).                                                                                                         |
+| [options.input]       | <code>String</code>                                      |                            | Write some input to the `stdin` of your binary.                                                                                                                                        |
+| [options.reject]      | <code>Boolean</code>                                     | <code>true</code>          | Setting this to `false` resolves the promise with the error instead of rejecting it.                                                                                                   |
+| [options.cleanup]     | <code>Boolean</code>                                     | <code>true</code>          | Keep track of the spawned process and `kill` it when the parent process exits.                                                                                                         |
+| [options.timeout]     | <code>Boolean</code>                                     | <code>0</code>             | If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds. |
+| [options.killSignal]  | <code>String</code>                                      | <code>SIGTERM</code>       | Signal value to be used when the spawned process will be killed.                                                                                                                       |
 
 **Example**
 
@@ -694,24 +695,24 @@ also be a Promise for a result Object with stdout and stderr properties.
 **Category**: Child Process  
 **See**: [execa](https://github.com/sindresorhus/execa#readme) for details
 
-| Param                 | Type                                                  | Default                    | Description                                                                                                                                                                            |
-| --------------------- | ----------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| command               | <code>String</code>                                   |                            |                                                                                                                                                                                        |
-| [options]             | <code>Object</code>                                   |                            |                                                                                                                                                                                        |
-| [options.cwd]         | <code>String</code>                                   | <code>process.cwd()</code> | Current working directory of the child process.                                                                                                                                        |
-| [options.env]         | <code>Object</code>                                   | <code>process.env</code>   | Environment key-value pairs. Extends automatically from `process.env`                                                                                                                  |
-| [options.extendEnv]   | <code>Boolean</code>                                  | <code>true</code>          | Set to false if you don't want to extend the environment variables when providing the env property.                                                                                    |
-| [options.argv0]       | <code>String</code>                                   |                            | Explicitly set the value of `argv[0]`                                                                                                                                                  |
-| [options.stdio]       | <code>String</code> \| <code>Array.&lt;String></code> | <code>pipe</code>          | Child's stdio configuration.                                                                                                                                                           |
-| [options.detached]    | <code>Boolean</code>                                  | <code>false</code>         | Prepare child to run independently of its parent process.                                                                                                                              |
-| [options.shell]       | <code>Boolean</code>                                  | <code>false</code>         | If `true`, runs command inside of a shell. Uses `/bin/sh` on `UNIX` and `cmd.exe` on `Windows`.                                                                                        |
-| [options.preferLocal] | <code>Boolean</code>                                  | <code>true</code>          | Prefer locally installed binaries when looking for a binary to execute. If you `npm install foo`, you can then `utils.exec('foo')`.                                                    |
-| [options.localDir]    | <code>String</code>                                   | <code>process.cwd()</code> | Preferred path to find locally installed binaries in (use with `preferLocal`).                                                                                                         |
-| [options.input]       | <code>String</code>                                   |                            | Write some input to the `stdin` of your binary.                                                                                                                                        |
-| [options.reject]      | <code>Boolean</code>                                  | <code>true</code>          | Setting this to `false` resolves the promise with the error instead of rejecting it.                                                                                                   |
-| [options.cleanup]     | <code>Boolean</code>                                  | <code>true</code>          | Keep track of the spawned process and `kill` it when the parent process exits.                                                                                                         |
-| [options.timeout]     | <code>Boolean</code>                                  | <code>0</code>             | If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds. |
-| [options.killSignal]  | <code>String</code>                                   | <code>SIGTERM</code>       | Signal value to be used when the spawned process will be killed.                                                                                                                       |
+| Param                 | Type                                                     | Default                    | Description                                                                                                                                                                            |
+| --------------------- | -------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| command               | <code>String</code>                                      |                            |                                                                                                                                                                                        |
+| [options]             | <code>Object</code>                                      |                            |                                                                                                                                                                                        |
+| [options.cwd]         | <code>String</code>                                      | <code>process.cwd()</code> | Current working directory of the child process.                                                                                                                                        |
+| [options.env]         | <code>Object</code>                                      | <code>process.env</code>   | Environment key-value pairs. Extends automatically from `process.env`                                                                                                                  |
+| [options.extendEnv]   | <code>Boolean</code>                                     | <code>true</code>          | Set to false if you don't want to extend the environment variables when providing the env property.                                                                                    |
+| [options.argv0]       | <code>String</code>                                      |                            | Explicitly set the value of `argv[0]`                                                                                                                                                  |
+| [options.stdio]       | <code>String</code> \| <code>Array.&lt;String&gt;</code> | <code>pipe</code>          | Child's stdio configuration.                                                                                                                                                           |
+| [options.detached]    | <code>Boolean</code>                                     | <code>false</code>         | Prepare child to run independently of its parent process.                                                                                                                              |
+| [options.shell]       | <code>Boolean</code>                                     | <code>false</code>         | If `true`, runs command inside of a shell. Uses `/bin/sh` on `UNIX` and `cmd.exe` on `Windows`.                                                                                        |
+| [options.preferLocal] | <code>Boolean</code>                                     | <code>true</code>          | Prefer locally installed binaries when looking for a binary to execute. If you `npm install foo`, you can then `utils.exec('foo')`.                                                    |
+| [options.localDir]    | <code>String</code>                                      | <code>process.cwd()</code> | Preferred path to find locally installed binaries in (use with `preferLocal`).                                                                                                         |
+| [options.input]       | <code>String</code>                                      |                            | Write some input to the `stdin` of your binary.                                                                                                                                        |
+| [options.reject]      | <code>Boolean</code>                                     | <code>true</code>          | Setting this to `false` resolves the promise with the error instead of rejecting it.                                                                                                   |
+| [options.cleanup]     | <code>Boolean</code>                                     | <code>true</code>          | Keep track of the spawned process and `kill` it when the parent process exits.                                                                                                         |
+| [options.timeout]     | <code>Boolean</code>                                     | <code>0</code>             | If timeout is greater than `0`, the parent will send the signal identified by the `killSignal` property (the default is `SIGTERM`) if the child runs longer than timeout milliseconds. |
+| [options.killSignal]  | <code>String</code>                                      | <code>SIGTERM</code>       | Signal value to be used when the spawned process will be killed.                                                                                                                       |
 
 <a name="module_@cactus-technologies/utils.encrypt"></a>
 
@@ -807,7 +808,7 @@ Just a promisified version of fs.readFile
 
 ### utils.writeFile(filePath, data, [opts]) ⇒ <code>Promise</code>
 
-Athomically writes data to a file, replacing the file if it already
+Atomically writes data to a file, replacing the file if it already
 exists. Creates directories for you as needed.
 
 Sync Version is also available under: `utils.writeFile.sync`
@@ -890,15 +891,15 @@ Sync Version is also available under: `utils.writeJson.sync`
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: File system
 
-| Param                  | Type                                       | Default            | Description                                                                        |
-| ---------------------- | ------------------------------------------ | ------------------ | ---------------------------------------------------------------------------------- |
-| filepath               | <code>String</code>                        |                    | Where to save the data                                                             |
-| data                   | <code>Object</code>                        |                    | Data to be saved                                                                   |
-| [options]              | <code>Object</code>                        |                    |                                                                                    |
-| [options.indent]       | <code>String</code> \| <code>Number</code> | <code>'\\t'</code> | Indentation as a `string` or `number` of spaces. Pass in `null` for no formatting. |
-| [options.detectIndent] | <code>Boolean</code>                       | <code>false</code> | Detect indentation automatically if the file exists.                               |
-| [options.sortKeys]     | <code>Boolean</code>                       | <code>false</code> | Sort the keys recursively.                                                         |
-| [options.replace]      | <code>function</code>                      |                    | Passed into `JSON.stringify`.                                                      |
+| Param                  | Type                                       | Default                     | Description                                                                        |
+| ---------------------- | ------------------------------------------ | --------------------------- | ---------------------------------------------------------------------------------- |
+| filepath               | <code>String</code>                        |                             | Where to save the data                                                             |
+| data                   | <code>Object</code>                        |                             | Data to be saved                                                                   |
+| [options]              | <code>Object</code>                        |                             |                                                                                    |
+| [options.indent]       | <code>String</code> \| <code>Number</code> | <code>&#x27;\t&#x27;</code> | Indentation as a `string` or `number` of spaces. Pass in `null` for no formatting. |
+| [options.detectIndent] | <code>Boolean</code>                       | <code>false</code>          | Detect indentation automatically if the file exists.                               |
+| [options.sortKeys]     | <code>Boolean</code>                       | <code>false</code>          | Sort the keys recursively.                                                         |
+| [options.replace]      | <code>function</code>                      |                             | Passed into `JSON.stringify`.                                                      |
 
 **Example**
 
@@ -1189,14 +1190,14 @@ of the previous. ALA fp.pipe but for async functions.
 
 ### utils.wait([ms]) ⇒ <code>Promise</code>
 
-Will resolve the promise after the given miliseconds.
+Will resolve the promise after the given milliseconds.
 
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Promised Timers
 
-| Param | Type                | Default           | Description         |
-| ----- | ------------------- | ----------------- | ------------------- |
-| [ms]  | <code>Number</code> | <code>1000</code> | Miliseconds to wait |
+| Param | Type                | Default           | Description          |
+| ----- | ------------------- | ----------------- | -------------------- |
+| [ms]  | <code>Number</code> | <code>1000</code> | Milliseconds to wait |
 
 <a name="module_@cactus-technologies/utils.nextTick"></a>
 
@@ -1207,10 +1208,16 @@ Promisified version of process.nextTick
 **Kind**: static method of [<code>@cactus-technologies/utils</code>](#module_@cactus-technologies/utils)  
 **Category**: Promised Timers
 
-<!--@license()-->
+<!-- LICENSE/ -->
 
-## License
+<h2>License</h2>
 
-[UNLICENCED](./LICENSE) © [Cactus Technologies, LLC](https://www.cactus.is)
+Unless stated otherwise all works are:
 
-<!--/@-->
+<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
+
+and licensed under:
+
+<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
+
+<!-- /LICENSE -->

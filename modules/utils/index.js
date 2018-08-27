@@ -52,7 +52,6 @@ exports.extend = (mergeInto, ...mergeFrom) =>
  *
  * @category Object Utils
  */
-
 exports.diff = (objA, objB) => require('config').util.diffDeep(objA, objB)
 
 /**
@@ -66,7 +65,6 @@ exports.diff = (objA, objB) => require('config').util.diffDeep(objA, objB)
  *
  * @category Object Utils
  */
-
 exports.clone = obj => require('config').util.cloneDeep(obj)
 
 /**
@@ -82,7 +80,6 @@ exports.clone = obj => require('config').util.cloneDeep(obj)
  * @author keithamus
  * @requires sort-object-keys
  */
-
 exports.sortKeys = require('sort-object-keys')
 
 // ──────────────────────────────  File system  ────────────────────────────────
@@ -138,7 +135,7 @@ exports.rm = require('del')
 exports.readFile = exports.promisify(require('fs').readFile)
 
 /**
- * Athomically writes data to a file, replacing the file if it already
+ * Atomically writes data to a file, replacing the file if it already
  *   exists. Creates directories for you as needed.
  *
  *   Sync Version is also available under: `utils.writeFile.sync`
@@ -521,9 +518,9 @@ exports.forever = exports.promisify(require('async').forever)
 // ────────────────────────────  Promised Timers  ──────────────────────────────
 
 /**
- * Will resolve the promise after the given miliseconds.
+ * Will resolve the promise after the given milliseconds.
  *
- * @param {Number} [ms=1000] - Miliseconds to wait
+ * @param {Number} [ms=1000] - Milliseconds to wait
  *
  * @return {Promise}
  *

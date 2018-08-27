@@ -18,6 +18,3 @@ Icon
 
 # sublime
 *.sublime-workspace
-
-# vagrant
-.vagrant

@@ -1,31 +1,36 @@
-<!--@h1([pkg.name])-->
+<!-- TITLE/ -->
 
-# @cactus-technologies/node-application
+<h1>@cactus-technologies/node-application</h1>
 
-<!--/@-->
+<!-- /TITLE -->
 
-<!--@pkg.description-->
+<!-- DESCRIPTION/ -->
 
 Helper to manage PM2 App definitions and process states
 
-<!--/@-->
+<!-- /DESCRIPTION -->
 
-<!--@installation()-->
+<!-- INSTALL/ -->
 
-## Installation
+<h2>Install</h2>
 
-```sh
-npm install --save @cactus-technologies/node-application
-```
+<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
 
-<!--/@-->
+<li>Install: <code>npm install --save @cactus-technologies/node-application</code></li>
+<li>Module: <code>require('@cactus-technologies/node-application')</code></li></ul>
 
-[TODO]('TODO.md')
+<!-- /INSTALL -->
 
-<!--@license()-->
+<!-- LICENSE/ -->
 
-## License
+<h2>License</h2>
 
-[UNLICENCED](./LICENSE) © [Cactus Technologies, LLC](https://www.cactus.is)
+Unless stated otherwise all works are:
 
-<!--/@-->
+<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
+
+and licensed under:
+
+<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
+
+<!-- /LICENSE -->

@@ -1,45 +1,27 @@
 {
   "name": "@cactus-technologies/logger",
-  "version": "2.2.0-0",
+  "version": "2.2.0",
   "description": "Customized Pino Logger for Cactus projects",
   "keywords": [],
-  "homepage": "https://github.com/CactusTechnologies/cactus-logger#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/cactus-logger.git"
-  },
-  "license": "UNLICENCED",
-  "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
+  "license": "MIT",
+  "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
   "main": "index.js",
-  "scripts": {
-    "docs": "run-s docs:* -sn  && git add README.md AUTHORS",
-    "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
-    "docs:readme": "cat .readme.mos > README.md && mos README.md",
-    "docs:todos": "npm run todos -s -- --reporter vscode >> README.md",
-    "test": "run-s test:* -sn",
-    "test:lint": "eslint --ignore-path .gitignore '**/*.js'",
-    "test:outdated": "npm outdated --long || true",
-    "todos": "leasot './**/**' -Sx -i './node_modules/**/*'"
-  },
+  "scripts": {},
   "dependencies": {
     "@mechanicalhuman/bunyan-pretty": "^2.0.8",
     "config": "^2.0.1",
     "lodash": "^4.17.10",
-    "pino": "^4.17.6"
+    "pino": "^5.4.0"
   },
-  "devDependencies": {
-    "eslint": "^5.2.0",
-    "eslint-config-standard": "12.0.0-alpha.0",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "leasot": "^6.3.0",
-    "lint-staged": "^7.2.0",
-    "mos": "^1.3.1",
-    "npm-run-all": "^4.1.3",
-    "prettier": "^1.14.0",
-    "sort-package-json": "^1.15.0"
+  "maintainers": [],
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CactusTechnologies/cactus-utils.git"
   },
-  "private": true
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
+  }
 }

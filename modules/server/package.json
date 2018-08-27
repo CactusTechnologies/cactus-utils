@@ -1,31 +1,11 @@
 {
   "name": "@cactus-technologies/server",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Basic Server for Cactus Webservices",
-  "homepage": "https://github.com/CactusTechnologies/cactus-bare-server#readme",
-  "bugs": {
-    "url": "https://github.com/CactusTechnologies/cactus-bare-server/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/cactus-bare-server.git"
-  },
-  "license": "UNLICENCED",
-  "author": "Cactus Technologies, LLC <hi@cactus.is> (https://www.cactus.is)",
+  "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
   "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "docs": "run-s docs:* -sn  && git add {README,TODO}.md AUTHORS",
-    "docs:authors": "git log --format='%aN <%aE>' | sort -f | uniq > AUTHORS",
-    "docs:readme": "mos README.md",
-    "docs:todos": "npm run todos -s -- --reporter markdown > TODO.md",
-    "test": "run-s test:* -sn",
-    "test:lint": "eslint './**/*.js'",
-    "test:outdated": "npm outdated --long || true",
-    "todos": "leasot './**/**' --skip-unsupported --ignore './node_modules/**/**' --exit-nicely"
-  },
+  "scripts": {},
+  "license": "MIT",
   "dependencies": {
     "@cactus-technologies/errors": "^1.2.0",
     "@cactus-technologies/logger": "^2.1.0",
@@ -42,18 +22,15 @@
     "serve-favicon": "^2.5.0",
     "sort-object-keys": "^1.1.2"
   },
-  "devDependencies": {
-    "depcheck": "^0.6.9",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "leasot": "^6.3.0",
-    "lint-staged": "^7.2.0",
-    "mos": "^1.3.1",
-    "npm-run-all": "^4.1.3",
-    "prettier": "^1.13.7"
+  "maintainers": [],
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CactusTechnologies/cactus-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
   }
 }

@@ -2,19 +2,19 @@
  * A set of Unique ID generators
  *
  * @module @cactus-technologies/uuid
+ * @typicalname uuid
  */
 
 const Random = require('random-js')
-
 const english = require('./lib/english.json')
 const nouns = require('./lib/nouns.json')
-const adjetives = require('./lib/adjetives.json')
+const adjectives = require('./lib/adjectives.json')
 const pokemons = require('./lib/pokemon.json')
 const damnTable = require('./lib/damn-table.json')
 
 // ───────────────────────────────  SINGLETON  ─────────────────────────────────
 
-/* Create a single unique symbol for the engenie */
+/* Create a single unique symbol for the engine */
 const SYMBOL = Symbol.for('@cactus-technologies/random')
 /* Check if the symbol exists and add it if not found */
 if (!Object.getOwnPropertySymbols(global).includes(SYMBOL)) {
@@ -23,10 +23,10 @@ if (!Object.getOwnPropertySymbols(global).includes(SYMBOL)) {
 }
 
 /*
- * Random Engenie: https://en.wikipedia.org/wiki/Mersenne_Twister
- * This is the random engenie that powers the entire UUID module.
+ * Random Engine: https://en.wikipedia.org/wiki/Mersenne_Twister
+ * This is the random engine that powers the entire UUID module.
  */
-const ENGENIE = global[SYMBOL]
+const ENGINE = global[SYMBOL]
 
 // ────────────────────────────────  Methods  ──────────────────────────────────
 
@@ -34,7 +34,7 @@ const ENGENIE = global[SYMBOL]
  * Creates a 'UUID4 Random String'
  * @return {String}
  */
-exports.v4 = () => Random.uuid4(ENGENIE)
+exports.v4 = () => Random.uuid4(ENGINE)
 
 /**
  * Produce a random string comprised of numbers or the characters ABCDEF of
@@ -42,7 +42,7 @@ exports.v4 = () => Random.uuid4(ENGENIE)
  * @param  {Number} length Length of the Hex String
  * @return {String}        Hex String
  */
-exports.hex = (length = 6) => Random.hex()(ENGENIE, length)
+exports.hex = (length = 6) => Random.hex()(ENGINE, length)
 
 /**
  * Creates a 'Numeric Random String' with the last digit being used as a
@@ -53,7 +53,7 @@ exports.hex = (length = 6) => Random.hex()(ENGENIE, length)
 exports.numeric = function generateNumeric (digits = 10) {
   const totalDigits = digits - 1
   const max = maxNumber(totalDigits)
-  const num = Random.integer(0, max)(ENGENIE)
+  const num = Random.integer(0, max)(ENGINE)
   const base = String(num)
   const padded = base.padStart(totalDigits, '0')
   const hashed = generateCheckDigit(padded)
@@ -61,7 +61,7 @@ exports.numeric = function generateNumeric (digits = 10) {
 }
 
 /**
- * Returns the number of milliseconds since the Unix Epoch. Appatently is called
+ * Returns the number of milliseconds since the Unix Epoch. Apparently is called
  * ["TimeValue"](https://www.ecma-international.org/ecma-262/6.0/#sec-time-values-and-time-range)
  * @return {String}
  */
@@ -79,7 +79,7 @@ exports.shortStamp = () => String(Math.floor(Date.now() / 1000))
  * @return {String}             Pokemon Name
  */
 exports.pokemon = function pokemon (hex = true) {
-  const poke = Random.pick(ENGENIE, pokemons)
+  const poke = Random.pick(ENGINE, pokemons)
   if (!hex) return poke
   return `${poke}-${exports.hex()}`
 }
@@ -89,7 +89,7 @@ exports.pokemon = function pokemon (hex = true) {
  * @return {String}
  */
 exports.heroku = function heroku (hex = true) {
-  const parts = [Random.pick(ENGENIE, adjetives), Random.pick(ENGENIE, nouns)]
+  const parts = [Random.pick(ENGINE, adjectives), Random.pick(ENGINE, nouns)]
   if (hex) parts.push(exports.hex())
   return parts.join('-')
 }
@@ -100,12 +100,12 @@ exports.heroku = function heroku (hex = true) {
  * @return {String}       Humanized String
  */
 exports.humanized = function humanized (words = 6) {
-  return Random.sample(ENGENIE, english, words).join('.')
+  return Random.sample(ENGINE, english, words).join('.')
 }
 
 // ────────────────────────────────  Exports  ──────────────────────────────────
 
-/* Freze the API */
+/* Freeze the API */
 module.exports = Object.freeze(module.exports)
 
 // ────────────────────────────────  Private  ──────────────────────────────────

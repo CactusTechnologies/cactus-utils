@@ -1,28 +1,27 @@
-<!--@h1([pkg.name])-->
+<!-- TITLE/ -->
 
-# @cactus-technologies/logger
+<h1>@cactus-technologies/logger</h1>
 
-<!--/@-->
+<!-- /TITLE -->
 
-<!--@pkg.description-->
+<!-- DESCRIPTION/ -->
 
 Customized Pino Logger for Cactus projects
 
-<!--/@-->
+<!-- /DESCRIPTION -->
 
-<!--@installation()-->
+<!-- INSTALL/ -->
 
-## Installation
+<h2>Install</h2>
 
-```sh
-npm install --save @cactus-technologies/logger
-```
+<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
 
-<!--/@-->
+<li>Install: <code>npm install --save @cactus-technologies/logger</code></li>
+<li>Module: <code>require('@cactus-technologies/logger')</code></li></ul>
+
+<!-- /INSTALL -->
 
 ## Example
-
-<!--@snippet('./example/index.js')-->
 
 ```js
 'use strict'
@@ -41,18 +40,16 @@ const child = log.child({ a: 'property' })
 child.info('hello child!')
 ```
 
-<!--/@-->
+<!-- LICENSE/ -->
 
-<!--@license()-->
+<h2>License</h2>
 
-## License
+Unless stated otherwise all works are:
 
-[UNLICENCED](./LICENSE) © [Cactus Technologies, LLC](https://www.cactus.is)
+<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
 
-<!--/@-->
+and licensed under:
 
-### TODOs
+<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
 
-| Filename                 | line # | TODO                                                     |
-| :----------------------- | :----: | :------------------------------------------------------- |
-| [index.js](index.js#L38) |   38   | Investigate how to pass the stream via the config files. |
+<!-- /LICENSE -->
