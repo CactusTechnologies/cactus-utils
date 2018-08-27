@@ -2,10 +2,21 @@
   "name": "@cactus-technologies/server",
   "version": "1.2.4",
   "description": "Basic Server for Cactus Webservices",
+  "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/modules/server#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CactusTechnologies/cactus-utils.git"
+  },
+  "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+  ],
   "main": "index.js",
   "scripts": {},
-  "license": "MIT",
   "dependencies": {
     "@cactus-technologies/errors": "^1.2.0",
     "@cactus-technologies/logger": "^2.1.0",
@@ -22,15 +33,5 @@
     "serve-favicon": "^2.5.0",
     "sort-object-keys": "^1.1.2"
   },
-  "maintainers": [],
-  "contributors": [
-    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/CactusTechnologies/cactus-utils.git"
-  },
-  "bugs": {
-    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
-  }
+  "maintainers": []
 }

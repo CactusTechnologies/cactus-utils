@@ -3,8 +3,19 @@
   "version": "2.2.0",
   "description": "Customized Pino Logger for Cactus projects",
   "keywords": [],
+  "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/modules/logger#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CactusTechnologies/cactus-utils.git"
+  },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+  ],
   "main": "index.js",
   "scripts": {},
   "dependencies": {
@@ -13,15 +24,5 @@
     "lodash": "^4.17.10",
     "pino": "^5.4.0"
   },
-  "maintainers": [],
-  "contributors": [
-    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/CactusTechnologies/cactus-utils.git"
-  },
-  "bugs": {
-    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
-  }
+  "maintainers": []
 }

@@ -22,7 +22,7 @@ const tasks = [
   },
   {
     title: 'Compiling modules Docs',
-    task: () => shell('lerna exec --no-bail -- "projectz compile"')
+    task: () => shell('lerna exec --no-bail projectz -- "compile"')
   },
   {
     title: 'Adding Docs to git',
@@ -36,7 +36,7 @@ const tasks = [
           title: 'Modules Docs',
           task: () =>
             shell(
-              'lerna exec --no-bail -- "git add README.md LICENSE package.json"'
+              'lerna exec --no-bail git -- "add README.md LICENSE package.json"'
             )
         }
       ])

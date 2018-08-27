@@ -7,12 +7,9 @@ const main = new Listr(
   [
     {
       title: 'Linting',
-      task: (ctx, task) => shell('eslint --ignore-path .gitignore "**/*.js"')
+      task: (ctx, task) => shell('eslint --ignore-path .gitignore "**/**"')
     },
-    {
-      title: 'Outdated',
-      task: () => shell('npm run outdated')
-    },
+
     {
       title: 'Running modules tests',
       task: (ctx, task) => {
