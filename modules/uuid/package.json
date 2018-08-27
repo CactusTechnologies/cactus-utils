@@ -2,6 +2,10 @@
   "name": "@cactus-technologies/uuid",
   "version": "1.0.5",
   "description": "A set of Unique ID generators for JS apps",
+  "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/modules/uuid#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CactusTechnologies/cactus-utils.git"
@@ -24,8 +28,5 @@
   "devDependencies": {
     "jsdoc-to-markdown": "^4.0.1"
   },
-  "maintainers": [],
-  "bugs": {
-    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
-  }
+  "maintainers": []
 }
