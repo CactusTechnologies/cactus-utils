@@ -4,9 +4,7 @@
     "publish": {
       "ignoreChanges": ["AUTHORS", "*.md"]
     },
-    "bootstrap": {
-      "npmClientArgs": ["--no-package-lock"]
-    }
+    "bootstrap": {}
   },
   "version": "independent"
 }
