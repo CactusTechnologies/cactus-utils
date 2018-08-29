@@ -1,227 +1,139 @@
 'use strict'
 
 const fp = require('lodash/fp')
-const { promisify } = require('@cactus-technologies/utils')
-const request = require('request')
-const debug = require('debug')('cactus:app:slack')
-const req = promisify(request.post).bind(request)
+const { promisify } = require('util')
+let notifier = fp.noop
 
-module.exports = notifier
-
-// ────────────────────────────────  Private  ──────────────────────────────────
-
-function slack (payload = {}) {
-  return req({
-    uri: require('config').get('notifier.slack'),
-    body: payload,
-    timeout: 1000,
-    json: true
-  })
-}
-
-function notifier (level, source, attachment, done = fp.noop) {
-  debug('level: %s', level)
-
+exports.init = function init () {
+  /* Load dependencies on init */
+  const request = require('request')
+  const moment = require('moment-timezone')
   const config = require('config')
-  const logger = require('@cactus-technologies/logger')
-  const log = logger('slack')
-  const now = Date.now()
+  const log = require('@cactus-technologies/logger')('slack')
 
-  const name = fp.startCase(`${config.get('domain')} ${config.get('name')}`)
+  const req = promisify(request.post).bind(request)
 
-  const text =
-    level === 'info'
-      ? `*New event at ${name}*:`
-      : level === 'warn'
-        ? `*There is a warning on ${name}*:`
-        : level === 'error'
-          ? `*An error ocurred on ${name}*:`
-          : `*${name}*:`
+  const slack = async (payload = {}) =>
+    req({
+      uri: config.get('slack.url'),
+      body: payload,
+      json: true
+    })
 
-  const color =
-    level === 'info'
-      ? 'good'
-      : level === 'warn'
-        ? 'warning'
-        : level === 'error'
-          ? 'danger'
-          : ''
+  notifier = async function notifier (level, source, attachment) {
+    const now = moment().unix()
 
-  const attachments = []
+    const name = fp.startCase(`${config.get('basename')} ${config.get('name')}`)
 
-  if (fp.isError(attachment)) {
-    attachment = logger.Serializers.err(attachment)
-  }
+    const text =
+      level === 'info'
+        ? `*Message from ${name}*:`
+        : level === 'warn'
+          ? `*There is a warning on ${name}*:`
+          : level === 'error'
+            ? `*An error ocurred on ${name}*:`
+            : `*${name}*:`
 
-  if (
-    !fp.isEmpty(attachment) &&
-    !fp.isArray(attachment) &&
-    !fp.isString(attachment)
-  ) {
-    if (level === 'info') {
+    const color =
+      level === 'info'
+        ? 'good'
+        : level === 'warn'
+          ? 'warning'
+          : level === 'error'
+            ? 'danger'
+            : ''
+
+    const attachments = []
+
+    if (level === 'warn' || level === 'error') {
       attachments.push({
-        color: color,
+        title: 'Process info:',
+        fallback: `Process info: ${config.get('host')} - ${process.pid}`,
+        color: '#258278',
         fields: [
-          {
-            title: 'Event',
-            value: source,
-            short: false
-          },
-          {
-            title: 'Payload',
-            value: '```' + JSON.stringify(attachment, null, 4) + '```',
-            short: false
-          }
-        ],
-        ts: now
+          { title: 'App Name', value: config.get('service'), short: true },
+          { title: 'Host', value: config.get('host'), short: true },
+          { title: 'Version', value: config.get('version'), short: true },
+          { title: 'pid', value: process.pid, short: true },
+          source ? { title: 'Component', value: source, short: true } : null
+        ]
       })
-    } else {
+    }
+
+    if (
+      !fp.isEmpty(attachment) &&
+      !fp.isArray(attachment) &&
+      !fp.isString(attachment)
+    ) {
       attachments.push(prepareAttachment(attachment))
     }
-  }
 
-  if (
-    !fp.isEmpty(attachment) &&
-    !fp.isArray(attachment) &&
-    fp.isString(attachment)
-  ) {
-    if (level === 'info') {
-      attachments.push({
-        color: color,
-        fields: [
-          {
-            title: 'Event',
-            value: source,
-            short: false
-          },
-          {
-            title: 'Message',
-            value: attachment,
-            short: false
-          }
-        ],
-        ts: now
-      })
-    } else {
+    if (
+      !fp.isEmpty(attachment) &&
+      !fp.isArray(attachment) &&
+      fp.isString(attachment)
+    ) {
       attachments.push({
         color: color,
         text: attachment,
         ts: now
       })
     }
-  }
 
-  if (!fp.isEmpty(attachment) && fp.isArray(attachment)) {
-    if (level === 'info') {
-      attachments.push({
-        color: color,
-        fields: [
-          {
-            title: 'Event',
-            value: source,
-            short: false
-          },
-          {
-            title: 'Payload',
-            value: '```' + JSON.stringify(attachment, null, 4) + '```',
-            short: false
-          }
-        ],
-        ts: now
-      })
-    } else {
+    if (!fp.isEmpty(attachment) && fp.isArray(attachment)) {
       attachment.forEach(att => attachments.push(prepareAttachment(att)))
     }
-  }
 
-  if (fp.isEmpty(attachment) && level === 'info') {
-    attachments.push({
-      fields: [
-        {
-          title: 'Event',
-          value: source,
-          short: false
-        }
-      ],
-      color: color,
-      ts: now
-    })
-  }
-
-  if (level !== 'info' && source) {
-    attachments.push({
-      color: color,
-      fields: [
-        {
-          title: 'Component',
-          value: source,
-          short: false
-        }
-      ]
-    })
-  }
-
-  attachments.push({
-    title: 'Process info:',
-    fallback: `Process info: ${config.get('host')} - ${process.pid}`,
-    color: '#258278',
-    fields: [
-      {
-        title: 'Service',
-        value: config.get('service'),
-        short: true
-      },
-      {
-        title: 'Version',
-        value: config.get('version'),
-        short: true
-      },
-      { title: 'Machine Name', value: config.get('host'), short: true },
-      { title: 'pid', value: process.pid, short: true }
-    ]
-  })
-
-  debug('title: %s', text)
-  debug('attachments: %O', attachments)
-
-  slack({
-    text: text,
-    attachments: attachments
-  })
-    .then(() => done(null, true))
-    .catch(err => {
+    try {
+      await slack({
+        text: text,
+        attachments: attachments
+      })
+      return true
+    } catch (err) {
       log.error(err)
-      done(err, false)
-    })
-
-  function prepareAttachment (obj) {
-    const prepared = {
-      color: color,
-      fields: fp.pipe(
-        fp.toPairs,
-        fp.map(([key, value]) => {
-          if (fp.isNil(value)) return
-          value = String(value)
-          if (key === 'stack') {
-            return {
-              fallback: `${fp.startCase(key)}: Stack`,
-              title: fp.startCase(key),
-              value: (value = '```' + value + '```'),
-              short: false
-            }
-          }
-          return {
-            fallback: `${fp.startCase(key)}: ${value}}`,
-            title: fp.startCase(key),
-            value: value,
-            short: value.length < 30
-          }
-        }),
-        fp.compact
-      )(obj),
-      ts: now
+      return false
     }
-    if (level === 'info') return { title: source, ...prepared }
-    return prepared
+
+    function prepareAttachment (obj) {
+      return {
+        color: color,
+        fields: fp.pipe(
+          fp.toPairs,
+          fp.map(([key, value]) => {
+            if (fp.isNil(value)) return
+            value = String(value)
+            if (key === 'stack') {
+              return {
+                fallback: `${fp.startCase(key)}: Stack`,
+                title: fp.startCase(key),
+                value: (value = '```' + value + '```'),
+                short: false
+              }
+            }
+            return {
+              fallback: `${fp.startCase(key)}: ${value}}`,
+              title: fp.startCase(key),
+              value: value,
+              short: value.length < 20
+            }
+          }),
+          fp.compact
+        )(obj),
+        ts: now
+      }
+    }
   }
+}
+
+exports.info = async (attachment, source) => {
+  return notifier('info', source, attachment)
+}
+
+exports.warn = async (attachment, source) => {
+  return notifier('warn', source, attachment)
+}
+
+exports.error = async (attachment, source) => {
+  return notifier('error', source, attachment)
 }

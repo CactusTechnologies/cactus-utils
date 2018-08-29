@@ -30,7 +30,8 @@ and licensed under:
 
 | Filename                                                   | line # | TODO                                                     |
 | :--------------------------------------------------------- | :----: | :------------------------------------------------------- |
-| [modules/logger/index.js](modules/logger/index.js#L38)     |   38   | Investigate how to pass the stream via the config files. |
+| [modules/logger/index.js](modules/logger/index.js#L11)     |   11   | SUPPRESS_NO_CONFIG_WARNING                               |
+| [modules/logger/index.js](modules/logger/index.js#L40)     |   40   | Investigate how to pass the stream via the config files. |
 | [modules/utils/index.js](modules/utils/index.js#L10)       |   10   | Propper attributions                                     |
 | [modules/utils/index.js](modules/utils/index.js#L87)       |   87   | Detect and use the native promisified versions           |
 | [modules/utils/index.js](modules/utils/index.js#L608)      |  608   | Use cripto.createCipheriv                                |
