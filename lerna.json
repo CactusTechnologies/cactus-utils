@@ -2,7 +2,16 @@
   "packages": ["modules/*", "helpers/*"],
   "command": {
     "publish": {
-      "ignoreChanges": ["AUTHORS", "*.md"]
+      "ignoreChanges": [
+        "**/*.md",
+        "**/__fixtures__/**",
+        "**/__tests__/**",
+        "LICENSE"
+      ],
+
+      "allowBranch": "master",
+      "message": "chore(release): publish %v",
+      "conventionalCommits": true
     },
     "bootstrap": {}
   },
