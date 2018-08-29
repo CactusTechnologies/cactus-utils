@@ -37,7 +37,8 @@
       "logger",
       "server",
       "uuid",
-      "cz-cactus"
+      "cz-cactus",
+      "monorepo"
     ]
   },
   "devDependencies": {

@@ -1,10 +1,12 @@
 {
-  "packages": ["modules/*"],
+  "packages": ["modules/*", "helpers/*"],
   "command": {
     "publish": {
       "ignoreChanges": ["AUTHORS", "*.md"]
     },
-    "bootstrap": {}
+    "bootstrap": {
+      "npmClientArgs": ["--no-package-lock"]
+    }
   },
   "version": "independent"
 }
