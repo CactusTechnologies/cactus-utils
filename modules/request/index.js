@@ -16,7 +16,7 @@ const ApiFailError = errors.ApiFailError
 const EmptyArgumentError = errors.EmptyArgumentError
 
 module.exports = function makeAPI (name, test, options) {
-  /* deconstruct the options fort convinience */
+  /* deconstruct the options fort convenience */
   let { defaults: { baseUrl, ...defaults } = {}, limits = {} } = options || {}
 
   if (!assert.isString(name)) throw new EmptyArgumentError('name')
