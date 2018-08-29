@@ -8,6 +8,7 @@
   "prettier.eslintIntegration": true,
   "cSpell.words": [
     "inquier",
+    "ipaddr",
     "lerna",
     "listr",
     "monorepo",
