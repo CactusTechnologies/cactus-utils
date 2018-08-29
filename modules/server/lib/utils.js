@@ -72,10 +72,10 @@ exports.redactResponseHeaders = headers => {
     const index = current.indexOf(':')
     const key = fp.trim(current.slice(0, index))
     const value = fp.trim(current.slice(index + 1))
-    const cvalue = fp.get(key)(acc)
+    const currentVal = fp.get(key)(acc)
     if (fp.has(key)(acc) === false) return fp.set(key, value, acc)
-    if (fp.isArray(cvalue)) return fp.set(key, [...cvalue, value], acc)
-    return fp.set(key, [cvalue, value], acc)
+    if (fp.isArray(currentVal)) return fp.set(key, [...currentVal, value], acc)
+    return fp.set(key, [currentVal, value], acc)
   }
 
   function restoreHead (rows) {
