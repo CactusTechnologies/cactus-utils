@@ -113,7 +113,14 @@ function createQuestions (scopes) {
       message: 'Specify a scope:',
       choices: answers => {
         if (answers.type === 'chore') {
-          return ['dependencies', 'deploy', 'config', 'env']
+          return [
+            { name: ['none'], value: '' },
+            'dependencies',
+            'scripts',
+            'deploy',
+            'config',
+            'env'
+          ]
         }
         return scopes
       },
@@ -136,6 +143,9 @@ function createQuestions (scopes) {
         }
         if (type === 'chore' && scope === 'env') {
           return 'Updated .env'
+        }
+        if (type === 'chore' && scope === 'scripts') {
+          return 'Updated Package scripts.'
         }
         if (type === 'refactor') {
           return 'Passing eslint rules.'
