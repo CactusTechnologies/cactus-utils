@@ -18,32 +18,39 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
+    "cleanup": "lerna clean && lerna bootstrap --hoist",
     "precommit": "run-s docs && lint-staged",
     "docs": "scripts/docs.js",
-    "outdated": "scripts/outdated.js",
-    "prepush": "npm run test",
-    "test": "scripts/test.js",
+    "lint": "eslint . --ignore-path .gitignore",
+    "prepush": "npm run lint",
+    "test": "echo \"Error: No tests defined\" && exit 1",
     "todos": "scripts/todos.sh"
   },
-  "dependencies": {
-    "@cactus-technologies/errors": "1.2.0",
-    "@cactus-technologies/logger": "2.1.0",
-    "@cactus-technologies/node-application": "3.0.4",
-    "@cactus-technologies/server": "1.2.4",
-    "@cactus-technologies/utils": "1.1.0",
-    "@cactus-technologies/uuid": "1.0.4"
+  "config": {
+    "commitizen": {
+      "path": "./helpers/conventional-commit"
+    },
+    "scopes": [
+      "application",
+      "utils",
+      "errors",
+      "logger",
+      "server",
+      "uuid",
+      "cz-cactus"
+    ]
   },
   "devDependencies": {
     "eslint": "^5.4.0",
-    "eslint-config-standard": "12.0.0-alpha.0",
+    "eslint-config-standard": "^12.0.0-alpha.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.0",
-    "eslint-plugin-standard": "^3.1.0",
+    "eslint-plugin-standard": "^4.0.0",
     "execa": "^1.0.0",
     "husky": "^0.14.3",
     "leasot": "^6.5.0",
-    "lerna": "^3.1.4",
+    "lerna": "^3.2.1",
     "lint-staged": "^7.2.2",
     "listr": "^0.14.1",
     "npm-run-all": "^4.1.3",

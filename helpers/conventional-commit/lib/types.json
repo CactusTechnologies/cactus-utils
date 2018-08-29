@@ -1,0 +1,80 @@
+[
+  {
+    "emoji": "🙈",
+    "value": "WIP",
+    "description": "Work in progress",
+    "alt": ["quick", "save", "step"],
+    "scopes": []
+  },
+  {
+    "emoji": "💡",
+    "value": "feat",
+    "description": "A new feature",
+    "alt": [],
+    "scopes": []
+  },
+  {
+    "emoji": "🐛",
+    "value": "fix",
+    "description": "Fixing a bug.",
+    "alt": [],
+    "scopes": []
+  },
+  {
+    "emoji": "📦",
+    "value": "chore",
+    "description": "Updating Dependencies, Deployments, Configuration files.",
+    "alt": ["dependencies", "deploy", "config", "env"],
+    "scopes": []
+  },
+  {
+    "emoji": "🎨",
+    "value": "refactor",
+    "description": "Improving structure / format of the code.",
+    "alt": ["eslint", "linters"],
+    "scopes": []
+  },
+  {
+    "emoji": "🔥",
+    "value": "prune",
+    "description": "Removing code or files.",
+    "alt": ["delete"],
+    "scopes": []
+  },
+  {
+    "emoji": "📝",
+    "value": "docs",
+    "description": "Writing documentation.",
+    "alt": [],
+    "scopes": []
+  },
+  {
+    "emoji": "⚡️",
+    "value": "perf",
+    "description": "Improving performance.",
+    "alt": ["improvement"],
+    "scopes": []
+  },
+
+  {
+    "emoji": "✅",
+    "value": "test",
+    "description": "Adding tests.",
+    "alt": [],
+    "scopes": []
+  },
+  {
+    "emoji": "⏪",
+    "value": "revert",
+    "description": "Revert to a commit",
+    "alt": ["undo"],
+    "scopes": []
+  },
+  {
+    "emoji": "🎉",
+    "value": "init",
+    "description": "Initial commit.",
+    "alt": ["first"],
+    "scopes": []
+  }
+]
