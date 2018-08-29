@@ -36,7 +36,7 @@ const tasks = [
           title: 'Modules Docs',
           task: () =>
             shell(
-              'lerna exec --no-bail git -- "add README.md LICENSE package.json"'
+              'lerna exec --no-bail --concurrency=1 git -- "add README.md package.json LICENSE"'
             )
         }
       ])
