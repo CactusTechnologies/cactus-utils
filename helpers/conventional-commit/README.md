@@ -10,16 +10,44 @@ A custom Commitizen plugin to help achieve consistent commit messages like grown
 
 <!-- /DESCRIPTION -->
 
-<!-- INSTALL/ -->
+## Install
 
-<h2>Install</h2>
+First, install the Commitizen cli tools:
 
-<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
+```bash
+npm install commitizen -g
+```
 
-<li>Install: <code>npm install --save cz-cactus</code></li>
-<li>Module: <code>require('cz-cactus')</code></li></ul>
+Next, initialize your project to use the cz-cactus adapter by typing:
 
-<!-- /INSTALL -->
+```bash
+    commitizen init cz-cactus --save-dev --save-exact
+```
+
+> Pro TIP: set as default adapter for your projects
+
+```bash
+npm install --global cz-cactus
+echo '{ "path": "cz-cactus" }' > ~/.czrc
+```
+
+## Usage
+
+```sh
+$ git cz
+```
+
+## Customize
+
+You can customize the `scopes` on a project basis by adding a configuration section in your `package.json`:
+
+```json
+{
+    "config": {
+        "scopes": ["home", "accounts", "ci"]
+    }
+}
+```
 
 <!-- LICENSE/ -->
 
