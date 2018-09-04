@@ -102,15 +102,16 @@ exports.init = function init () {
           fp.toPairs,
           fp.map(([key, value]) => {
             if (fp.isNil(value)) return
+            if (key === 'stack') return
             value = String(value)
-            if (key === 'stack') {
-              return {
-                fallback: `${fp.startCase(key)}: Stack`,
-                title: fp.startCase(key),
-                value: (value = '```' + value + '```'),
-                short: false
-              }
-            }
+            // if (key === 'stack') {
+            //   return {
+            //     fallback: `${fp.startCase(key)}: Stack`,
+            //     title: fp.startCase(key),
+            //     value: (value = '```' + value + '```'),
+            //     short: false
+            //   }
+            // }
             return {
               fallback: `${fp.startCase(key)}: ${value}}`,
               title: fp.startCase(key),
