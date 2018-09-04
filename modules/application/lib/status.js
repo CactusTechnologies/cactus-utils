@@ -1,7 +1,7 @@
 'use strict'
 
 const fp = require('lodash/fp')
-const io = require('./pm2-io-proxy')
+const io = require('@pm2/io')
 
 const metrics = new Map()
 const statuses = new Map()

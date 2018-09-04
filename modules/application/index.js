@@ -9,7 +9,7 @@ const util = require('util')
 const config = require('config')
 
 /** @type {Proxy} PMX module */
-exports.io = require('./lib/pm2-io-proxy')
+exports.io = require('@pm2/io')
 
 /** @type {Object} Global Status */
 exports.status = require('./lib/status')
