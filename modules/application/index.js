@@ -26,39 +26,26 @@ exports.slack = require('./lib/slack-notifier')
  *
  * @param  {Boolean} options.pmx:    pm2+ deep metrics
  * @param  {Boolean} options.slack:  Slack notifications
- * @param  {Object}  options.logger: log
  *
  * @return {Promise}
  */
 
-exports.init = ({ pmx = true, slack = false } = {}) =>
+exports.init = () =>
   new Promise((resolve, reject) => {
     const logger = require('@cactus-technologies/logger')
 
     /* Add a process log */
     process.log = logger('process')
-    /* Enable pm2.io - Keymetrics */
-    if (pmx === true) {
-      exports.io.init({
-        network: { ports: true },
-        transaction: {
-          http: true,
-          tracing: {
-            ignore_routes: []
-          }
-        }
-      })
-    }
 
-    /* Catch uncaughExeptions */
+    /* Catch uncaughtExceptions */
     process.removeAllListeners('uncaughtException')
     exports.exitHook.uncaughtExceptionHandler(error => {
       process.log.fatal({ err: error }, error.message)
-      if (pmx === true) exports.io.notifyError(error)
+      exports.io.notifyError(error)
     })
 
     /* Enable SlackWeb Hooks */
-    if (slack === true && config.has('slack.url')) {
+    if (config.has('slack.url')) {
       exports.slack.init()
       exports.exitHook.uncaughtExceptionHandler((error, done) => {
         exports.slack
@@ -81,7 +68,7 @@ exports.init = ({ pmx = true, slack = false } = {}) =>
         config.get('version')
       )
     )
-    process.log.info(util.format('Enviroment: %s', config.get('env')))
+    process.log.info(util.format('Environment: %s', config.get('env')))
     process.log.info(util.format('Log level: %s', config.get('logs.level')))
     process.log.trace({ paths: config.get('paths') }, 'Paths')
 
@@ -120,7 +107,7 @@ exports.ready = () => {
 }
 
 exports.kill = err => {
-  process.log.info('Falied to initialize the App, Commiting suicide.')
+  process.log.info('Failed to initialize the App, Commiting suicide.')
   if (err instanceof Error) throw err
-  throw new Error('Falied to initialize.')
+  throw new Error('Failed to initialize.')
 }

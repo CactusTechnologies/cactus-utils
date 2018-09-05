@@ -19,7 +19,7 @@
   "scripts": {},
   "dependencies": {
     "@cactus-technologies/utils": "^1.1.1",
-    "@pm2/io": "2.3.6",
+    "@pm2/io": "2.3.3",
     "async-exit-hook": "^2.0.1",
     "config": "^2.0.1",
     "dev-ip": "^1.0.1",
