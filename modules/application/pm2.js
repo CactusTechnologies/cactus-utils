@@ -6,29 +6,40 @@ require('./dot-env')()
 const config = require('config')
 const path = require('path')
 const fp = require('lodash/fp')
+const util = require('util')
+const { assert } = require('@cactus-technologies/utils')
 
-const hiddenKeys = [
-  '_env',
-  '_envProd',
-  '_ignore_watch',
-  '_max_restarts',
-  '_watch',
-  'development',
-  'id',
-  'targetInstances'
-]
-
-const visibleKeys = [
+const keys = [
+  'script',
+  'name',
+  'cwd',
+  'args',
+  'interpreter',
+  'node_args',
+  'out_file',
+  'error_file',
   'env',
   'env_production',
-  'exec_mode',
-  'ignore_watch',
+  'max_memory_restart',
+  'restart_delay',
+  'wait_ready',
   'instances',
+  'kill_timeout',
+  'listen_timeout',
+  'cron_restart',
+  'merge_logs',
+  'autorestart',
+  'watch',
+  'ignore_watch',
+  'watch_options',
+  'min_uptime',
   'max_restarts',
-  'name',
-  'output',
-  'error',
-  'watch'
+  'exec_mode',
+  'deep_monitoring',
+  'increment_var',
+  'instance_var',
+  'kill_retry_time',
+  'io'
 ]
 
 const FORCE_DEV =
@@ -37,14 +48,7 @@ const FORCE_DEV =
       parseInt(process.env.FORCE_PM2_DEV, 10) !== 0
     : false
 
-const FORCE_WATCH =
-  'FORCE_PM2_WATCH' in process.env
-    ? process.env.FORCE_PM2_WATCH.length === 0 ||
-      parseInt(process.env.FORCE_PM2_WATCH, 10) !== 0
-    : false
-
-const pm2Binary = path.basename(process.mainModule.filename)
-const dev = pm2Binary === 'pm2-dev' || FORCE_DEV
+let count = 0
 
 /**
  * Creates a new Application Definition
@@ -86,7 +90,19 @@ class Application {
 
     this.targetInstances = 1
     this.max_restarts = 100
-    this.development = dev
+
+    this.development = Application.isDev()
+    this.inspectPort = 9229 + count
+
+    this.io = {
+      conf: { catchExceptions: false, metrics: { network: { ports: true } } }
+    }
+
+    this.node_args = Application.isRuntime()
+      ? [`--inspect=${this.inspectPort}`, '--nolazy']
+      : []
+
+    count++
   }
 
   get name () {
@@ -117,7 +133,7 @@ class Application {
   }
 
   get watch () {
-    return this.development || FORCE_WATCH
+    return this.development
       ? [...new Set([this.script, ...this._watch])]
       : false
   }
@@ -161,6 +177,9 @@ class Application {
     const base = {
       NODE_ENV: 'development',
       APP_NAME: this.id,
+      DEBUG_HIDE_DATE: this.development ? true : undefined,
+      DEBUG_COLORS: this.development ? true : undefined,
+      PRETTY_TERM_COLORS: this.development ? true : undefined,
       CACTUS_LOGS_PRETTY: this.development ? true : undefined,
       PROCESS_TITLE: this.service
     }
@@ -181,21 +200,36 @@ class Application {
     this._envProd = val
   }
 
-  toObject () {
-    return fp.omit(hiddenKeys, fp.cloneDeep(fp.assignIn(this, {})))
-  }
-
   toJSON () {
-    return this.toObject()
+    return fp.pipe(
+      fp.map(key => [key, fp.getOr(null, key)(this)]),
+      fp.filter(([key, val]) => assert.notNil(val)),
+      fp.fromPairs
+    )(keys)
   }
 
-  static compileApps (apps) {
-    return fp.map(app => app.toObject())(apps)
+  [util.inspect.custom] (depth, options) {
+    return this.toJSON()
+  }
+
+  * [Symbol.iterator] () {
+    const it = this.toJSON()
+    for (const key of Object.keys(it)) {
+      yield [key, it[key]]
+    }
+  }
+
+  static isDev () {
+    return (
+      path.basename(process.mainModule.filename) === 'pm2-dev' ||
+      Application.isRuntime() ||
+      FORCE_DEV
+    )
+  }
+
+  static isRuntime () {
+    return path.basename(process.mainModule.filename) === 'pm2-runtime'
   }
 }
-
-fp.forEach(prop =>
-  Object.defineProperty(Application.prototype, prop, { enumerable: true })
-)(visibleKeys)
 
 module.exports = Application
