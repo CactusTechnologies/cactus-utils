@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.0.0"></a>
+
+# [4.0.0](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/node-application@3.1.0...@cactus-technologies/node-application@4.0.0) (2018-09-05)
+
+### Features
+
+-   **application:** Revamped pm2 configuration ([c722e5c](https://github.com/CactusTechnologies/cactus-utils/commit/c722e5c))
+
+### Reverts
+
+-   **application:** Locking [@pm2](https://github.com/pm2)/io to 2.3.3 due breaking hcanges in their API ([7bd8409](https://github.com/CactusTechnologies/cactus-utils/commit/7bd8409))
+
+### BREAKING CHANGES
+
+-   **application:** removed instance.toObject() and static.compileApps()
+
 <a name="3.1.0"></a>
 
 # [3.1.0](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/node-application@3.0.6...@cactus-technologies/node-application@3.1.0) (2018-09-04)
