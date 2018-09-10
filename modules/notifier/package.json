@@ -1,34 +1,40 @@
 {
   "name": "@cactus-technologies/notifier",
   "version": "1.0.0",
+  "private": true,
   "description": "Slack Notifications Manager",
-  "author": "Cactus Technologies LLC <hi@cactus.is> (https://www.cactus.is)",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/modules/notifier#readme",
-  "license": "MIT",
-  "main": "lib/notifier.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
-  "publishConfig": {
-    "access": "public"
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CactusTechnologies/cactus-utils.git"
   },
+  "license": "MIT",
+  "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/notifier.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1"
-  },
-  "bugs": {
-    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
   },
   "dependencies": {
     "@cactus-technologies/logger": "^2.1.1",
     "@cactus-technologies/utils": "^1.1.1",
+    "config": "^2.0.1",
     "lodash": "^4.17.10"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "maintainers": []
 }

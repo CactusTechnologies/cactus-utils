@@ -119,7 +119,8 @@ function createQuestions (scopes) {
             'scripts',
             'deploy',
             'config',
-            'env'
+            'env',
+            ...scopes
           ]
         }
         return scopes

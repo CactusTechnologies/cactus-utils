@@ -36,5 +36,6 @@ and licensed under:
 | [modules/utils/index.js](modules/utils/index.js#L87)                      |   87   | Detect and use the native promisified versions           |
 | [modules/utils/index.js](modules/utils/index.js#L608)                     |  608   | Use cripto.createCipheriv                                |
 | [modules/utils/index.js](modules/utils/index.js#L627)                     |  627   | Use cripto.createDecipheriv                              |
+| [modules/notifier/lib/notifier.js](modules/notifier/lib/notifier.js#L6)   |   6    |
 | [modules/server/lib/pre.js](modules/server/lib/pre.js#L69)                |   69   | AllowHeaders should read as an array.                    |
 | [notes/merging/lib/Application.js](notes/merging/lib/Application.js#L123) |  123   | Use the pino.final special logger to avoid missing logs  |
