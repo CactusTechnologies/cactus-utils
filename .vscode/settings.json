@@ -1,8 +1,4 @@
 {
-  "files.exclude": {
-    "**/node_modules": true,
-    "**/*.sublime-workspace": true
-  },
   "eslint.enable": true,
   "editor.formatOnSave": true,
   "prettier.eslintIntegration": true,
@@ -12,9 +8,14 @@
     "ipaddr",
     "lerna",
     "listr",
+    "mdast",
     "monorepo",
     "projectz",
     "promisified",
-    "todos"
-  ]
+    "todos",
+    "unist"
+  ],
+  "files.exclude": {
+    "**/node_modules/**": true
+  }
 }

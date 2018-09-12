@@ -1,0 +1,55 @@
+{
+  "name": "@cactus-technologies/package-scripts",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Package Maintenance Scripts",
+  "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/package-scripts#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CactusTechnologies/cactus-utils.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Cactus Technologies LLC",
+    "email": "hi@cactus.is",
+    "url": "http://www.cactus.is"
+  },
+  "contributors": [
+    {
+      "name": "Jorge Proaño",
+      "email": "jorge@hiddennodeproblem.com"
+    }
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "git-url-parse": "^10.0.1",
+    "lodash": "^4.17.10",
+    "mdast-normalize-headings": "^1.0.1",
+    "mdast-squeeze-paragraphs": "^3.0.3",
+    "mdast-util-heading-range": "^2.1.0",
+    "read-package-json": "^2.0.13",
+    "remark": "^9.0.0",
+    "remark-github": "^7.0.4",
+    "remark-license": "^5.0.0",
+    "remark-squeeze-paragraphs": "^3.0.2",
+    "remark-toc": "^5.0.0",
+    "remark-usage": "^6.0.1",
+    "sort-package-json": "^1.15.0",
+    "write-json-file": "^3.0.1"
+  },
+  "devDependencies": {
+    "unist-util-inspect": "^4.1.3"
+  }
+}

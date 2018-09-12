@@ -1,0 +1,32 @@
+{
+  "name": "@cactus-technologies/uuid",
+  "version": "1.0.5",
+  "description": "A set of Unique ID generators for JS apps",
+  "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/uuid#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CactusTechnologies/cactus-utils.git"
+  },
+  "license": "MIT",
+  "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+  ],
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "docs": "jsdoc2md --template .readme.hbs index.js > README.md"
+  },
+  "dependencies": {
+    "random-js": "^1.0.8"
+  },
+  "devDependencies": {
+    "jsdoc-to-markdown": "^4.0.1"
+  },
+  "maintainers": []
+}

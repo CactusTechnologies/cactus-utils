@@ -1,0 +1,43 @@
+{
+  "name": "cz-cactus",
+  "version": "1.1.2",
+  "description": "A custom Commitizen plugin to help achieve consistent commit messages like grown ups.",
+  "keywords": [
+    "adapter",
+    "commitizen"
+  ],
+  "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/conventional-commit#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CactusTechnologies/cactus-utils.git"
+  },
+  "license": "MIT",
+  "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+  ],
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "cli-truncate": "^1.1.0",
+    "fuse.js": "^3.2.1",
+    "inquirer": "^6.2.0",
+    "inquirer-autocomplete-prompt": "^1.0.1",
+    "lodash": "^4.17.10",
+    "read-pkg-up": "^4.0.0",
+    "term-size": "^1.2.0",
+    "wrap-ansi": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
