@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.2.11"></a>
+## [1.2.11](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.10...@cactus-technologies/server@1.2.11) (2018-09-12)
+
+
+### Performance Improvements
+
+* **server:** Not using frameguard ([aa7848e](https://github.com/CactusTechnologies/cactus-utils/commit/aa7848e))
+
+
+
+
+
 <a name="1.2.10"></a>
 ## [1.2.10](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.9...@cactus-technologies/server@1.2.10) (2018-09-12)
 
