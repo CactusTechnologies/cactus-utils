@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-module.exports = notifier;
+module.exports = notifier
 
-function notifier() {
-    // TODO
+function notifier () {
+  // TODO
 }

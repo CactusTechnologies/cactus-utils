@@ -19,10 +19,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "cleanup": "lerna clean && lerna bootstrap --hoist",
-    "precommit": "lint-staged",
     "docs": "scripts/docs.js",
     "lint": "eslint . --ignore-path .gitignore",
-    "prepush": "npm run lint",
     "test": "echo \"Error: No tests defined\" && exit 1",
     "todos": "scripts/todos.sh"
   },
