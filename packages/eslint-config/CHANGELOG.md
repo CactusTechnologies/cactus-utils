@@ -7,13 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.1.0](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/eslint-config@1.0.1...@cactus-technologies/eslint-config@1.1.0) (2018-09-10)
 
-### Bug Fixes
-
--   **cz-cactus:** Passing the package discovered scopes on chore ([a13eee0](https://github.com/CactusTechnologies/cactus-utils/commit/a13eee0))
-
 ### Features
 
--   **eslint-config:** Enforcing lodahs and no console ([6ec3593](https://github.com/CactusTechnologies/cactus-utils/commit/6ec3593))
+-   **eslint-config:** Enforcing lodash and no-console ([6ec3593](https://github.com/CactusTechnologies/cactus-utils/commit/6ec3593))
 
 <a name="1.0.1"></a>
 
