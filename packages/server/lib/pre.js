@@ -4,14 +4,14 @@ const compression = require('compression')
 const express = require('express')
 const fs = require('fs')
 const ipaddr = require('ipaddr.js')
-const lo = require('lodash')
 const fp = require('lodash/fp')
 const onHeaders = require('on-headers')
 const path = require('path')
 const favicon = require('serve-favicon')
 const uuid = require('@cactus-technologies/uuid')
 const logger = require('@cactus-technologies/logger')
-const serializers = require('../../logger/lib/serializers')
+const config = require('config')
+const serializers = require('./serializers')
 const { getDuration, humanizeStatusCode } = require('./utils')
 
 const reqLogger = logger({ name: 'http', serializers: serializers })
@@ -130,8 +130,12 @@ exports.serveFavicon = (() => {
  * @type {Function}
  */
 exports.serveFiles = (() => {
-  const target = path.resolve(process.cwd(), 'public')
-  if (fs.existsSync(target)) return express.static(target)
+  if (config.has('paths.public')) {
+    const publicPath = config.get('paths.public')
+    if (fs.existsSync(publicPath)) return express.static(publicPath)
+  }
+  const syntethic = path.resolve(process.cwd(), 'public')
+  if (fs.existsSync(syntethic)) return express.static(syntethic)
   return (req, res, next) => next()
 })()
 
@@ -175,7 +179,7 @@ exports.setRequestId = function setRequestId (request, response, next) {
 exports.logRequests = function logRequests (request, response, next) {
   const blacklist = ['ELB-HealthChecker']
   const debugHeader = 'X-Cactus-Debug'
-  const uaTest = lo.overSome(
+  const uaTest = fp.overSome(
     blacklist.map(i => {
       const uaRegex = new RegExp(i, 'gmi')
       return uaRegex.test.bind(uaRegex)
@@ -188,7 +192,7 @@ exports.logRequests = function logRequests (request, response, next) {
   if (uaTest(request.get('user-agent'))) return next()
 
   /* Use the Debug Header */
-  if (!lo.isEmpty(request.get(debugHeader))) {
+  if (!fp.isEmpty(request.get(debugHeader))) {
     request.log.level = 'trace'
   }
 
