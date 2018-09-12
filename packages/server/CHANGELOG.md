@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.2.10"></a>
+## [1.2.10](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.9...@cactus-technologies/server@1.2.10) (2018-09-12)
+
+**Note:** Version bump only for package @cactus-technologies/server
+
+
+
+
+
 <a name="1.2.9"></a>
 
 ## [1.2.9](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.8...@cactus-technologies/server@1.2.9) (2018-09-05)

@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/package-scripts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Package Maintenance Scripts",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/package-scripts#readme",

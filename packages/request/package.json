@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/api-request",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Request helper",
   "keywords": [],
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/request#readme",
@@ -19,9 +19,9 @@
   "main": "index.js",
   "scripts": {},
   "dependencies": {
-    "@cactus-technologies/errors": "^1.2.1",
-    "@cactus-technologies/logger": "^2.1.1",
-    "@cactus-technologies/utils": "^1.1.1",
+    "@cactus-technologies/errors": "^1.2.2",
+    "@cactus-technologies/logger": "^2.1.2",
+    "@cactus-technologies/utils": "^1.1.2",
     "bottleneck": "^2.8.0",
     "lodash": "^4.17.10",
     "pretty-bytes": "^5.1.0",
