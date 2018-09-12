@@ -49,7 +49,7 @@ class CactusServer {
     this.app.use(pre.compressResponses)
 
     this.app.use(security.dnsPreFetchControl)
-    this.app.use(security.frameGuard)
+    // this.app.use(security.frameGuard)
     this.app.use(security.ieNoOpen)
     this.app.use(security.noSniff)
     this.app.use(security.xssFilter)
