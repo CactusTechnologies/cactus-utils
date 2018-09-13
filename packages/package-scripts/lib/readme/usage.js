@@ -1,12 +1,12 @@
 'use strict'
 
 const heading = require('mdast-util-heading-range')
-const { USAGE, HAS_EXAMPLE } = require('../constants')
+const { HEADING_USAGE, HAS_EXAMPLE } = require('../constants')
 
 module.exports = HAS_EXAMPLE
   ? require('remark-usage')
   : () => tree => {
-    heading(tree, USAGE, mutator)
+    heading(tree, HEADING_USAGE, mutator)
     function mutator (start, nodes, end) {
       return [
         start,

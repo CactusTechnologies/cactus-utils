@@ -3,14 +3,20 @@
 const fp = require('lodash/fp')
 const heading = require('mdast-util-heading-range')
 
-const { INSTALL, PKG, HAS_REPO, REPO_SSH, REPO_BASE } = require('../constants')
+const {
+  HEADING_INSTALL,
+  PKG,
+  HAS_REPO,
+  REPO_SSH,
+  REPO_BASE
+} = require('../constants')
 
 const IS_GLOBAL = fp.getOr(false, 'preferGlobal')(PKG)
 const IS_DEV = fp.getOr(false, 'preferDev')(PKG)
 const IS_PRIVATE = fp.getOr(false, 'private')(PKG)
 
 module.exports = () => tree =>
-  IS_PRIVATE && !HAS_REPO ? tree : heading(tree, INSTALL, mutator)
+  IS_PRIVATE && !HAS_REPO ? tree : heading(tree, HEADING_INSTALL, mutator)
 
 function mutator (start, nodes, end) {
   return [
