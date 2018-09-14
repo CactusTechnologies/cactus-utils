@@ -24,24 +24,24 @@ const tasks = [
   //   title: 'Compiling modules Docs',
   //   task: () => shell('lerna exec --no-bail projectz -- "compile"')
   // },
-  {
-    title: 'Adding Docs to git',
-    task: () => {
-      return new Listr([
-        {
-          title: 'Root docs',
-          task: () => shell('git add README.md AUTHORS LICENSE package.json')
-        },
-        {
-          title: 'Modules Docs',
-          task: () =>
-            shell(
-              'lerna exec --no-bail --concurrency=1 git -- "add README.md package.json LICENSE"'
-            )
-        }
-      ])
-    }
-  }
+  // {
+  //   title: 'Adding Docs to git',
+  //   task: () => {
+  //     return new Listr([
+  //       {
+  //         title: 'Root docs',
+  //         task: () => shell('git add README.md AUTHORS LICENSE package.json')
+  //       },
+  //       {
+  //         title: 'Modules Docs',
+  //         task: () =>
+  //           shell(
+  //             'lerna exec --no-bail --concurrency=1 git -- "add README.md package.json LICENSE"'
+  //           )
+  //       }
+  //     ])
+  //   }
+  // }
 ]
 
 function main () {
