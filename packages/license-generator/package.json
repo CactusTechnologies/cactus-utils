@@ -1,0 +1,34 @@
+{
+  "name": "@cactus-technologies/license-generator",
+  "version": "1.0.0",
+  "description": "Generate licence files",
+  "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/license-generator#readme",
+  "bugs": {
+    "url": "https://github.com/CactusTechnologies/cactus-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
+  },
+  "license": "MIT",
+  "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
+  "contributors": [
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

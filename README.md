@@ -1,41 +1,58 @@
-<!-- TITLE/ -->
+# @cactus-technologies/utils-monorepo
 
-<h1>@cactus-technologies/utils-monorepo</h1>
+![version](https://img.shields.io/badge/version-1.1.1-green.svg)
 
-<!-- /TITLE -->
-
-<!-- DESCRIPTION/ -->
-
-Cactus Utilities monorepo
-
-<!-- /DESCRIPTION -->
-
-<!-- LICENSE/ -->
-
-<h2>License</h2>
-
-Unless stated otherwise all works are:
-
-<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<!-- /LICENSE -->
+> Cactus Utilities monorepo
 
 ---
 
-### TODOs
+## Table of contents
 
-| Filename                                                                  | line # | TODO                                                     |
-| :------------------------------------------------------------------------ | :----: | :------------------------------------------------------- |
-| [modules/logger/index.js](modules/logger/index.js#L11)                    |   11   | SUPPRESS_NO_CONFIG_WARNING                               |
-| [modules/logger/index.js](modules/logger/index.js#L40)                    |   40   | Investigate how to pass the stream via the config files. |
-| [modules/utils/index.js](modules/utils/index.js#L10)                      |   10   | Propper attributions                                     |
-| [modules/utils/index.js](modules/utils/index.js#L87)                      |   87   | Detect and use the native promisified versions           |
-| [modules/utils/index.js](modules/utils/index.js#L608)                     |  608   | Use cripto.createCipheriv                                |
-| [modules/utils/index.js](modules/utils/index.js#L627)                     |  627   | Use cripto.createDecipheriv                              |
-| [modules/notifier/lib/notifier.js](modules/notifier/lib/notifier.js#L6)   |   6    |
-| [modules/server/lib/pre.js](modules/server/lib/pre.js#L69)                |   69   | AllowHeaders should read as an array.                    |
-| [notes/merging/lib/Application.js](notes/merging/lib/Application.js#L123) |  123   | Use the pino.final special logger to avoid missing logs  |
+-   [Installation](#installation)
+-   [Maintainers](#maintainers)
+-   [License](#license)
+-   [TODOs](#todos)
+
+## Installation
+
+```sh
+git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
+  cd cactus-utils
+  npm install
+```
+
+## Maintainers
+
+-   [Jorge Proaño](http://www.hidden-node-problem.com)
+
+## License
+
+[MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
+
+## TODOs
+
+TODO
+
+-   `packages/logger/index.js`
+
+
+    -   [ ] [SUPPRESS_NO_CONFIG_WARNING](packages/logger/index.js#11)
+    -   [ ] [Investigate how to pass the stream via the config files.](packages/logger/index.js#40)
+
+-   `packages/utils/index.js`
+
+
+    -   [ ] [Propper attributions](packages/utils/index.js#10)
+    -   [ ] [Detect and use the native promisified versions](packages/utils/index.js#87)
+    -   [ ] [Use cripto.createCipheriv](packages/utils/index.js#608)
+    -   [ ] [Use cripto.createDecipheriv](packages/utils/index.js#627)
+
+-   `notes/merging/lib/Application.js`
+
+
+    -   [ ] [Use the pino.final special logger to avoid missing logs](notes/merging/lib/Application.js#123)
+
+-   `packages/server/lib/pre.js`
+
+
+    -   [ ] [AllowHeaders should read as an array.](packages/server/lib/pre.js#69)

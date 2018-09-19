@@ -20,7 +20,7 @@
     "bootstrap": "lerna bootstrap --hoist",
     "cleanup": "lerna clean && lerna bootstrap --hoist",
     "docs": "run-s docs:*",
-    "docs:packages": "lerna exec --stream --no-bail package-scripts",
+    "docs:packages": "lerna exec --no-bail package-scripts",
     "docs:self": "package-scripts",
     "lint": "eslint . --ignore-path .gitignore",
     "test": "echo \"Error: No tests defined\" && exit 1",

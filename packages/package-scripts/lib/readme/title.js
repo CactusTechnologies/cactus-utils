@@ -1,8 +1,6 @@
 'use strict'
 
 const fp = require('lodash/fp')
-const inspect = require('unist-util-inspect')
-const { PKG } = require('../constants')
 
 const isBlockQuote = fp.propEq('type', 'blockquote')
 const isImage = fp.propEq('type', 'image')
@@ -14,94 +12,105 @@ const isBadge = fp.allPass([
   )
 ])
 
+const isBanner = fp.allPass([
+  isImage,
+  fp.negate(
+    fp.pipe(
+      fp.getOr('none', 'url'),
+      fp.startsWith('https://img.shields.io')
+    )
+  )
+])
+
 const isBreak = fp.propEq('type', 'thematicBreak')
-const isBanner = fp.negate(isBadge)
 const isHeading = fp.propEq('type', 'heading')
 const isH1 = fp.allPass([isHeading, fp.propEq('depth', 1)])
 const isH2 = fp.allPass([isHeading, fp.propEq('depth', 2)])
 
-const headIsH1 = fp.pipe([fp.head, isH1])
 const headIsH2 = fp.pipe([fp.head, isH2])
-const headIsBanner = fp.pipe([fp.head, isBanner])
-const headIsBlockQuote = fp.pipe([fp.head, isBlockQuote])
-const headIsBreak = fp.pipe([fp.head, isBreak])
-/**
- * @type {Array<Object>}
- */
-const heading = [
-  {
+
+const isModule = fp.pipe(
+  fp.getOr(false, 'private'),
+  fp.isEqual(false)
+)
+
+const isPublic = fp.pipe(
+  fp.getOr('private', 'publishConfig.access'),
+  fp.isEqual('public')
+)
+
+module.exports = ({ pkg }) => tree => {
+  const heading = {
     type: 'heading',
     depth: 1,
-    children: [{ type: 'text', value: PKG.name }]
+    children: [{ type: 'text', value: pkg.name }]
   }
-]
 
-const description = {
-  type: 'blockquote',
-  children: [
-    {
-      type: 'paragraph',
-      children: [{ type: 'text', value: PKG.description }]
-    }
-  ]
-}
+  const description = {
+    type: 'blockquote',
+    children: [
+      {
+        type: 'paragraph',
+        children: [{ type: 'text', value: pkg.description }]
+      }
+    ]
+  }
 
-// const badges = [
-//   {
-//     type: 'image',
-//     https://img.shields.io/badge/version-1.0.0-green.svg
-//   }
-// ]
+  const badges = {
+    type: 'paragraph',
+    children: [makeBadge('version', pkg.version)]
+  }
 
-module.exports = () => transformer
+  if (isModule(pkg)) {
+    const publicStatus = isPublic(pkg) ? 'public' : 'private'
+    badges.children.push({ type: 'text', value: '\n' })
+    badges.children.push(makeBadge('npm', publicStatus, isPublic(pkg)))
+  }
 
-function transformer (tree) {
-  const nodes = getCurrentHeader(tree)
-  // if (headIsBanner(nodes)) heading.push(nodes.shift())
+  const nodes = fp.pipe(
+    getCurrentHeader,
+    fp.reject(fp.anyPass([isH1, isBreak, isBlockQuote, isBadge])),
+    fp.groupBy(isImage),
+    head => ({
+      images: fp.getOr([], 'true')(head),
+      extras: fp.getOr([], 'false')(head)
+    }),
+    head => ({
+      banner: fp.find(isBanner)(head.images) || false,
+      extras: head.extras
+    }),
+    head => [
+      heading,
+      head.banner,
+      badges,
+      description,
+      ...head.extras,
+      { type: 'thematicBreak' }
+    ],
+    fp.reject(fp.isEmpty),
+    fp.compact,
+    fp.uniq
+  )(tree)
 
-  tree.children = [
-    ...heading,
-    description,
-    // ...nodes,
-    { type: 'thematicBreak' },
-    ...tree.children
-  ]
-
-  console.log(inspect(tree))
+  tree.children = [...nodes, ...tree.children]
 }
 
 // ────────────────────────────────  private  ──────────────────────────────────
 
 function getCurrentHeader (tree) {
   const heading = []
-  while (headIsH2(tree.children) === false) {
-    if (headIsH1(tree.children)) return tree.children.shift()
-    if (headIsBlockQuote(tree.children)) return tree.children.shift()
-    if (headIsBreak(tree.children)) return tree.children.shift()
+  while (headIsH2(tree.children) === false && tree.children.length > 0) {
     heading.push(tree.children.shift())
   }
   return heading
 }
 
-function getHero (nodes) {
-  if (headIsBanner(nodes)) heading.push(nodes.shift())
-  return nodes
-}
+function makeBadge (name, value, ok = true) {
+  const color = fp.isString(ok) === true ? ok : ok === true ? 'green' : 'red'
 
-function addDescription (nodes) {
-  const desc = heading.push(desc)
-  return nodes
-}
-
-function filterBlock (nodes) {
-  if (headIsBanner(nodes)) heading.push(nodes.shift())
-}
-
-function setTitle (tree) {
-  if (hasTitle(tree)) tree.children.shift()
-  tree.children.unshift(title)
-}
-function setDescription (nodes) {
-  if (hasDescription(nodes)) nodes.shift()
-  nodes.unshift(description)
+  return {
+    type: 'image',
+    alt: name,
+    url: `https://img.shields.io/badge/${name}-${value}-${color}.svg`
+  }
 }

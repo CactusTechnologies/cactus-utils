@@ -2,6 +2,4 @@
 
 module.exports = notifier
 
-function notifier () {
-  // TODO
-}
+function notifier () {}

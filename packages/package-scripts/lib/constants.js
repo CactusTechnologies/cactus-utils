@@ -2,31 +2,39 @@
 
 const path = require('path')
 const fs = require('fs')
-const gitParser = require('git-url-parse')
 const fp = require('lodash/fp')
+const execa = require('execa')
+const utils = require('./utils')
 
 exports.HEADING_CONTRIBUTORS = 'Maintainers'
 exports.HEADING_INSTALL = 'Installation'
 exports.HEADING_USAGE = 'Usage'
+exports.HEADING_CLOG = 'Changelog'
+exports.HEADING_TODOS = 'TODOs'
+exports.HEADING_DOCS = 'API'
 
+try {
+  execa.sync('git', ['rev-parse', '--is-inside-work-tree'])
+  exports.IN_REPO = true
+} catch (err) {
+  exports.IN_REPO = false
+}
+
+exports.CWD = process.cwd()
 exports.README_PATH = path.resolve(process.cwd(), 'README.md')
+exports.README_TP_PATH = path.resolve(process.cwd(), 'lib/readme/template.txt')
+exports.AUTHORS_PATH = path.resolve(process.cwd(), 'AUTHORS')
 exports.PKG_PATH = path.resolve(process.cwd(), 'package.json')
-exports.PKG = require(exports.PKG_PATH)
-exports.HAS_REPO = fp.has('repository.url', exports.PKG)
+exports.TODO_PATH = path.resolve(process.cwd(), 'TODO.md')
+exports.LICENSE_PATH = path.resolve(process.cwd(), 'LICENSE')
+exports.CLOG_PATH = path.resolve(process.cwd(), 'CHANGELOG.md')
 
-const repoData = exports.HAS_REPO
-  ? fp.pipe(
-    fp.constant(exports.PKG),
-    fp.get('repository.url'),
-    gitParser
-  )()
-  : false
+exports.AUTHOR = 'Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)'
 
-exports.REPO_BASE = exports.HAS_REPO ? repoData.name : false
-exports.REPO_SSH = exports.HAS_REPO ? repoData.toString('ssh') : false
-exports.REPO_HTTP = exports.HAS_REPO ? repoData.toString('https') : false
-exports.REPO_IS_GITHUB = exports.HAS_REPO && repoData.source === 'github.com'
-exports.REPO_GITHUB_BASE = exports.REPO_IS_GITHUB ? repoData.full_name : false
+exports.HAS_PKG = utils.exists(exports.PKG_PATH)
+exports.ERR_PKG =
+  "No package.json found. Make sure you're in the correct project."
+exports.ERR_GIT = 'No git remote configuration found.'
 
 exports.GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN || false
 
