@@ -1,36 +1,39 @@
-<!-- TITLE/ -->
+# @cactus-technologies/server
 
-<h1>@cactus-technologies/server</h1>
+![version](https://img.shields.io/badge/version-1.2.11-green.svg)
+![npm](https://img.shields.io/badge/npm-private-red.svg)
 
-<!-- /TITLE -->
+> Basic Server for Cactus Webservices
 
-<!-- DESCRIPTION/ -->
+---
 
-Basic Server for Cactus Webservices
+## Table of contents
 
-<!-- /DESCRIPTION -->
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [API](#api)
+-   [Maintainers](#maintainers)
+-   [Changelog](#changelog)
+-   [License](#license)
 
-<!-- INSTALL/ -->
+## Installation
 
-<h2>Install</h2>
+```sh
+npm install @cactus-technologies/server
+```
 
-<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
+## Usage
 
-<li>Install: <code>npm install --save @cactus-technologies/server</code></li>
-<li>Module: <code>require('@cactus-technologies/server')</code></li></ul>
+## API
 
-<!-- /INSTALL -->
+## Maintainers
 
-<!-- LICENSE/ -->
+-   [Jorge Proaño](http://www.hidden-node-problem.com)
 
-<h2>License</h2>
+## Changelog
 
-Unless stated otherwise all works are:
+Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 
-<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
+## License
 
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<!-- /LICENSE -->
+[MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)

@@ -1,36 +1,42 @@
-<!-- TITLE/ -->
+# @cactus-technologies/node-application
 
-<h1>@cactus-technologies/node-application</h1>
+![version](https://img.shields.io/badge/version-4.0.2-green.svg)
+![npm](https://img.shields.io/badge/npm-private-red.svg)
 
-<!-- /TITLE -->
+> Helper to manage PM2 App definitions and process states
 
-<!-- DESCRIPTION/ -->
+---
 
-Helper to manage PM2 App definitions and process states
+## Table of contents
 
-<!-- /DESCRIPTION -->
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [API](#api)
+-   [Maintainers](#maintainers)
+-   [Changelog](#changelog)
+-   [License](#license)
+-   [TODOs](#todos)
 
-<!-- INSTALL/ -->
+## Installation
 
-<h2>Install</h2>
+```sh
+npm install @cactus-technologies/node-application
+```
 
-<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
+## Usage
 
-<li>Install: <code>npm install --save @cactus-technologies/node-application</code></li>
-<li>Module: <code>require('@cactus-technologies/node-application')</code></li></ul>
+## API
 
-<!-- /INSTALL -->
+## Maintainers
 
-<!-- LICENSE/ -->
+-   [Jorge Proaño](http://www.hidden-node-problem.com)
 
-<h2>License</h2>
+## Changelog
 
-Unless stated otherwise all works are:
+Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 
-<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
+## License
 
-and licensed under:
+[MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
 
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<!-- /LICENSE -->
+## TODOs

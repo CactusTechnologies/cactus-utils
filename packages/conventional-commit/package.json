@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/cactus-utils.git"
+    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
   },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
@@ -32,7 +32,7 @@
     "fuse.js": "^3.2.1",
     "inquirer": "^6.2.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "read-pkg-up": "^4.0.0",
     "term-size": "^1.2.0",
     "wrap-ansi": "^4.0.0"

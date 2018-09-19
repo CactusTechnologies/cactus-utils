@@ -1,36 +1,42 @@
-<!-- TITLE/ -->
+# @cactus-technologies/eslint-config
 
-<h1>@cactus-technologies/eslint-config</h1>
+![version](https://img.shields.io/badge/version-1.1.1-green.svg)
+![npm](https://img.shields.io/badge/npm-public-green.svg)
 
-<!-- /TITLE -->
+> ESlint Rules for cactus projects
 
-<!-- DESCRIPTION/ -->
+---
 
-ESlint Rules for cactus projects
+## Table of contents
 
-<!-- /DESCRIPTION -->
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [API](#api)
+-   [Maintainers](#maintainers)
+-   [Changelog](#changelog)
+-   [License](#license)
+-   [TODOs](#todos)
 
-<!-- INSTALL/ -->
+## Installation
 
-<h2>Install</h2>
+```sh
+npm install @cactus-technologies/eslint-config
+```
 
-<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
+## Usage
 
-<li>Install: <code>npm install --save @cactus-technologies/eslint-config</code></li>
-<li>Module: <code>require('@cactus-technologies/eslint-config')</code></li></ul>
+## API
 
-<!-- /INSTALL -->
+## Maintainers
 
-<!-- LICENSE/ -->
+-   [Jorge Proaño](http://www.hidden-node-problem.com)
 
-<h2>License</h2>
+## Changelog
 
-Unless stated otherwise all works are:
+Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 
-<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
+## License
 
-and licensed under:
+[MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
 
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<!-- /LICENSE -->
+## TODOs

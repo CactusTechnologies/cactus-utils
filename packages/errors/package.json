@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CactusTechnologies/cactus-utils.git"
+    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
   },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
@@ -16,10 +16,8 @@
     "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
   ],
   "main": "index.js",
-  "scripts": {},
   "dependencies": {
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "verror": "^1.10.0"
-  },
-  "maintainers": []
+  }
 }

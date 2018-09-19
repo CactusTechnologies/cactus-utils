@@ -1,44 +1,43 @@
-<!-- TITLE/ -->
+# @cactus-technologies/notifier
 
-<h1>@cactus-technologies/notifier</h1>
+![version](https://img.shields.io/badge/version-1.0.2-green.svg)
 
-<!-- /TITLE -->
+> Slack Notifications Manager
 
-<!-- DESCRIPTION/ -->
+---
 
-Slack Notifications Manager
+## Table of contents
 
-<!-- /DESCRIPTION -->
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [API](#api)
+-   [Maintainers](#maintainers)
+-   [Changelog](#changelog)
+-   [License](#license)
+-   [TODOs](#todos)
 
-<!-- INSTALL/ -->
+## Installation
 
-<h2>Install</h2>
+```sh
+git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
+  cd cactus-utils
+  npm install
+```
 
-<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
+## Usage
 
-<li>Install: <code>npm install --save @cactus-technologies/notifier</code></li>
-<li>Module: <code>require('@cactus-technologies/notifier')</code></li></ul>
+## API
 
-<!-- /INSTALL -->
+## Maintainers
 
-<!-- HISTORY/ -->
+-   [Jorge Proaño](http://www.hidden-node-problem.com)
 
-<h2>History</h2>
+## Changelog
 
-<a href="https://github.com/CactusTechnologies/cactus-utils/releases">Discover the release history by heading on over to the releases page.</a>
+Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 
-<!-- /HISTORY -->
+## License
 
-<!-- LICENSE/ -->
+[MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
 
-<h2>License</h2>
-
-Unless stated otherwise all works are:
-
-<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<!-- /LICENSE -->
+## TODOs

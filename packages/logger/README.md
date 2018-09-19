@@ -1,3 +1,10 @@
+# @cactus-technologies/logger
+
+![version](https://img.shields.io/badge/version-2.1.2-green.svg)
+![npm](https://img.shields.io/badge/npm-private-red.svg)
+
+> Customized Pino Logger for Cactus projects
+
 <!-- TITLE/ -->
 
 <h1>@cactus-technologies/logger</h1>
@@ -20,6 +27,8 @@ Customized Pino Logger for Cactus projects
 <li>Module: <code>require('@cactus-technologies/logger')</code></li></ul>
 
 <!-- /INSTALL -->
+
+---
 
 ## Example
 

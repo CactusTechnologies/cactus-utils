@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CactusTechnologies/cactus-utils.git"
+    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
   },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
@@ -31,7 +31,6 @@
     "@cactus-technologies/logger": "^2.1.2",
     "@cactus-technologies/utils": "^1.1.2",
     "config": "^2.0.1",
-    "lodash": "^4.17.10"
-  },
-  "maintainers": []
+    "lodash": "^4.17.11"
+  }
 }

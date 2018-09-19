@@ -1,9 +1,9 @@
-# @cactus-technologies/utils
+# @cactus-technologies/license-generator
 
-![version](https://img.shields.io/badge/version-1.1.2-green.svg)
-![npm](https://img.shields.io/badge/npm-private-red.svg)
+![version](https://img.shields.io/badge/version-1.0.0-green.svg)
+![npm](https://img.shields.io/badge/npm-public-green.svg)
 
-> Utility functions for node base apps
+> Generate licence files
 
 ---
 
@@ -15,11 +15,12 @@
 -   [Maintainers](#maintainers)
 -   [Changelog](#changelog)
 -   [License](#license)
+-   [TODOs](#todos)
 
 ## Installation
 
 ```sh
-npm install @cactus-technologies/utils
+npm install @cactus-technologies/license-generator
 ```
 
 ## Usage
@@ -32,8 +33,8 @@ npm install @cactus-technologies/utils
 
 ## Changelog
 
-Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
-
 ## License
 
 [MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
+
+## TODOs

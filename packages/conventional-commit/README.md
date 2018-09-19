@@ -1,64 +1,42 @@
-<!-- TITLE/ -->
+# cz-cactus
 
-<h1>cz-cactus</h1>
+![version](https://img.shields.io/badge/version-1.1.3-green.svg)
+![npm](https://img.shields.io/badge/npm-public-green.svg)
 
-<!-- /TITLE -->
+> A custom Commitizen plugin to help achieve consistent commit messages like grown ups.
 
-<!-- DESCRIPTION/ -->
+---
 
-A custom Commitizen plugin to help achieve consistent commit messages like grown ups.
+## Table of contents
 
-<!-- /DESCRIPTION -->
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [API](#api)
+-   [Maintainers](#maintainers)
+-   [Changelog](#changelog)
+-   [License](#license)
+-   [TODOs](#todos)
 
-## Install
+## Installation
 
-First, install the Commitizen cli tools:
-
-```bash
-npm install commitizen -g
-```
-
-Next, initialize your project to use the cz-cactus adapter by typing:
-
-```bash
-    commitizen init cz-cactus --save-dev --save-exact
-```
-
-> Pro TIP: set as default adapter for your projects
-
-```bash
-npm install --global cz-cactus
-echo '{ "path": "cz-cactus" }' > ~/.czrc
+```sh
+npm install cz-cactus
 ```
 
 ## Usage
 
-```sh
-$ git cz
-```
+## API
 
-## Customize
+## Maintainers
 
-You can customize the `scopes` on a project basis by adding a configuration section in your `package.json`:
+-   [Jorge Proaño](http://www.hidden-node-problem.com)
 
-```json
-{
-    "config": {
-        "scopes": ["home", "accounts", "ci"]
-    }
-}
-```
+## Changelog
 
-<!-- LICENSE/ -->
+Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 
-<h2>License</h2>
+## License
 
-Unless stated otherwise all works are:
+[MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
 
-<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
-
-and licensed under:
-
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
-
-<!-- /LICENSE -->
+## TODOs
