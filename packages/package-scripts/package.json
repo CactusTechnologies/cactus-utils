@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/package-scripts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Package Maintenance Scripts",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/package-scripts#readme",
   "bugs": {
@@ -26,7 +26,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@cactus-technologies/license-generator": "^1.0.0",
+    "@cactus-technologies/license-generator": "^1.0.1",
     "execa": "^1.0.0",
     "gh-got": "^8.0.1",
     "git-url-parse": "^10.0.1",
