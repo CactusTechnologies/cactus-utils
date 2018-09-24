@@ -1,6 +1,6 @@
 # @cactus-technologies/api-request
 
-![version](https://img.shields.io/badge/version-1.2.5-green.svg)
+![version](https://img.shields.io/badge/version-1.2.6-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Request helper
@@ -15,7 +15,6 @@
 -   [Maintainers](#maintainers)
 -   [Changelog](#changelog)
 -   [License](#license)
--   [TODOs](#todos)
 
 ## Installation
 
@@ -38,5 +37,3 @@ Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 ## License
 
 [MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
-
-## TODOs

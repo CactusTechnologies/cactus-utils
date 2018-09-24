@@ -17,7 +17,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "docs": "jsdoc2md --template .readme.hbs --files index.js lib/*.js > README.md"
+    "docs": "jsdoc2md index.js > docs/API.md"
   },
   "dependencies": {
     "async": "^2.6.1",

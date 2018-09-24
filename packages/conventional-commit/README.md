@@ -1,6 +1,6 @@
 # cz-cactus
 
-![version](https://img.shields.io/badge/version-1.1.3-green.svg)
+![version](https://img.shields.io/badge/version-1.1.4-green.svg)
 ![npm](https://img.shields.io/badge/npm-public-green.svg)
 
 > A custom Commitizen plugin to help achieve consistent commit messages like grown ups.
@@ -15,7 +15,6 @@
 -   [Maintainers](#maintainers)
 -   [Changelog](#changelog)
 -   [License](#license)
--   [TODOs](#todos)
 
 ## Installation
 
@@ -38,5 +37,3 @@ Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 ## License
 
 [MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
-
-## TODOs

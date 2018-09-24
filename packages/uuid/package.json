@@ -20,7 +20,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "docs": "jsdoc2md --template .readme.hbs index.js > README.md"
+    "docs": "jsdoc2md index.js > docs/API.md"
   },
   "dependencies": {
     "random-js": "^1.0.8"

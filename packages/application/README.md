@@ -1,6 +1,6 @@
 # @cactus-technologies/node-application
 
-![version](https://img.shields.io/badge/version-4.0.2-green.svg)
+![version](https://img.shields.io/badge/version-4.0.3-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Helper to manage PM2 App definitions and process states
@@ -15,7 +15,6 @@
 -   [Maintainers](#maintainers)
 -   [Changelog](#changelog)
 -   [License](#license)
--   [TODOs](#todos)
 
 ## Installation
 
@@ -38,5 +37,3 @@ Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 ## License
 
 [MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
-
-## TODOs

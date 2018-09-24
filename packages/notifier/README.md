@@ -1,6 +1,6 @@
 # @cactus-technologies/notifier
 
-![version](https://img.shields.io/badge/version-1.0.2-green.svg)
+![version](https://img.shields.io/badge/version-1.0.3-green.svg)
 
 > Slack Notifications Manager
 
@@ -14,7 +14,6 @@
 -   [Maintainers](#maintainers)
 -   [Changelog](#changelog)
 -   [License](#license)
--   [TODOs](#todos)
 
 ## Installation
 
@@ -39,5 +38,3 @@ Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 ## License
 
 [MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
-
-## TODOs

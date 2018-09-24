@@ -1,42 +1,33 @@
 # @cactus-technologies/logger
 
-![version](https://img.shields.io/badge/version-2.1.2-green.svg)
+![version](https://img.shields.io/badge/version-2.1.3-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Customized Pino Logger for Cactus projects
 
-<!-- TITLE/ -->
-
-<h1>@cactus-technologies/logger</h1>
-
-<!-- /TITLE -->
-
-<!-- DESCRIPTION/ -->
-
-Customized Pino Logger for Cactus projects
-
-<!-- /DESCRIPTION -->
-
-<!-- INSTALL/ -->
-
-<h2>Install</h2>
-
-<a href="https://npmjs.com" title="npm is a package manager for javascript"><h3>NPM</h3></a><ul>
-
-<li>Install: <code>npm install --save @cactus-technologies/logger</code></li>
-<li>Module: <code>require('@cactus-technologies/logger')</code></li></ul>
-
-<!-- /INSTALL -->
-
 ---
 
-## Example
+## Table of contents
 
-```js
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [API](#api)
+-   [Maintainers](#maintainers)
+-   [Changelog](#changelog)
+-   [License](#license)
+
+## Installation
+
+```sh
+npm install @cactus-technologies/logger
+```
+
+## Usage
+
+```javascript
 'use strict'
-const logger = require('@cactus-technologies/logger')
+const logger = require('.')
 const log = logger('app')
-
 log.info('hello world')
 log.error('this is at error level')
 log.info('the answer is %d', 42)
@@ -44,21 +35,20 @@ log.info({ obj: 42 }, 'hello world')
 log.info({ obj: 42, b: 2 }, 'hello world')
 log.info({ obj: { aa: 'bbb' } }, 'another')
 log.error(new Error('an error'))
-
 const child = log.child({ a: 'property' })
 child.info('hello child!')
 ```
 
-<!-- LICENSE/ -->
+## API
 
-<h2>License</h2>
+## Maintainers
 
-Unless stated otherwise all works are:
+-   [Jorge Proaño](http://www.hidden-node-problem.com)
 
-<ul><li>Copyright &copy; <a href="http://www.cactus.is">Cactus Technologies LLC</a></li></ul>
+## Changelog
 
-and licensed under:
+Find the CHANGELOG [here](CHANGELOG.md), generated using Conventional Commits.
 
-<ul><li><a href="http://spdx.org/licenses/MIT.html">MIT License</a></li></ul>
+## License
 
-<!-- /LICENSE -->
+[MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
