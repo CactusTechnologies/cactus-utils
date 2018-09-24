@@ -19,12 +19,13 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "cleanup": "lerna clean && lerna bootstrap --hoist",
-    "docs": "run-s docs:*",
-    "docs:packages": "lerna exec --no-bail package-scripts",
-    "docs:self": "package-scripts",
+    "docs": "run-s docs:**",
+    "docs:packages:pkg": "lerna exec --no-bail --stream package-scripts -- compile --no-todos",
+    "docs:packages:api": "lerna run --no-bail docs",
+    "docs:mono": "package-scripts compile",
     "lint": "eslint . --ignore-path .gitignore",
     "test": "echo \"Error: No tests defined\" && exit 1",
-    "todos": "scripts/todos.sh"
+    "todos": "package-scripts todos"
   },
   "config": {
     "commitizen": {
@@ -51,11 +52,10 @@
     "eslint": "^5.6.0",
     "execa": "^1.0.0",
     "husky": "^0.14.3",
-    "leasot": "^6.6.2",
     "lerna": "^3.4.0",
     "lint-staged": "^7.2.2",
     "listr": "^0.14.2",
     "npm-run-all": "^4.1.3",
-    "prettier": "^1.14.2"
+    "prettier": "^1.14.3"
   }
 }
