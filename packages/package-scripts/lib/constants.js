@@ -4,7 +4,6 @@ const path = require('path')
 const fs = require('fs')
 const fp = require('lodash/fp')
 const execa = require('execa')
-const utils = require('./utils')
 
 exports.HEADING_CONTRIBUTORS = 'Maintainers'
 exports.HEADING_INSTALL = 'Installation'
@@ -13,27 +12,20 @@ exports.HEADING_CLOG = 'Changelog'
 exports.HEADING_TODOS = 'TODOs'
 exports.HEADING_DOCS = 'API'
 
-try {
-  execa.sync('git', ['rev-parse', '--is-inside-work-tree'])
-  exports.IN_REPO = true
-} catch (err) {
-  exports.IN_REPO = false
-}
+exports.IN_REPO = isInRepo()
 
-exports.CWD = process.cwd()
-exports.README_PATH = path.resolve(process.cwd(), 'README.md')
-exports.README_TP_PATH = path.resolve(process.cwd(), 'lib/readme/template.txt')
-exports.AUTHORS_PATH = path.resolve(process.cwd(), 'AUTHORS')
-exports.PKG_PATH = path.resolve(process.cwd(), 'package.json')
-exports.TODO_PATH = path.resolve(process.cwd(), 'TODO.md')
-exports.LICENSE_PATH = path.resolve(process.cwd(), 'LICENSE')
-exports.CLOG_PATH = path.resolve(process.cwd(), 'CHANGELOG.md')
+exports.README_PATH = findFile('README.md')
+exports.AUTHORS_PATH = findFile('AUTHORS')
+exports.PKG_PATH = findFile('package.json')
+exports.TODO_PATH = findFile('TODO.md')
+exports.LICENSE_PATH = findFile('LICENSE')
+exports.CLOG_PATH = findFile('CHANGELOG.md')
+
+exports.README_TP_PATH = path.resolve(__dirname, './fixtures', 'readme.txt')
 
 exports.AUTHOR = 'Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)'
 
-exports.HAS_PKG = utils.exists(exports.PKG_PATH)
-exports.ERR_PKG =
-  "No package.json found. Make sure you're in the correct project."
+exports.ERR_PKG = 'No package.json found.'
 exports.ERR_GIT = 'No git remote configuration found.'
 
 exports.GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN || false
@@ -49,3 +41,25 @@ exports.HAS_EXAMPLE = fp.pipe(
   fp.map(v => path.resolve(process.cwd(), v)),
   fp.some(fs.existsSync)
 )()
+
+// ────────────────────────────────  private  ──────────────────────────────────
+
+function isInRepo () {
+  try {
+    execa.sync('git', ['rev-parse', '--is-inside-work-tree'])
+    return true
+  } catch (err) {
+    return false
+  }
+}
+
+/**
+ * Creates an absolute path to the target file.
+ * It takes the cwd as the root.
+ *
+ * @param {string} filename - name for the file
+ * @returns {string} Path to the file.
+ */
+function findFile (filename) {
+  return path.resolve(process.cwd(), filename)
+}

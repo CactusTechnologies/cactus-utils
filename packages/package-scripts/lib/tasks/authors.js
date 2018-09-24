@@ -1,8 +1,8 @@
 'use strict'
 
 const fp = require('lodash/fp')
-const { AUTHORS_PATH } = require('./constants')
-const utils = require('./utils')
+const { AUTHORS_PATH } = require('../constants')
+const utils = require('../utils')
 
 const authors = fp.pipe(
   fp.get('contributors'),

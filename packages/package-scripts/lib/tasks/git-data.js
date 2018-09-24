@@ -7,8 +7,8 @@ const execa = require('execa')
 const ghGot = require('gh-got')
 const map = require('p-map')
 
-const { GITHUB_ACCESS_TOKEN, ERR_GIT } = require('./constants')
-const utils = require('./utils')
+const { GITHUB_ACCESS_TOKEN, ERR_GIT } = require('../constants')
+const utils = require('../utils')
 
 const isGitHub = fp.pipe(
   fp.get('repoData'),
@@ -50,12 +50,11 @@ module.exports = () =>
     },
     {
       title: 'Get Contributors via local Repo',
-      enabled: ctx => doGitHub(ctx) === false,
       task: ctx =>
         execa
           .shell('git log --format="%aN <%aE>" | sort -f | uniq')
           .then(data => parseAuthors(data.stdout))
-          .then(cnt => (ctx.contributors = cnt))
+          .then(cnt => mergeContributors(ctx, cnt))
     },
     {
       title: 'Get Contributors via Github API',
@@ -63,14 +62,13 @@ module.exports = () =>
       task: ctx =>
         ghGot(getGitHubCnt(ctx), { token: GITHUB_ACCESS_TOKEN })
           .then(({ body }) => map(body, getContributorData, { concurrent: 2 }))
-          .then(cnt => (ctx.contributors = cnt))
+          .then(cnt => mergeContributors(ctx, cnt))
     }
   ])
 
 function getContributorData (cnt) {
   return ghGot(cnt.url, { token: GITHUB_ACCESS_TOKEN })
-    .then(response => response.body)
-    .then(body => cleanData(body))
+    .then(({ body }) => cleanData(body))
     .catch(() => {})
 
   function cleanData ({ name, email, blog, html_url: ghUrl }) {
@@ -86,4 +84,10 @@ function doGitHub (ctx) {
   if (isGitHub(ctx) === false) return false
   if (GITHUB_ACCESS_TOKEN === false) return false
   return true
+}
+
+function mergeContributors (context, contr) {
+  const current = fp.getOr([], 'contributors', context)
+  const merged = fp.unionBy((x = {}) => x.email)(contr, current)
+  context['contributors'] = fp.compact(merged)
 }

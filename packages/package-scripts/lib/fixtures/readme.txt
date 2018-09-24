@@ -6,5 +6,3 @@
 ## Maintainers
 ## Changelog
 ## License
----
-## TODOs

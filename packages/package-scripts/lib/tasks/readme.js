@@ -11,16 +11,15 @@ const license = require('remark-license')
 const toc = require('remark-toc')
 const github = require('remark-github')
 
-const { README_PATH, README_TP_PATH } = require('../constants')
+const { README_PATH } = require('../constants')
 const utils = require('../utils')
 
-const title = require('./title')
-const install = require('./install')
-const contrib = require('./contributors')
-const changelog = require('./changelog')
-const todos = require('./todos')
-const normalize = require('./normalize')
-const usage = require('./usage')
+const title = require('../readme/title')
+const install = require('../readme/install')
+const contrib = require('../readme/contributors')
+const changelog = require('../readme/changelog')
+const normalize = require('../readme/normalize')
+const usage = require('../readme/usage')
 
 const isGitHub = fp.pipe(
   fp.get('source'),
@@ -29,22 +28,17 @@ const isGitHub = fp.pipe(
 
 const getRepository = repo => (isGitHub(repo) ? repo.toString('https') : '')
 
-module.exports = ({ pkg, repoData, contributors }) => {
+module.exports = ({ pkg, repoData, contributors, force }) => {
   const readme = unified()
 
   readme.use(parse)
-  readme.use(stringify, {
-    gfm: true,
-    rule: '-',
-    ruleSpaces: false
-  })
+  readme.use(stringify)
   readme.use(flattenImg)
   readme.use(title, { pkg })
   readme.use(install, { pkg, repoData })
   readme.use(usage)
   readme.use(contrib, { contributors })
   readme.use(changelog)
-  readme.use(todos, { ignore: [] })
   readme.use(license)
   readme.use(toc)
   readme.use(normalize)
@@ -55,14 +49,9 @@ module.exports = ({ pkg, repoData, contributors }) => {
 
   const compile = promisify(readme.process.bind(readme))
 
-  return utils
-    .readFile(README_PATH, false)
-    .catch(() => utils.readFile(README_TP_PATH))
+  utils
+    .readFile(README_PATH)
     .then(readme => compile(readme))
     .then(data => utils.writeFile(README_PATH, data))
-    .catch(onError)
-}
-
-function onError (err) {
-  throw err
+    .catch(utils.onError)
 }

@@ -31,7 +31,7 @@
     "gh-got": "^8.0.1",
     "git-url-parse": "^10.0.1",
     "json-stable-stringify": "^1.0.1",
-    "leasot": "^6.6.2",
+    "leasot": "^7.0.0-rc.1",
     "listr": "^0.14.2",
     "load-json-file": "^5.1.0",
     "lodash": "^4.17.11",
@@ -56,6 +56,6 @@
     "yargs": "^12.0.2"
   },
   "peerDependencies": {
-    "prettier": "1.14.2"
+    "prettier": "*"
   }
 }
