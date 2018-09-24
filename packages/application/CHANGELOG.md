@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/node-application@4.0.3...@cactus-technologies/node-application@4.1.0) (2018-09-24)
+
+
+### Features
+
+* **monorepo:** Added basic typescript declarations ([0833169](https://github.com/CactusTechnologies/cactus-utils/commit/0833169))
+
+
+
+
+
 <a name="4.0.3"></a>
 ## [4.0.3](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/node-application@4.0.2...@cactus-technologies/node-application@4.0.3) (2018-09-19)
 
