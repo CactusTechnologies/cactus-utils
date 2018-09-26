@@ -1,7 +1,7 @@
 'use strict'
 
-const notifier = require('..')
+// const notifier = require('..')
 
-describe('@cactus-technologies/notifier', () => {
-  it('needs tests')
-})
+// describe('@cactus-technologies/notifier', () => {
+//   it('needs tests')
+// })
