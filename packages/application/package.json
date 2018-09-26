@@ -18,14 +18,15 @@
   "main": "index.js",
   "dependencies": {
     "@cactus-technologies/utils": "^1.2.0",
-    "@pm2/io": "2.3.3",
+    "@cactus-technologies/logger": "^2.2.0",
+    "@pm2/io": "~2.3.11",
     "async-exit-hook": "^2.0.1",
     "config": "^2.0.1",
     "dev-ip": "^1.0.1",
     "dotenv": "^6.0.0",
     "env-paths": "^1.0.0",
+    "got": "^9.2.2",
     "lodash": "^4.17.11",
-    "pretty-ms": "^4.0.0",
-    "request": "^2.88.0"
+    "pretty-ms": "^4.0.0"
   }
 }
