@@ -22,8 +22,8 @@
     "docs": "run-s docs:**",
     "docs:mono": "package-scripts compile",
     "lint": "eslint . --ignore-path .gitignore",
-    "packages:api": "lerna run --no-bail docs",
-    "packages:pkg": "lerna exec --no-bail --stream package-scripts -- compile --no-todos",
+    "docs:packages:api": "lerna run --no-bail docs",
+    "docs:packages:pkg": "lerna exec --no-bail --stream package-scripts -- compile --no-todos",
     "test": "echo \"Error: No tests defined\" && exit 1",
     "todos": "package-scripts todos"
   },
