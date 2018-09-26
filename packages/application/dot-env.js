@@ -8,7 +8,7 @@ const dotenv = require('dotenv')
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 /* Allways run on strict mode */
-process.env.NODE_CONFIG_STRICT_MODE = true
+process.env.NODE_CONFIG_STRICT_MODE = 'true'
 
 let appRoot = process.cwd()
 
@@ -25,6 +25,6 @@ if (process.versions && process.versions.electron) {
 /** Loads .env if exists */
 module.exports = () => {
   const env = path.resolve(process.cwd(), '.env')
-  if (fs.existsSync(env)) console.log('Loading .env in to the ENV')
+  if (fs.existsSync(env)) process.stdout.write('Loading .env in to the ENV\n')
   if (fs.existsSync(env)) dotenv.config({ path: env })
 }

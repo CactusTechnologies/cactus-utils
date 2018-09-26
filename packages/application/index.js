@@ -7,33 +7,29 @@ require('./dot-env')()
 const ms = require('pretty-ms')
 const util = require('util')
 const config = require('config')
+const io = require('@pm2/io')
+const exitHook = require('async-exit-hook')
+const logger = require('@cactus-technologies/logger')
 
-/** @type {Proxy} PMX module */
-exports.io = require('@pm2/io')
+/** @type {io} PMX module */
+exports.io = io
 
-/** @type {Object} Global Status */
 exports.status = require('./lib/status')
 
-/** @type {Function} exitHooks */
-exports.exitHook = require('async-exit-hook')
+exports.exitHook = exitHook
 
-/** @type {Object} slack notifications */
 exports.slack = require('./lib/slack-notifier')
 
 /**
  * Appends Listeners for: uncaughtException, unhandledRejection, process.exit
  *   and Logs Basic configuration data.
  *
- * @param  {Boolean} options.pmx:    pm2+ deep metrics
- * @param  {Boolean} options.slack:  Slack notifications
  *
  * @return {Promise}
  */
 
 exports.init = () =>
   new Promise((resolve, reject) => {
-    const logger = require('@cactus-technologies/logger')
-
     /* Add a process log */
     process.log = logger('process')
 
@@ -45,14 +41,9 @@ exports.init = () =>
     })
 
     /* Enable SlackWeb Hooks */
-    if (config.has('slack.url')) {
-      exports.slack.init()
-      exports.exitHook.uncaughtExceptionHandler((error, done) => {
-        exports.slack
-          .error(logger.Serializers.err(error), 'UncaughtError')
-          .then(() => done())
-      })
-    }
+    exports.exitHook.uncaughtExceptionHandler((error, done) => {
+      exports.slack.error(logger.Serializers.err(error)).then(() => done())
+    })
 
     /* Catch unhandledRejections */
     process.removeAllListeners('unhandledRejection')
@@ -62,15 +53,12 @@ exports.init = () =>
     })
 
     process.log.warn(
-      util.format(
-        'Initializing Application: %s v%s',
-        config.get('name'),
-        config.get('version')
-      )
+      'Initializing Application: %s v%s',
+      config.get('name'),
+      config.get('version')
     )
     process.log.info(util.format('Environment: %s', config.get('env')))
     process.log.info(util.format('Log level: %s', config.get('logs.level')))
-    process.log.trace({ paths: config.get('paths') }, 'Paths')
 
     resolve()
   })
@@ -80,7 +68,7 @@ exports.ready = () => {
   exports.exitHook(function exitMessage () {
     const config = require('config')
     const exitCode = process.exitCode || 0
-
+    const uptime = process.uptime()
     const exitMessage = util.format(
       'About to exit Application %s with code %s after %s',
       config.get('name'),
@@ -89,7 +77,7 @@ exports.ready = () => {
     )
 
     if (exitCode !== 0) process.log.fatal(exitMessage)
-    else process.log.warn(exitMessage)
+    else process.log.warn({ uptime }, exitMessage)
   })
 
   const initMsg = util.format(
