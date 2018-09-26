@@ -23,6 +23,7 @@ config.util.setModuleDefaults('logs', defaultConfig)
 
 const SERIALIZERS = require('./lib/serializers')
 
+/** @type {String} */
 const APP_NAME = config.has('name')
   ? config.get('name')
   : process.env.APP_NAME ||
@@ -31,14 +32,14 @@ const APP_NAME = config.has('name')
     process.env.npm_package_name ||
     'app'
 
-/** @type {String} Hostname */
+/** @type {String} */
 const HOSTNAME = (config.has('host')
   ? config.get('host')
   : process.env.HOST || process.env.HOSTNAME || require('os').hostname()
 ).split('.')[0]
 
 // TODO: Investigate how to pass the stream via the config files.
-/** @type {WriteStream} WriteStream or a Pretty wrapped one based on the conf.logs.stream value */
+/** @type {WritableStream}  */
 const STREAM = (function getStream () {
   switch (config.get('logs.stream')) {
     case 'err':
@@ -103,7 +104,7 @@ const WHITELISTED_FILEDS = ['level', 'serializers', 'base']
  * @param  {String|Object} opts Logger's Name
  * @param  {WritableStream} [stream=process.stdout] Print Stream
  *
- * @return {Object} Pino base logging instance
+ * @return {pino.Logger} Pino base logging instance
  */
 
 module.exports = function createLogger (opts, stream = STREAM) {
@@ -197,7 +198,7 @@ function coerceOptions (opts) {
     opts => (fp.isString(opts) ? { name: opts } : opts),
     opts => fp.set('name', fp.getOr(APP_NAME, 'name', opts), opts),
     opts => fp.set('base', extrasToBase(opts), opts),
-    opts => fp.pick(WHITELISTED_FILEDS, opts),
+    fp.pick(WHITELISTED_FILEDS),
     opts => extend(DEFAULTS, opts)
   )(opts)
 
