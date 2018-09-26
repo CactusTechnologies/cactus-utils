@@ -1,6 +1,6 @@
 # @cactus-technologies/license-generator
 
-![version](https://img.shields.io/badge/version-1.0.1-green.svg)
+![version](https://img.shields.io/badge/version-1.1.0-green.svg)
 ![npm](https://img.shields.io/badge/npm-public-green.svg)
 
 > Generate licence files
