@@ -17,6 +17,7 @@
     "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
   ],
   "scripts": {
+    "commit": "git cz --no-verify",
     "prebootstrap": "rm -rf ./node_modules package-lock.json && npm install",
     "bootstrap": "lerna clean -y && lerna bootstrap --hoist",
     "docs": "run-s docs:**",
@@ -38,10 +39,12 @@
       "logger",
       "server",
       "request",
+      "notifier",
       "uuid",
       "cz-cactus",
       "eslint-config",
       "package-scripts",
+      "license-gen",
       "monorepo"
     ]
   },
