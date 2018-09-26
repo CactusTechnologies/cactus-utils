@@ -1,6 +1,6 @@
 # @cactus-technologies/server
 
-![version](https://img.shields.io/badge/version-1.2.12-green.svg)
+![version](https://img.shields.io/badge/version-1.3.0-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Basic Server for Cactus Webservices

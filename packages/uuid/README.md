@@ -1,6 +1,6 @@
 # @cactus-technologies/uuid
 
-![version](https://img.shields.io/badge/version-1.0.7-green.svg)
+![version](https://img.shields.io/badge/version-1.1.0-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > A set of Unique ID generators for JS apps
