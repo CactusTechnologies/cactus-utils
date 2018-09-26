@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/license-generator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Generate licence files",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/license-generator#readme",
   "bugs": {

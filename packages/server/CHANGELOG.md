@@ -3,47 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="1.3.0"></a>
-# [1.3.0](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.12...@cactus-technologies/server@1.3.0) (2018-09-24)
+<a name="1.3.1"></a>
 
+## [1.3.1](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.3.0...@cactus-technologies/server@1.3.1) (2018-09-26)
+
+**Note:** Version bump only for package @cactus-technologies/server
+
+<a name="1.3.0"></a>
+
+# [1.3.0](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.12...@cactus-technologies/server@1.3.0) (2018-09-24)
 
 ### Features
 
-* **monorepo:** Added basic typescript declarations ([0833169](https://github.com/CactusTechnologies/cactus-utils/commit/0833169))
-
-
-
-
+-   **monorepo:** Added basic typescript declarations ([0833169](https://github.com/CactusTechnologies/cactus-utils/commit/0833169))
 
 <a name="1.2.12"></a>
+
 ## [1.2.12](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.11...@cactus-technologies/server@1.2.12) (2018-09-19)
 
 **Note:** Version bump only for package @cactus-technologies/server
 
-
-
-
-
 <a name="1.2.11"></a>
-## [1.2.11](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.10...@cactus-technologies/server@1.2.11) (2018-09-12)
 
+## [1.2.11](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.10...@cactus-technologies/server@1.2.11) (2018-09-12)
 
 ### Performance Improvements
 
-* **server:** Not using frameguard ([aa7848e](https://github.com/CactusTechnologies/cactus-utils/commit/aa7848e))
-
-
-
-
+-   **server:** Not using frameguard ([aa7848e](https://github.com/CactusTechnologies/cactus-utils/commit/aa7848e))
 
 <a name="1.2.10"></a>
+
 ## [1.2.10](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/server@1.2.9...@cactus-technologies/server@1.2.10) (2018-09-12)
 
 **Note:** Version bump only for package @cactus-technologies/server
-
-
-
-
 
 <a name="1.2.9"></a>
 

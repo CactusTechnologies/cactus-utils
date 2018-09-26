@@ -1,6 +1,6 @@
 # @cactus-technologies/api-request
 
-![version](https://img.shields.io/badge/version-1.3.0-green.svg)
+![version](https://img.shields.io/badge/version-1.3.1-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Request helper

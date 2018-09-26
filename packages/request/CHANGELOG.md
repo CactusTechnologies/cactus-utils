@@ -3,35 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="1.3.0"></a>
-# [1.3.0](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/api-request@1.2.6...@cactus-technologies/api-request@1.3.0) (2018-09-24)
+<a name="1.3.1"></a>
 
+## [1.3.1](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/api-request@1.3.0...@cactus-technologies/api-request@1.3.1) (2018-09-26)
+
+**Note:** Version bump only for package @cactus-technologies/api-request
+
+<a name="1.3.0"></a>
+
+# [1.3.0](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/api-request@1.2.6...@cactus-technologies/api-request@1.3.0) (2018-09-24)
 
 ### Features
 
-* **monorepo:** Added basic typescript declarations ([0833169](https://github.com/CactusTechnologies/cactus-utils/commit/0833169))
-
-
-
-
+-   **monorepo:** Added basic typescript declarations ([0833169](https://github.com/CactusTechnologies/cactus-utils/commit/0833169))
 
 <a name="1.2.6"></a>
+
 ## [1.2.6](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/api-request@1.2.5...@cactus-technologies/api-request@1.2.6) (2018-09-19)
 
 **Note:** Version bump only for package @cactus-technologies/api-request
 
-
-
-
-
 <a name="1.2.5"></a>
+
 ## [1.2.5](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/api-request@1.2.4...@cactus-technologies/api-request@1.2.5) (2018-09-12)
 
 **Note:** Version bump only for package @cactus-technologies/api-request
-
-
-
-
 
 <a name="1.2.4"></a>
 

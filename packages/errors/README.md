@@ -1,6 +1,6 @@
 # @cactus-technologies/errors
 
-![version](https://img.shields.io/badge/version-1.2.3-green.svg)
+![version](https://img.shields.io/badge/version-1.3.1-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Errors module for Cactus Servers and Applications

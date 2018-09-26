@@ -17,14 +17,14 @@
     "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
   ],
   "scripts": {
-    "commit": "git cz --no-verify",
     "prebootstrap": "rm -rf ./node_modules package-lock.json && npm install",
     "bootstrap": "lerna clean -y && lerna bootstrap --hoist",
+    "commit": "git cz --no-verify",
     "docs": "run-s docs:**",
     "docs:mono": "package-scripts compile",
-    "lint": "eslint . --ignore-path .gitignore",
     "docs:packages:api": "lerna run --no-bail docs",
     "docs:packages:pkg": "lerna exec --no-bail --stream package-scripts -- compile --no-todos",
+    "lint": "eslint . --ignore-path .gitignore",
     "test": "echo \"Error: No tests defined\" && exit 1",
     "todos": "package-scripts todos"
   },

@@ -1,6 +1,6 @@
 # @cactus-technologies/package-scripts
 
-![version](https://img.shields.io/badge/version-0.1.0-green.svg)
+![version](https://img.shields.io/badge/version-0.2.0-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Package Maintenance Scripts

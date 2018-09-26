@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/node-application",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Helper to manage PM2 App definitions and process states",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/application#readme",
   "bugs": {
@@ -17,8 +17,8 @@
   ],
   "main": "index.js",
   "dependencies": {
-    "@cactus-technologies/utils": "^1.2.0",
-    "@cactus-technologies/logger": "^2.2.0",
+    "@cactus-technologies/logger": "^2.2.1",
+    "@cactus-technologies/utils": "^1.2.1",
     "@pm2/io": "~2.3.11",
     "async-exit-hook": "^2.0.1",
     "config": "^2.0.1",

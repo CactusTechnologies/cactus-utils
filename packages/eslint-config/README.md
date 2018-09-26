@@ -1,6 +1,6 @@
 # @cactus-technologies/eslint-config
 
-![version](https://img.shields.io/badge/version-1.1.2-green.svg)
+![version](https://img.shields.io/badge/version-1.2.0-green.svg)
 ![npm](https://img.shields.io/badge/npm-public-green.svg)
 
 > ESlint Rules for cactus projects

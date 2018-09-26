@@ -1,6 +1,6 @@
 # @cactus-technologies/utils
 
-![version](https://img.shields.io/badge/version-1.2.0-green.svg)
+![version](https://img.shields.io/badge/version-1.2.1-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Utility functions for node base apps

@@ -1,6 +1,6 @@
 # cz-cactus
 
-![version](https://img.shields.io/badge/version-1.1.4-green.svg)
+![version](https://img.shields.io/badge/version-1.2.0-green.svg)
 ![npm](https://img.shields.io/badge/npm-public-green.svg)
 
 > A custom Commitizen plugin to help achieve consistent commit messages like grown ups.

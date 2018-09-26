@@ -3,23 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.2.0"></a>
+
+# [1.2.0](https://github.com/CactusTechnologies/cactus-utils/compare/cz-cactus@1.1.4...cz-cactus@1.2.0) (2018-09-26)
+
+### Features
+
+-   **cz-cactus:** Default answers dont prompt for additional data. ([59f3d3f](https://github.com/CactusTechnologies/cactus-utils/commit/59f3d3f))
+-   **monorepo:** Added basic typescript declarations ([0833169](https://github.com/CactusTechnologies/cactus-utils/commit/0833169))
+
 <a name="1.1.4"></a>
+
 ## [1.1.4](https://github.com/CactusTechnologies/cactus-utils/compare/cz-cactus@1.1.3...cz-cactus@1.1.4) (2018-09-19)
 
 **Note:** Version bump only for package cz-cactus
 
-
-
-
-
 <a name="1.1.3"></a>
+
 ## [1.1.3](https://github.com/CactusTechnologies/cactus-utils/compare/cz-cactus@1.1.2...cz-cactus@1.1.3) (2018-09-12)
 
 **Note:** Version bump only for package cz-cactus
-
-
-
-
 
 <a name="1.1.2"></a>
 
