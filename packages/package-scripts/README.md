@@ -1,6 +1,6 @@
 # @cactus-technologies/package-scripts
 
-![version](https://img.shields.io/badge/version-0.0.2-green.svg)
+![version](https://img.shields.io/badge/version-0.1.0-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
 > Package Maintenance Scripts
@@ -10,8 +10,6 @@
 ## Table of contents
 
 -   [Installation](#installation)
--   [Usage](#usage)
--   [API](#api)
 -   [Maintainers](#maintainers)
 -   [Changelog](#changelog)
 -   [License](#license)
@@ -21,10 +19,6 @@
 ```sh
 npm install @cactus-technologies/package-scripts
 ```
-
-## Usage
-
-## API
 
 ## Maintainers
 

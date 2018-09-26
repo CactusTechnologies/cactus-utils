@@ -1,6 +1,11 @@
 const Listr = require('listr')
-const { IN_REPO, README_PATH } = require('../lib/constants')
+const {
+  IN_REPO,
+  README_PATH,
+  GITHUB_ACCESS_TOKEN
+} = require('../lib/constants')
 const utils = require('../lib/utils')
+const chalk = require('chalk')
 
 exports.command = 'compile'
 exports.describe = 'Updates the project files'
@@ -14,10 +19,12 @@ exports.builder = argv =>
       type: 'boolean'
     })
     .option('todos', {
+      alias: ['todo'],
       default: true,
       describe: 'Saves a TODO.md file',
       type: 'boolean'
     })
+
 exports.handler = main
 
 // ─────────────────────────────────  MAIN  ────────────────────────────────────
@@ -70,11 +77,18 @@ const tasks = new Listr(
       task: require('../lib/tasks/git-add')
     }
   ],
-  { exitOnError: false }
+  { exitOnError: false, dateFormat: false }
 )
 
 function main (argv) {
-  tasks.run({
+  if (IN_REPO && !GITHUB_ACCESS_TOKEN) {
+    console.log(chalk`
+  {yellow This tool works better if you have a {bold GITHUB_ACCESS_TOKEN} variable in your enviroment.}
+  Navigate to: {cyan https://github.com/settings/tokens} to generate one.
+  Add it to your enviroment: {bold.green echo 'export GITHUB_ACCESS_TOKEN={red.cyan YOUR_TOKEN}' >> ~/.bashrc}
+`)
+  }
+  return tasks.run({
     hash: {},
     remote: false,
     repoData: {},

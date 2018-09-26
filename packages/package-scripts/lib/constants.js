@@ -5,6 +5,8 @@ const fs = require('fs')
 const fp = require('lodash/fp')
 const execa = require('execa')
 
+exports.USE_COLORS = process.stdout.isTTY
+
 exports.HEADING_CONTRIBUTORS = 'Maintainers'
 exports.HEADING_INSTALL = 'Installation'
 exports.HEADING_USAGE = 'Usage'
