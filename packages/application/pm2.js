@@ -42,14 +42,6 @@ const keys = [
   'io'
 ]
 
-const FORCE_DEV =
-  'FORCE_PM2_DEV' in process.env
-    ? process.env.FORCE_PM2_DEV.length === 0 ||
-      parseInt(process.env.FORCE_PM2_DEV, 10) !== 0
-    : false
-
-let count = 0
-
 /**
  * Creates a new Application Definition
  *
@@ -92,22 +84,15 @@ class Application {
     this.max_restarts = 100
 
     this.development = Application.isDev()
-    this.inspectPort = 9229 + count
-
+    this.runtime = Application.isRuntime()
     this.io = {
       conf: { catchExceptions: false, metrics: { network: { ports: true } } }
     }
-
-    this.node_args = Application.isRuntime()
-      ? [`--inspect=${this.inspectPort}`, '--nolazy']
-      : []
-
-    count++
   }
 
   get name () {
     return [config.get('basename'), fp.kebabCase(this.id)]
-      .map(v => fp.toLower(v))
+      .map(fp.toLower)
       .join('-')
   }
 
@@ -161,14 +146,14 @@ class Application {
     this._max_restarts = val
   }
 
-  get error () {
-    return this.development
+  get error_file () {
+    return this.development || this.runtime
       ? '/dev/null'
       : path.resolve(config.get('paths.log'), `${this.name}.log`)
   }
 
-  get output () {
-    return this.development
+  get out_file () {
+    return this.development || this.runtime
       ? '/dev/null'
       : path.resolve(config.get('paths.log'), `${this.name}.log`)
   }
@@ -220,11 +205,7 @@ class Application {
   }
 
   static isDev () {
-    return (
-      path.basename(process.mainModule.filename) === 'pm2-dev' ||
-      Application.isRuntime() ||
-      FORCE_DEV
-    )
+    return path.basename(process.mainModule.filename) === 'pm2-dev'
   }
 
   static isRuntime () {
