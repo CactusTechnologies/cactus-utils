@@ -4,6 +4,7 @@ const { WError } = verror
 
 class CactusError extends WError {
   constructor (opts, ...props) {
+    props = fp.map(String)(props)
     super({ strict: true, ...opts }, ...props)
     this.name = 'CactusError'
     this.code = 'UNKNOWN'
@@ -113,6 +114,14 @@ exports.DatabaseValidationError = class DatabaseValidationError extends CactusEr
           ? [getFirstReason(humanized)]
           : ['Invalid %s.', getErrorsPaths(humanized)]
 
+    const getNested = fp.pipe([
+      fp.getOr({}, 'errors'),
+      fp.toPairs,
+      fp.map(fp.first),
+      fp.filter(k => k.split('.').length > 1),
+      fp.map(fp.pipe([fp.split('.'), fp.initial, fp.join('.')]))
+    ])
+
     super(opts, ...props)
 
     this.name = 'InvalidArgumentError'
@@ -137,16 +146,6 @@ exports.DatabaseValidationError = class DatabaseValidationError extends CactusEr
         fp.omit(getNested(error)),
         fp.mapKeys(fp.pipe([fp.split('.'), fp.last, fp.startCase])),
         fp.toPairs
-      ])(error)
-    }
-
-    function getNested (error) {
-      return fp.pipe([
-        fp.getOr({}, 'errors'),
-        fp.toPairs,
-        fp.map(fp.first),
-        fp.filter(k => k.split('.').length > 1),
-        fp.map(fp.pipe([fp.split('.'), fp.initial, fp.join('.')]))
       ])(error)
     }
 
