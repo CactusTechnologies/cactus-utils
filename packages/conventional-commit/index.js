@@ -76,6 +76,23 @@ function getChoices () {
   }))
 }
 
+function shouldSkip (answers) {
+  if (answers.type === 'WIP') return true
+
+  const defaultAnswers = [
+    'Quick Commit',
+    'Updated dependencies.',
+    'Updated Configuration files.',
+    'Updated Package external tools.',
+    'Passing eslint rules.',
+    'Initial commit.'
+  ]
+
+  if (defaultAnswers.includes(answers.subject.trim())) return true
+
+  return false
+}
+
 /**
  * Create inquier.js questions object trying to read `types` and `scopes` from the current project
  * `package.json` falling back to nice default :)
@@ -116,10 +133,8 @@ function createQuestions (scopes) {
           return [
             { name: ['none'], value: '' },
             'dependencies',
-            'scripts',
-            'deploy',
+            'tools',
             'config',
-            'env',
             ...scopes
           ]
         }
@@ -134,19 +149,13 @@ function createQuestions (scopes) {
       default: ({ type, scope }) => {
         if (type === 'WIP') return 'Quick Commit'
         if (type === 'chore' && scope === 'dependencies') {
-          return 'Updated dependencies'
-        }
-        if (type === 'chore' && scope === 'deploy') {
-          return 'Updated Deployments'
+          return 'Updated dependencies.'
         }
         if (type === 'chore' && scope === 'config') {
           return 'Updated Configuration files.'
         }
-        if (type === 'chore' && scope === 'env') {
-          return 'Updated .env'
-        }
-        if (type === 'chore' && scope === 'scripts') {
-          return 'Updated Package scripts.'
+        if (type === 'chore' && scope === 'tools') {
+          return 'Updated Package external tools.'
         }
         if (type === 'refactor') {
           return 'Passing eslint rules.'
@@ -162,14 +171,13 @@ function createQuestions (scopes) {
       type: 'input',
       name: 'body',
       message: 'Provide a longer description: (optional)',
-      when: answers => answers.type !== 'WIP'
+      when: answers => shouldSkip(answers) === false
     },
     {
       type: 'input',
       name: 'issues',
-
       message: 'List any issue closed [ex: #1, ...]: (optional)',
-      when: answers => answers.type !== 'WIP'
+      when: answers => shouldSkip(answers) === false
     },
     {
       type: 'input',
@@ -182,7 +190,7 @@ function createQuestions (scopes) {
       name: 'confirmCommit',
       message: 'Ready to commit?',
       default: true,
-      when: answers => answers.type !== 'WIP'
+      when: answers => shouldSkip(answers) === false
     }
   ]
 }
