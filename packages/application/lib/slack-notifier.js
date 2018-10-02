@@ -4,6 +4,7 @@ const fp = require('lodash/fp')
 const config = require('config')
 const moment = require('moment-timezone')
 const log = require('@cactus-technologies/logger')('slack')
+const ms = require('pretty-ms')
 const req = require('got')
 
 exports.info = async attachment => notifier('info', attachment)
@@ -45,10 +46,10 @@ async function notifier (level, attachment) {
       fallback: `Process info: ${config.get('host')} - ${process.pid}`,
       color: '#258278',
       fields: [
-        { title: 'App Name', value: config.get('service'), short: true },
-        { title: 'Host', value: config.get('host'), short: true },
         { title: 'Version', value: config.get('version'), short: true },
-        { title: 'pid', value: process.pid, short: true }
+        { title: 'Host', value: config.get('host'), short: true },
+        { title: 'pid', value: process.pid, short: true },
+        { title: 'uptime', value: ms(process.uptime() * 1000), short: true }
       ]
     })
   }
@@ -79,11 +80,13 @@ async function notifier (level, attachment) {
 
   try {
     await req.post(config.get('slack.url'), {
-      body: {
+      body: JSON.stringify({
         text: text,
         attachments: attachments
-      },
-      json: true
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     return true
   } catch (err) {
@@ -100,6 +103,7 @@ async function notifier (level, attachment) {
           if (fp.isNil(value)) return
           if (key === 'stack') return
           value = String(value)
+          // TODO: Stacktraces
           // if (key === 'stack') {
           //   return {
           //     fallback: `${fp.startCase(key)}: Stack`,
