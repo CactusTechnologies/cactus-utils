@@ -30,7 +30,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./packages/conventional-commit"
+      "path": "./node_modules/@hnp/cz"
     },
     "scopes": [
       "application",
@@ -41,16 +41,13 @@
       "request",
       "notifier",
       "uuid",
-      "cz-cactus",
-      "eslint-config",
-      "package-scripts",
-      "license-gen",
       "monorepo"
     ]
   },
   "devDependencies": {
-    "@cactus-technologies/eslint-config": "file:packages/eslint-config",
-    "@cactus-technologies/package-scripts": "file:packages/package-scripts",
+    "@hnp/cz": "^1.0.3",
+    "@hnp/eslint-config": "^1.0.3",
+    "@hnp/package-scripts": "^1.0.4",
     "eslint": "^5.6.0",
     "execa": "^1.0.0",
     "husky": "^1.0.0",
