@@ -14,7 +14,7 @@
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
   "contributors": [
-    "Jorge Proaño <jorge@hiddennodeproblem.com> (http://www.hidden-node-problem.com)"
+    "Jorge Proaño <jorge@hiddennodeproblem.com> (https://www.hidden-node-problem.com)"
   ],
   "scripts": {
     "prebootstrap": "rm -rf ./node_modules package-lock.json && npm install",

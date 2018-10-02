@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.1.2"></a>
+
+## [4.1.2](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/node-application@4.1.1...@cactus-technologies/node-application@4.1.2) (2018-10-02)
+
+### Bug Fixes
+
+-   **application:** Slack Notifications were incorrectly expecting a JSON object from the slack api r… ([19e8584](https://github.com/CactusTechnologies/cactus-utils/commit/19e8584))
+
 <a name="4.1.1"></a>
 
 ## [4.1.1](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/node-application@4.1.0...@cactus-technologies/node-application@4.1.1) (2018-09-26)

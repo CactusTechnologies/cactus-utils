@@ -23,7 +23,7 @@ git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
 
 ## Maintainers
 
--   [Jorge Proaño](http://www.hidden-node-problem.com)
+-   [Jorge Proaño](https://www.hidden-node-problem.com)
 
 ## License
 
