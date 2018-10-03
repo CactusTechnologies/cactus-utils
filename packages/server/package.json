@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/server",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Basic Server for Cactus Webservices",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/server#readme",
   "bugs": {
@@ -19,8 +19,8 @@
   "dependencies": {
     "@cactus-technologies/errors": "^1.3.1",
     "@cactus-technologies/logger": "^2.2.1",
-    "@cactus-technologies/node-application": "^4.1.2",
-    "@cactus-technologies/utils": "^1.2.1",
+    "@cactus-technologies/node-application": "^4.1.3",
+    "@cactus-technologies/utils": "^1.3.0",
     "@cactus-technologies/uuid": "^1.1.1",
     "compression": "^1.7.3",
     "config": "^2.0.1",

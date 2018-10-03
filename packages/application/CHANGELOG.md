@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.1.3"></a>
+
+## [4.1.3](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/node-application@4.1.2...@cactus-technologies/node-application@4.1.3) (2018-10-03)
+
+**Note:** Version bump only for package @cactus-technologies/node-application
+
 <a name="4.1.2"></a>
 
 ## [4.1.2](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/node-application@4.1.1...@cactus-technologies/node-application@4.1.2) (2018-10-02)
