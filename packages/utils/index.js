@@ -6,6 +6,7 @@
  */
 
 const fp = require('lodash/fp')
+const pMap = require('p-map')
 
 // TODO: Propper attributions
 
@@ -396,21 +397,21 @@ exports.forEachLimit = exports.promisify(require('async').eachLimit)
 /**
  * Array.map in parallel
  *
- * @param {Array|Object} coll     - A collection to iterate over.
- * @param {Function}     iteratee - An async function to apply to each item in coll
- *
+ * @param {Array}         coll      - A collection to iterate over.
+ * @param {Function}      iteratee  - An async function to apply to each item in coll
+ * @param {Object}        options   - Options
  * @return {Promise}
  *
  * @function
  * @category Promise Chains
  */
 
-exports.map = exports.promisify(require('async').map)
+exports.map = pMap
 
 /**
  * Array.map in series
  *
- * @param {Array|Object} coll     - A collection to iterate over.
+ * @param {Array}        coll     - A collection to iterate over.
  * @param {Function}     iteratee - An async function to apply to each item in coll
  *
  * @return {Promise}
@@ -419,13 +420,13 @@ exports.map = exports.promisify(require('async').map)
  * @category Promise Chains
  */
 
-exports.mapSeries = exports.promisify(require('async').mapSeries)
+exports.mapSeries = require('p-map-series')
 
 /**
  * Array.map in parallel with a concurrency limit
  *
- * @param {Array|Object} coll     - A collection to iterate over.
- * @param {Number}       limit    - The maximum number of async operations at a time.
+ * @param {Array}         coll     - A collection to iterate over.
+ * @param {Number}       limit=1    - The maximum number of async operations at a time.
  * @param {Function}     iteratee - An async function to apply to each item in coll
  *
  * @return {Promise}
@@ -435,7 +436,8 @@ exports.mapSeries = exports.promisify(require('async').mapSeries)
  * @category Promise Chains
  */
 
-exports.mapLimit = exports.promisify(require('async').mapLimit)
+exports.mapLimit = async (coll, limit = 1, iteratee) =>
+  pMap(coll, iteratee, { concurrency: limit })
 
 /**
  * Relative of `utils.map`, designed for use with `objects`. Produces a new
@@ -464,8 +466,18 @@ exports.mapValues = exports.promisify(require('async').mapValues)
  * @category Promise Chains
  */
 
-exports.pipe = (...fn) =>
-  exports.promisify(Reflect.apply(require('async').seq, null, ...fn))
+exports.pipe = require('p-pipe')
+
+exports.ifThen = test => (doIf, doElse = fp.identity) => async value => {
+  let thenDo = false
+  if (fp.isFunction(test)) {
+    thenDo = await test(value)
+  } else {
+    thenDo = !!test
+  }
+  if (thenDo) return doIf(value)
+  return doElse(value)
+}
 
 // ───────────────────────  Expose some Async helpers  ─────────────────────────
 
