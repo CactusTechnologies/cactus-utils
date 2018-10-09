@@ -1,6 +1,6 @@
-# @cactus-technologies/utils-monorepo
+# cactus-utils
 
-![version](https://img.shields.io/badge/version-1.1.1-green.svg)
+![hero](hero.png)
 
 > Cactus Utilities monorepo
 
@@ -8,18 +8,22 @@
 
 ## Table of contents
 
--   [Installation](#installation)
+-   [Packages](#packages)
 -   [Maintainers](#maintainers)
 -   [License](#license)
--   [TODOs](#todos)
 
-## Installation
+## Packages
 
-```sh
-git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
-  cd cactus-utils
-  npm install
-```
+|                                                                Package | Description                                             |
+| ---------------------------------------------------------------------: | :------------------------------------------------------ |
+| [@cactus-technologies/node-application](./packages/application#readme) | Helper to manage PM2 App definitions and process states |
+|                [@cactus-technologies/errors](./packages/errors#readme) | Errors module for Cactus Servers and Applications       |
+|                [@cactus-technologies/logger](./packages/logger#readme) | Customized Pino Logger for Cactus projects              |
+|      [@cactus-technologies/slack-notifier](./packages/notifier#readme) | Slack Notifications Manager                             |
+|          [@cactus-technologies/api-request](./packages/request#readme) | Request helper                                          |
+|                [@cactus-technologies/server](./packages/server#readme) | Basic Server for Cactus Webservices                     |
+|                  [@cactus-technologies/utils](./packages/utils#readme) | Utility functions for node base apps                    |
+|                    [@cactus-technologies/uuid](./packages/uuid#readme) | A set of Unique ID generators for JS apps               |
 
 ## Maintainers
 
@@ -28,31 +32,3 @@ git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
 ## License
 
 [MIT](LICENSE) © [Cactus Technologies LLC](http://www.cactus.is)
-
-## TODOs
-
-TODO
-
--   `packages/logger/index.js`
-
-
-    -   [ ] [SUPPRESS_NO_CONFIG_WARNING](packages/logger/index.js#11)
-    -   [ ] [Investigate how to pass the stream via the config files.](packages/logger/index.js#40)
-
--   `packages/utils/index.js`
-
-
-    -   [ ] [Propper attributions](packages/utils/index.js#10)
-    -   [ ] [Detect and use the native promisified versions](packages/utils/index.js#87)
-    -   [ ] [Use cripto.createCipheriv](packages/utils/index.js#608)
-    -   [ ] [Use cripto.createDecipheriv](packages/utils/index.js#627)
-
--   `notes/merging/lib/Application.js`
-
-
-    -   [ ] [Use the pino.final special logger to avoid missing logs](notes/merging/lib/Application.js#123)
-
--   `packages/server/lib/pre.js`
-
-
-    -   [ ] [AllowHeaders should read as an array.](packages/server/lib/pre.js#69)

@@ -1,5 +1,7 @@
 # @cactus-technologies/node-application
 
+![hero](https://raw.githubusercontent.com/CactusTechnologies/cactus-utilities/master/hero.png)
+
 ![version](https://img.shields.io/badge/version-4.1.1-green.svg)
 ![npm](https://img.shields.io/badge/npm-private-red.svg)
 
