@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
+    "url": "cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo"
   },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
   "contributors": [
-    "Jorge Proaño <jorge@hiddennodeproblem.com> (https://www.hidden-node-problem.com)"
+    "Jorge Proaño <jorge@hiddennodeproblem.com>"
   ],
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "async": "^2.6.1",
-    "config": "^2.0.1",
+    "config": "^3.0.0",
     "del": "^3.0.0",
     "execa": "^1.0.0",
     "json-stable-stringify": "^1.0.1",
@@ -35,7 +35,7 @@
     "p-tap": "^2.0.0",
     "rev-hash": "^2.0.0",
     "sort-object-keys": "^1.1.2",
-    "validator": "^10.8.0",
+    "validator": "^10.9.0",
     "write-file-atomic": "^2.3.0",
     "write-json-file": "^3.0.2"
   },

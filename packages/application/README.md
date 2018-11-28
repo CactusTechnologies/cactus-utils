@@ -30,7 +30,7 @@ npm install @cactus-technologies/node-application
 
 ## Maintainers
 
--   [Jorge Proaño](https://www.hidden-node-problem.com)
+-   [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
 
 ## Changelog
 

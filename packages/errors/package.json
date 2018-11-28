@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
+    "url": "cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo"
   },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
   "contributors": [
-    "Jorge Proaño <jorge@hiddennodeproblem.com> (https://www.hidden-node-problem.com)"
+    "Jorge Proaño <jorge@hiddennodeproblem.com>"
   ],
   "main": "index.js",
   "dependencies": {

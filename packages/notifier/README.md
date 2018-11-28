@@ -18,8 +18,8 @@
 ## Installation
 
 ```sh
-git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
-  cd cactus-utils
+git clone cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo utils-monorepo
+  cd utils-monorepo
   npm install
 ```
 
@@ -29,7 +29,7 @@ git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
 
 ## Maintainers
 
--   [Jorge Proaño](https://www.hidden-node-problem.com)
+-   [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
 
 ## Changelog
 

@@ -25,7 +25,7 @@ npm install @cactus-technologies/logger
 ## Usage
 
 ```javascript
-const logger = require('.')
+const logger = require('@cactus-technologies/logger')
 const log = logger('demo')
 log.info('hello world')
 ```
@@ -140,7 +140,7 @@ child.info('hello child!')
 
 ## Maintainers
 
--   [Jorge Proaño](https://www.hidden-node-problem.com)
+-   [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
 
 ## Changelog
 
