@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/errors@1.3.1...@cactus-technologies/errors@1.3.2) (2018-11-28)
+
+**Note:** Version bump only for package @cactus-technologies/errors
+
 <a name="1.3.1"></a>
 
 ## [1.3.1](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/errors@1.3.0...@cactus-technologies/errors@1.3.1) (2018-09-26)

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/notifier@1.1.2...@cactus-technologies/notifier@1.1.3) (2018-11-28)
+
+**Note:** Version bump only for package @cactus-technologies/notifier
+
 <a name="1.1.2"></a>
 
 ## [1.1.2](https://github.com/CactusTechnologies/cactus-utils/compare/@cactus-technologies/notifier@1.1.1...@cactus-technologies/notifier@1.1.2) (2018-10-03)
