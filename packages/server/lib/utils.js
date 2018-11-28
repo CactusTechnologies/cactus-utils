@@ -103,6 +103,7 @@ exports.redactResponseHeaders = headers => {
  */
 
 exports.getCleanUrl = url => {
-  const parsed = URL.parse(url)
+  const { URL } = require('url')
+  const parsed = new URL(url)
   return parsed.pathname || url
 }

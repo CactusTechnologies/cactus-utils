@@ -89,6 +89,7 @@ function getErrorStack (ex) {
  */
 
 function getCleanUrl (url) {
-  const parsed = require('url').parse(url)
+  const { URL } = require('url')
+  const parsed = new URL(url)
   return parsed.pathname || url
 }
