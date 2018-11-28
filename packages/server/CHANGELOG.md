@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/server@1.3.4...@cactus-technologies/server@1.3.5) (2018-11-28)
+
+### Bug Fixes
+
+-   Catching incorrect url error ([cd94e14](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/commits/cd94e14))
+
 ## [1.3.4](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/server@1.3.3...@cactus-technologies/server@1.3.4) (2018-11-28)
 
 **Note:** Version bump only for package @cactus-technologies/server

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.5](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/node-application@4.1.4...@cactus-technologies/node-application@4.1.5) (2018-11-28)
+
+**Note:** Version bump only for package @cactus-technologies/node-application
+
 ## [4.1.4](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/node-application@4.1.3...@cactus-technologies/node-application@4.1.4) (2018-11-28)
 
 **Note:** Version bump only for package @cactus-technologies/node-application
