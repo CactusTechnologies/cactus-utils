@@ -599,8 +599,12 @@ exports.humanizeStatusCode = status => {
 
 exports.cleanUrl = url => {
   const { URL } = require('url')
-  const parsed = new URL(url)
-  return parsed.pathname || url
+  try {
+    const parsed = new URL(url)
+    return parsed.pathname || url
+  } catch (err) {
+    return url
+  }
 }
 
 // ────────────────────────────────  Crypto  ───────────────────────────────────
