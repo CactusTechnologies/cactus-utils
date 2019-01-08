@@ -1,15 +1,19 @@
 {
   "packages": ["packages/*"],
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "sort": true,
   "command": {
     "publish": {
-      "ignoreChanges": ["**/*.md", "**/__fixtures__/**", "**/__tests__/**"],
+      "ignoreChanges": ["**/*.md", "**/AUTHORS"],
       "allowBranch": "master",
       "message": "chore(release): publish",
       "conventionalCommits": true
     },
-    "bootstrap": {
-      "npmClientArgs": ["--no-package-lock"]
-    }
+    "bootstrap": { "hoist": false },
+    "clean": { "yes": true },
+    "run": { "bail": false, "parallel": true, "stream": true },
+    "exec": { "bail": false, "parallel": true, "stream": true }
   },
   "version": "independent"
 }

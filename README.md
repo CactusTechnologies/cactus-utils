@@ -27,7 +27,7 @@
 
 ## Maintainers
 
--   [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
+-   [Jorge Proaño](mailto:jorge@cactus.is)
 
 ## License
 

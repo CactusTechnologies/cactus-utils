@@ -28,7 +28,7 @@ npm install @cactus-technologies/api-request
 
 ## Maintainers
 
--   [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
+-   [Jorge Proaño](mailto:jorge@cactus.is)
 
 ## Changelog
 

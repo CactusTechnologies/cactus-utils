@@ -2,6 +2,8 @@
   "eslint.enable": true,
   "editor.formatOnSave": true,
   "prettier.eslintIntegration": true,
+  "prettier.tslintIntegration": true,
+  "prettier.stylelintIntegration": true,
   "cSpell.words": [
     "execa",
     "inquier",
@@ -15,7 +17,25 @@
     "todos",
     "unist"
   ],
-  "files.exclude": {
-    "**/node_modules/**": true
+  "files.watcherExclude": {
+    "**/build": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "docs": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "docs": true
+  },
+  "markdownlint.config": {
+    "MD013": false,
+    "MD030": {
+      "ul_single": 3,
+      "ul_multi": 3
+    },
+    "MD007": { "indent": 4 }
   }
 }
