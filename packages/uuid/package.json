@@ -15,17 +15,33 @@
   "contributors": [
     "Jorge Proaño <jorge@cactus.is>"
   ],
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "docs": "jsdoc2md index.js > docs/API.md"
+    "clean": "rm -rf dist/*",
+    "precompile": "npm run clean",
+    "compile": "run-p -sc compile:*",
+    "compile:ts": "tsc",
+    "predev": "npm run clean",
+    "dev": "run-p -sc compile:* -- --watch",
+    "fix": "run-s -sc fix:*",
+    "fix:linters": "run-p -sc lint:* -- --fix",
+    "fix:prettier": "prettier '{src,test}/*' --write",
+    "lint": "run-p -sc lint:*",
+    "lint:ts": "tslint -p tsconfig.json",
+    "prepublishOnly": "npm run compile",
+    "test": "exit 0"
   },
   "dependencies": {
-    "random-js": "^1.0.8"
+    "random-js": "^1.0.8",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "jsdoc-to-markdown": "^4.0.1"
+    "@types/random-js": "^1.0.31",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^3.2.2"
   }
 }

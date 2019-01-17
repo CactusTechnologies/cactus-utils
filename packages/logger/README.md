@@ -25,7 +25,8 @@ npm install @cactus-technologies/logger
 ## Usage
 
 ```javascript
-const logger = require('@cactus-technologies/logger')
+/* eslint-disable no-console */
+const logger = require('.')
 const log = logger('demo')
 log.info('hello world')
 ```
