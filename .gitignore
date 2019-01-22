@@ -1,5 +1,7 @@
 # PROJECT ESPECIFIC IGNORES #
 
+/packages/**/dist/**
+
 ## Project Managment
 private
 notes
