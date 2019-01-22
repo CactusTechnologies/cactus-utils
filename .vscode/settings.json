@@ -4,7 +4,13 @@
   "prettier.eslintIntegration": true,
   "prettier.tslintIntegration": true,
   "prettier.stylelintIntegration": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
   "cSpell.words": [
+    "Damm",
+    "Heroku",
+    "Serializers",
     "execa",
     "inquier",
     "ipaddr",
@@ -12,24 +18,12 @@
     "listr",
     "mdast",
     "monorepo",
+    "printf",
     "projectz",
     "promisified",
     "todos",
     "unist"
   ],
-  "files.watcherExclude": {
-    "**/build": true,
-    "**/coverage": true,
-    "**/dist": true,
-    "docs": true
-  },
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/build": true,
-    "**/coverage": true,
-    "**/dist": true,
-    "docs": true
-  },
   "markdownlint.config": {
     "MD013": false,
     "MD030": {

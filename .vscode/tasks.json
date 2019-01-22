@@ -2,19 +2,5 @@
   // See https://go.microsoft.com/fwlink/?LinkId=733558
   // for the documentation about the tasks.json format
   "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Readme",
-      "identifier": "reset.readme",
-      "type": "shell",
-      "command": "cp ${workspaceFolder}/packages/package-scripts/lib/readme/template.txt ${workspaceFolder}/packages/package-scripts/readme.md",
-      "presentation": {
-        "echo": true,
-        "reveal": "never",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true
-      }
-    }
-  ]
+  "tasks": []
 }

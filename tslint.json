@@ -1,0 +1,8 @@
+{
+  "extends": ["tslint-config-hnp"],
+  "defaultSeverity": "warn",
+  "rules": {
+    // NOTE: test dependencies are only declared at root but used in all packages.
+    "no-implicit-dependencies": false
+  }
+}
