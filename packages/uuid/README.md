@@ -5,6 +5,8 @@
 
 > A set of Unique ID generators for JS apps
 
+Is technically just a thin wrapper over random-js
+
 ---
 
 ## Table of contents
