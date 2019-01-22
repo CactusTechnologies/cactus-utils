@@ -28,5 +28,6 @@
     "got": "^9.3.2",
     "lodash": "^4.17.11",
     "pretty-ms": "^4.0.0"
-  }
+  },
+  "private": true
 }

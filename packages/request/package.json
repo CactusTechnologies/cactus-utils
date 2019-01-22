@@ -25,5 +25,6 @@
     "pretty-bytes": "^5.1.0",
     "pretty-ms": "^4.0.0",
     "request": "^2.88.0"
-  }
+  },
+  "private": true
 }
