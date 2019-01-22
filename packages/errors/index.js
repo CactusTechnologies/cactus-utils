@@ -114,14 +114,6 @@ exports.DatabaseValidationError = class DatabaseValidationError extends CactusEr
           ? [getFirstReason(humanized)]
           : ['Invalid %s.', getErrorsPaths(humanized)]
 
-    const getNested = fp.pipe([
-      fp.getOr({}, 'errors'),
-      fp.toPairs,
-      fp.map(fp.first),
-      fp.filter(k => k.split('.').length > 1),
-      fp.map(fp.pipe([fp.split('.'), fp.initial, fp.join('.')]))
-    ])
-
     super(opts, ...props)
 
     this.name = 'InvalidArgumentError'
@@ -129,13 +121,24 @@ exports.DatabaseValidationError = class DatabaseValidationError extends CactusEr
     this.status = 400
     this.errors = errors
 
+    // eslint-disable-next-line lodash-fp/no-extraneous-function-wrapping
+    function getNested (error) {
+      return fp.pipe([
+        fp.getOr({}, 'errors'),
+        fp.toPairs,
+        fp.map(fp.first),
+        fp.filter(k => k.split('.').length > 1),
+        fp.map(fp.pipe([fp.split('.'), fp.initial, fp.join('.')]))
+      ])(error)
+    }
+
     function getErrors (error) {
       return fp.pipe([
         fp.getOr({}, 'errors'),
         fp.mapValues(fp.get('message')),
         fp.omit(getNested(error)),
         fp.toPairs,
-        fp.reduce((acc, current) => fp.set(...current, acc), {})
+        fp.reduce((acc, current) => fp.set(current, acc), {})
       ])(error)
     }
 
