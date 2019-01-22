@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://ssh.dev.azure.com/Cactus%20Internal/cactus-utilities/compare/@cactus-technologies/api-request@1.3.4...@cactus-technologies/api-request@1.3.5) (2019-01-22)
+
+**Note:** Version bump only for package @cactus-technologies/api-request
+
 ## [1.3.4](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/api-request@1.3.3...@cactus-technologies/api-request@1.3.4) (2018-11-28)
 
 **Note:** Version bump only for package @cactus-technologies/api-request

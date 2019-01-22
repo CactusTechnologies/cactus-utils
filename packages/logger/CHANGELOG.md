@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.4](https://ssh.dev.azure.com/Cactus%20Internal/cactus-utilities/compare/@cactus-technologies/logger@2.2.3...@cactus-technologies/logger@2.2.4) (2019-01-22)
+
+**Note:** Version bump only for package @cactus-technologies/logger
+
 ## [2.2.3](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/logger@2.2.2...@cactus-technologies/logger@2.2.3) (2018-11-28)
 
 ### Bug Fixes

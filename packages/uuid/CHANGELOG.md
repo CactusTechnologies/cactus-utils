@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://ssh.dev.azure.com/Cactus%20Internal/cactus-utilities/compare/@cactus-technologies/uuid@1.1.2...@cactus-technologies/uuid@1.1.3) (2019-01-22)
+
+**Note:** Version bump only for package @cactus-technologies/uuid
+
 ## [1.1.2](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/uuid@1.1.1...@cactus-technologies/uuid@1.1.2) (2018-11-28)
 
 **Note:** Version bump only for package @cactus-technologies/uuid

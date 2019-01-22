@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/notifier",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "private": true,
   "description": "Slack Notifications Manager",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/modules/notifier#readme",
@@ -28,8 +28,8 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "@cactus-technologies/logger": "^2.2.3",
-    "@cactus-technologies/utils": "^1.3.2",
+    "@cactus-technologies/logger": "^2.2.4",
+    "@cactus-technologies/utils": "^1.3.3",
     "config": "^3.0.0",
     "lodash": "^4.17.11"
   }

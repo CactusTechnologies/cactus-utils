@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://ssh.dev.azure.com/Cactus%20Internal/cactus-utilities/compare/@cactus-technologies/errors@1.3.2...@cactus-technologies/errors@1.3.3) (2019-01-22)
+
+### Bug Fixes
+
+-   **errors:** Cannot get nested errors from the db ([a0991a4](https://ssh.dev.azure.com/Cactus%20Internal/cactus-utilities/commits/a0991a4))
+
 ## [1.3.2](http://cactus-bk@dev.azure.com:cactus-bk/cactus-tools/_git/utils-monorepo/compare/@cactus-technologies/errors@1.3.1...@cactus-technologies/errors@1.3.2) (2018-11-28)
 
 **Note:** Version bump only for package @cactus-technologies/errors
