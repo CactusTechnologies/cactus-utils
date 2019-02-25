@@ -1,11 +1,11 @@
 # PROJECT ESPECIFIC IGNORES #
 
 /packages/**/dist/**
+/packages/**/config/local.*
 
 ## Project Managment
 private
 notes
-
 
 ## NODEJS
 

@@ -1,0 +1,7 @@
+{
+  "hook": "CACTUS_SLACK_HOOK",
+  "enable": {
+    "__name": "CACTUS_SLACK_ENABLE",
+    "__format": "json"
+  }
+}

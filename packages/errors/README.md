@@ -9,12 +9,12 @@
 
 ## Table of contents
 
--   [Installation](#installation)
--   [Usage](#usage)
--   [API](#api)
--   [Maintainers](#maintainers)
--   [Changelog](#changelog)
--   [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+- [Maintainers](#maintainers)
+- [Changelog](#changelog)
+- [License](#license)
 
 ## Installation
 
@@ -28,7 +28,7 @@ npm install @cactus-technologies/errors
 
 ## Maintainers
 
--   [Jorge Proaño](mailto:jorge@cactus.is)
+- [Jorge Proaño](mailto:jorge@cactus.is)
 
 ## Changelog
 

@@ -1,5 +1,7 @@
 # @cactus-technologies/notifier
 
+![hero](hero.png)
+
 ![version](https://img.shields.io/badge/version-1.1.1-green.svg)
 
 > Slack Notifications Manager
@@ -8,28 +10,25 @@
 
 ## Table of contents
 
--   [Installation](#installation)
--   [Usage](#usage)
--   [API](#api)
--   [Maintainers](#maintainers)
--   [Changelog](#changelog)
--   [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Maintainers](#maintainers)
+- [Changelog](#changelog)
+- [License](#license)
 
 ## Installation
 
 ```sh
-git clone git@ssh.dev.azure.com:Cactus Internal/cactus-utilities cactus-utilities
-  cd cactus-utilities
+git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
+  cd cactus-utils
   npm install
 ```
 
 ## Usage
 
-## API
-
 ## Maintainers
 
--   [Jorge Proaño](mailto:jorge@cactus.is)
+- [Jorge Proaño](mailto:jorge@cactus.is)
 
 ## Changelog
 

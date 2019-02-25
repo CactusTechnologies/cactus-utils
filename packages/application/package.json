@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@ssh.dev.azure.com:Cactus Internal/cactus-utilities"
+    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
   },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
@@ -19,15 +19,14 @@
   "dependencies": {
     "@cactus-technologies/logger": "^2.2.4",
     "@cactus-technologies/utils": "^1.3.3",
-    "@pm2/io": "^2.4.7",
+    "@pm2/io": "^3.1.1",
     "async-exit-hook": "^2.0.1",
-    "config": "^3.0.0",
+    "config": "^3.0.1",
     "dev-ip": "^1.0.1",
-    "dotenv": "^6.1.0",
+    "dotenv": "^6.2.0",
     "env-paths": "^2.0.0",
-    "got": "^9.3.2",
+    "got": "^9.6.0",
     "lodash": "^4.17.11",
     "pretty-ms": "^4.0.0"
-  },
-  "private": true
+  }
 }

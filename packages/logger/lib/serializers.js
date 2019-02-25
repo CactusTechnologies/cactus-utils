@@ -1,18 +1,17 @@
-/**
- * A collection of simple serializers. Heavily insipered by the native Bunyan
- *   Serializers
- *  @module logger/serializers
+/*!
+ * Copyright 2019 Cactus Technologies, LLC. All rights reserved.
  */
+
+const { URL } = require('url')
 
 /**
  * Serializes Error Objects
  *
- * @param  {Error} err
- *
- * @return {Object}
+ * @type {import("pino").SerializerFn}
+ * @param  {any} err
  */
 
-exports.err = function errorSerializer (err) {
+function errorSerializer (err) {
   if (!err || !err.stack) return err
   const obj = {
     message: err.message,
@@ -23,12 +22,13 @@ exports.err = function errorSerializer (err) {
   return obj
 }
 
+exports.err = errorSerializer
+
 /**
  * Serializes HTTPRequest Objects
  *
- * @param  {Object} req HTTPRequest
- *
- * @return {Object}
+ * @type {import("pino").SerializerFn}
+ * @param  {any} req HTTPRequest
  */
 
 exports.req = function requestSerializer (req) {
@@ -36,22 +36,21 @@ exports.req = function requestSerializer (req) {
 
   return {
     id: req.reqId || undefined,
+    userId: req.userId || 'nobody',
     method: req.method,
     url: getCleanUrl(req.originalUrl ? req.originalUrl : req.url),
     headers: req.headers,
     httpVersion: `${req.httpVersionMajor}.${req.httpVersionMinor}`,
     remoteAddress: req.ip ? req.ip : req.connection.remoteAddress,
-    remotePort: req.connection.remotePort,
-    userId: req.userId || 'nobody'
+    remotePort: req.connection.remotePort
   }
 }
 
 /**
  * Serializes HTTPResponse Objects
  *
- * @param  {Object} res HTTPResponse
- *
- * @return {Object}
+ * @type {import("pino").SerializerFn}
+ * @param  {any} res HTTPResponse
  */
 exports.res = function responseSerializer (res) {
   if (!res || !res.statusCode) return res
@@ -66,7 +65,7 @@ exports.res = function responseSerializer (res) {
 /**
  * Gets the Error Stack as a String.
  *
- * @param  {Error} ex Error Object
+ * @param  {any} ex Error Object
  *
  * @return {String}
  */
@@ -89,7 +88,6 @@ function getErrorStack (ex) {
  */
 
 function getCleanUrl (url) {
-  const { URL } = require('url')
   try {
     const parsed = new URL(url)
     return parsed.pathname || url

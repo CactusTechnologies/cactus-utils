@@ -8,47 +8,34 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@ssh.dev.azure.com:Cactus Internal/cactus-utilities"
+    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
   },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
   "contributors": [
     "Jorge Proaño <jorge@cactus.is>"
   ],
-  "files": [
-    "dist"
-  ],
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "lib/index.js",
   "scripts": {
-    "clean": "rm -rf dist/*",
-    "precompile": "npm run clean",
-    "compile": "run-p -sc compile:*",
-    "compile:ts": "tsc",
-    "predev": "npm run clean",
-    "dev": "run-p -sc compile:* -- --watch",
     "fix": "run-s -sc fix:*",
     "fix:linters": "run-p -sc lint:* -- --fix",
     "fix:prettier": "prettier '{src,test}/*' --write",
     "lint": "run-p -sc lint:*",
-    "lint:ts": "tslint -p tsconfig.json",
-    "prepublishOnly": "npm run compile",
-    "test": "exit 0"
+    "lint:js": "eslint .",
+    "test": "mocha -Sb --exit",
+    "test:watch": "mocha -S --watch"
   },
   "dependencies": {
-    "@mechanicalhuman/bunyan-pretty": "^2.0.8",
+    "@mechanicalhuman/bunyan-pretty": "^2.1.1",
     "config": "^3.0.1",
     "lodash": "^4.17.11",
-    "pino": "^5.10.6",
-    "tslib": "^1.9.3"
+    "pino": "^5.11.1"
   },
   "devDependencies": {
-    "@types/config": "^0.0.34",
-    "@types/express": "^4.16.0",
-    "@types/lodash": "^4.14.119",
-    "@types/pino": "^5.8.3",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^3.2.2"
-  },
-  "private": true
+    "chai": "^4.2.0",
+    "import-fresh": "^3.0.0",
+    "mocha": "^6.0.2",
+    "mock-require": "^3.0.3",
+    "npm-run-all": "^4.1.5"
+  }
 }

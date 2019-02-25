@@ -9,17 +9,19 @@
 
 ## Table of contents
 
--   [Installation](#installation)
--   [Usage](#usage)
--   [API](#api)
--   [Maintainers](#maintainers)
--   [Changelog](#changelog)
--   [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+- [Maintainers](#maintainers)
+- [Changelog](#changelog)
+- [License](#license)
 
 ## Installation
 
 ```sh
-npm install @cactus-technologies/server
+git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
+  cd cactus-utils
+  npm install
 ```
 
 ## Usage
@@ -28,7 +30,7 @@ npm install @cactus-technologies/server
 
 ## Maintainers
 
--   [Jorge Proaño](mailto:jorge@cactus.is)
+- [Jorge Proaño](mailto:jorge@cactus.is)
 
 ## Changelog
 

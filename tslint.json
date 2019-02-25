@@ -1,8 +1,15 @@
 {
   "extends": ["tslint-config-hnp"],
-  "defaultSeverity": "warn",
+  "defaultSeverity": "error",
   "rules": {
     // NOTE: test dependencies are only declared at root but used in all packages.
-    "no-implicit-dependencies": false
+    "no-implicit-dependencies": false,
+    "match-default-export-name": false,
+    "file-header": {
+      "options": [
+        "Copyright \\d{4} Cactus Technologies, LLC\\. All rights reserved\\.",
+        "Copyright 2019 Cactus Technologies, LLC. All rights reserved."
+      ]
+    }
   }
 }

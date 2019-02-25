@@ -1,3 +1,7 @@
+/*!
+ * Copyright 2019 Cactus Technologies, LLC. All rights reserved.
+ */
+
 import Random from 'random-js'
 import adjectives from './dictionaries/adjectives.json'
 import damnTable from './dictionaries/damn-table.json'
@@ -33,14 +37,14 @@ export const hex = (length = 6): string => Random.hex()(ENGINE, length)
  * CheckDigit using the Damn algorithm.
  */
 export function numeric(digits = 10) {
-    const totalDigits = digits - 1
-    const max = maxNumber(totalDigits)
-    const num = Random.integer(0, max)(ENGINE)
-    const base = String(num)
-    const padded = base.padStart(totalDigits, '0')
-    const hashed = generateCheckDigit(padded)
+  const totalDigits = digits - 1
+  const max = maxNumber(totalDigits)
+  const num = Random.integer(0, max)(ENGINE)
+  const base = String(num)
+  const padded = base.padStart(totalDigits, '0')
+  const hashed = generateCheckDigit(padded)
 
-    return padded + hashed
+  return padded + hashed
 }
 
 /**
@@ -59,27 +63,27 @@ export const shortStamp = () => String(Math.floor(Date.now() / 1000)) // tslint:
  * Outputs a Random Pokemon Name, ONLY FROM THE ORIGINAL 151
  */
 export function pokemon(addHex = true) {
-    const poke = Random.pick(ENGINE, pokemons)
-    if (!addHex) return poke
+  const poke = Random.pick(ENGINE, pokemons)
+  if (!addHex) return poke
 
-    return `${poke}-${hex()}`
+  return `${poke}-${hex()}`
 }
 
 /**
  * Generate Heroku-like random names
  */
 export function heroku(addHex = true) {
-    const parts = [Random.pick(ENGINE, adjectives), Random.pick(ENGINE, nouns)]
-    if (addHex) parts.push(hex())
+  const parts = [Random.pick(ENGINE, adjectives), Random.pick(ENGINE, nouns)]
+  if (addHex) parts.push(hex())
 
-    return parts.join('-')
+  return parts.join('-')
 }
 
 /**
  * Generates a Humanized String delimited by '.'
  */
 export function humanized(words = 6) {
-    return Random.sample(ENGINE, english, words).join('.')
+  return Random.sample(ENGINE, english, words).join('.')
 }
 
 // ────────────────────────────────  Private  ──────────────────────────────────
@@ -89,14 +93,14 @@ export function humanized(words = 6) {
  * @private
  */
 function maxNumber(digits: number) {
-    let max = 0
-    // The base number requires one less digit as 0 is a digit already.
-    let base = digits - 1
-    // Loop through the digits and get the MAX
-    // tslint:disable-next-line: no-magic-numbers
-    for (base; base >= 0; base--) max = max + 9 * Math.pow(10, base)
+  let max = 0
+  // The base number requires one less digit as 0 is a digit already.
+  let base = digits - 1
+  // Loop through the digits and get the MAX
+  // tslint:disable-next-line: no-magic-numbers
+  for (base; base >= 0; base--) max = max + 9 * Math.pow(10, base)
 
-    return max
+  return max
 }
 
 /**
@@ -107,9 +111,9 @@ function maxNumber(digits: number) {
  * @private
  */
 function generateCheckDigit(input: string) {
-    let row = 0
-    // tslint:disable-next-line: no-unsafe-any
-    for (let i = 0; i < input.length; i++) row = damnTable[row][input.charAt(i)]
+  let row = 0
+  // tslint:disable-next-line: no-unsafe-any
+  for (let i = 0; i < input.length; i++) row = damnTable[row][input.charAt(i)]
 
-    return row.toString()
+  return row.toString()
 }

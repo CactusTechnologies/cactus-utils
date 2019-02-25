@@ -21,15 +21,15 @@
     "printf",
     "projectz",
     "promisified",
+    "tada",
     "todos",
     "unist"
   ],
   "markdownlint.config": {
     "MD013": false,
     "MD030": {
-      "ul_single": 3,
-      "ul_multi": 3
-    },
-    "MD007": { "indent": 4 }
+      "ol_single": 2,
+      "ol_multi": 2
+    }
   }
 }

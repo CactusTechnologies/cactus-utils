@@ -1,4 +1,7 @@
-const logger = require('.')
+/*!
+ * Copyright 2019 Cactus Technologies, LLC. All rights reserved.
+ */
+const logger = require('./lib')
 const log = logger('demo')
 
 log.info('hello world')

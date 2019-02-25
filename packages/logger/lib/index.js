@@ -1,19 +1,18 @@
-/**
- * Creates a customized Pino Logger based on my opinionated vision
- * @module logger
+/*!
+ * Copyright 2019 Cactus Technologies, LLC. All rights reserved.
  */
+
+process.env.SUPPRESS_NO_CONFIG_WARNING = 'y'
 
 const path = require('path')
 const config = require('config')
 const fp = require('lodash/fp')
 const pino = require('pino')
 
-// TODO: SUPPRESS_NO_CONFIG_WARNING
-
 // ─────────────────────────────────  Init  ────────────────────────────────────
 
 /* Load the default configuration */
-const configDir = path.resolve(__dirname, 'config')
+const configDir = path.resolve(__dirname, '..', 'config')
 const defaultConfig = config.util.loadFileConfigs(configDir)
 config.util.setModuleDefaults('logs', defaultConfig)
 
@@ -21,7 +20,7 @@ config.util.setModuleDefaults('logs', defaultConfig)
 
 /* Once the default config is loaded we can safely create the constants */
 
-const SERIALIZERS = require('./lib/serializers')
+const serializers = require('./serializers')
 
 /** @type {String} */
 const APP_NAME = config.has('name')
@@ -38,46 +37,29 @@ const HOSTNAME = (config.has('host')
   : process.env.HOST || process.env.HOSTNAME || require('os').hostname()
 ).split('.')[0]
 
-// TODO: Investigate how to pass the stream via the config files.
-/** @type {WritableStream}  */
-const STREAM = (function getStream () {
-  switch (config.get('logs.stream')) {
-    case 'err':
-    case 'stderr':
-    case 'error':
-    case '2':
-      return prettyOr(process.stderr)
-    case 'out':
-    case 'stdout':
-    case '1':
-      return prettyOr(process.stdout)
-    default:
-      console.log('Bad logs.stream config, defaulting to process.stdout')
-      return prettyOr(process.stdout)
+const pretty = config.get('logs.pretty')
+  ? {
+    prettyPrint: { stamps: false },
+    prettifier: require('@mechanicalhuman/bunyan-pretty')
   }
+  : {}
 
-  function prettyOr (stream) {
-    return config.get('logs.pretty')
-      ? require('@mechanicalhuman/bunyan-pretty')(stream, { timeStamps: false })
-      : stream
-  }
-})()
-
-/** @type {Object} Base logger options */
 const DEFAULTS = {
   safe: true, // avoid error caused by circular references in the object tree
   messageKey: 'msg', // Bunyan and Pretty look for this key as the msg key
-  prettyPrint: false, // Ensure pino's own pretty log doesnt get triggered
   level: config.get('logs.level'),
-  serializers: SERIALIZERS,
+  serializers: serializers,
+
   base: {
     pid: process.pid,
     hostname: HOSTNAME,
     app: APP_NAME
-  }
+  },
+
+  ...pretty
 }
 
-const BLACKLISTED_FILEDS = [
+const BLACKLISTED_FIELDS = [
   'safe',
   'serializers',
   'timestamp',
@@ -94,48 +76,41 @@ const BLACKLISTED_FILEDS = [
   'crlf'
 ]
 
-const WHITELISTED_FILEDS = ['level', 'serializers', 'base']
+const WHITELISTED_FIELDS = ['level', 'serializers', 'base', 'redact']
 
 // ────────────────────────────────  exports  ──────────────────────────────────
 
 /**
  * Merge the given options with the default Options and returns a Logger
  *
- * @param  {String|Object} opts Logger's Name
- * @param  {WritableStream} [stream=process.stdout] Print Stream
+ * @param  {string|pino.LoggerOptions} [opts] Logger's Name or Options
+ * @param  {pino.DestinationStream=} stream Print Stream
  *
- * @return {pino.Logger} Pino base logging instance
  */
 
-module.exports = function createLogger (opts, stream = STREAM) {
-  return fp.pipe(
-    coerceOptions,
-    createWrapedInstance(stream)
-  )(opts)
+module.exports = function createLogger (opts, stream = pino.destination(1)) {
+  const options = coerceOptions(opts)
+  const instance = pino(options, stream)
+  return wrapPinoInstance(instance)
 }
 
-/** @type {Object} Exports Serializers */
-module.exports.Serializers = SERIALIZERS
+module.exports.Serializers = serializers
+module.exports.destination = pino.destination
+module.exports.final = pino.final
 
 // ──────────────────────────────  Pino Proxy  ─────────────────────────────────
 
-function createWrapedInstance (stream) {
-  return options => {
-    const instance = pino(options, stream)
-    return wrapPinoInstance(instance)
-  }
-}
-
+/** @return {pino.Logger} Pino base logging instance */
 function wrapPinoInstance (instance) {
   return new Proxy(instance, { get: getHandler })
 }
 
 function wrapChildInstance (target, thisArgument, argumentsList) {
-  const children = Reflect.apply(...arguments)
+  const children = Reflect.apply(target, thisArgument, argumentsList)
   return wrapPinoInstance(children)
 }
 
-function getBindedProp (obj, prop) {
+function getBindProp (obj, prop) {
   return obj[prop].bind(obj)
 }
 
@@ -174,7 +149,7 @@ function applyLogProp (target, thisArgument, argumentsList) {
   }
 }
 
-function getHandler (obj, prop, receiver) {
+function getHandler (obj, prop) {
   switch (prop) {
     case 'fatal':
     case 'error':
@@ -182,11 +157,11 @@ function getHandler (obj, prop, receiver) {
     case 'info':
     case 'debug':
     case 'trace':
-      return new Proxy(getBindedProp(obj, prop), { apply: applyLogProp })
+      return new Proxy(getBindProp(obj, prop), { apply: applyLogProp })
     case 'child':
-      return new Proxy(getBindedProp(obj, prop), { apply: wrapChildInstance })
+      return new Proxy(getBindProp(obj, prop), { apply: wrapChildInstance })
     default:
-      return Reflect.get(...arguments)
+      return Reflect.get(obj, prop)
   }
 }
 
@@ -194,21 +169,17 @@ function getHandler (obj, prop, receiver) {
 
 function coerceOptions (opts) {
   return fp.pipe(
-    opts => (fp.isEmpty(opts) ? {} : opts),
+    () => (fp.isEmpty(opts) ? {} : opts),
     opts => (fp.isString(opts) ? { name: opts } : opts),
     opts => fp.set('name', fp.getOr(APP_NAME, 'name', opts), opts),
     opts => fp.set('base', extrasToBase(opts), opts),
-    fp.pick(WHITELISTED_FILEDS),
-    opts => extend(DEFAULTS, opts)
-  )(opts)
+    fp.pick(WHITELISTED_FIELDS),
+    opts => Object.assign({}, DEFAULTS, opts)
+  )()
 
   function extrasToBase (opts) {
     const current = fp.getOr({}, 'base', opts)
-    const extras = fp.omit(BLACKLISTED_FILEDS, opts)
-    return extend(current, extras)
+    const extras = fp.omit(BLACKLISTED_FIELDS, opts)
+    return Object.assign({}, current, extras)
   }
-}
-
-function extend () {
-  return config.util.extendDeep({}, ...arguments)
 }

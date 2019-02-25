@@ -9,28 +9,51 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@ssh.dev.azure.com:Cactus Internal/cactus-utilities"
+    "url": "git@github.com:CactusTechnologies/cactus-utils.git"
   },
   "license": "MIT",
   "author": "Cactus Technologies LLC <hi@cactus.is> (http://www.cactus.is)",
   "contributors": [
     "Jorge Proaño <jorge@cactus.is>"
   ],
-  "files": [
-    "lib"
-  ],
-  "main": "lib/notifier.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "clean": "rm -rf dist/*",
+    "precompile": "npm run clean",
+    "compile": "tsc",
+    "predev": "npm run clean",
+    "dev": "tsc --watch",
+    "fix": "run-s -sc fix:*",
+    "fix:linters": "run-p -sc lint:* -- --fix",
+    "fix:prettier": "prettier '{src,test}/*' --write",
+    "lint": "run-p -sc lint:*",
+    "lint:js": "eslint .",
+    "lint:ts": "tslint -p tsconfig.json",
+    "prepublishOnly": "npm run compile",
+    "pretest": "npm run compile",
+    "test": "mocha -Sb --exit",
+    "test:watch": "mocha -S --watch"
   },
   "dependencies": {
     "@cactus-technologies/logger": "^2.2.4",
     "@cactus-technologies/utils": "^1.3.3",
-    "config": "^3.0.0",
-    "lodash": "^4.17.11"
+    "config": "^3.0.1",
+    "got": "^9.6.0",
+    "lodash": "^4.17.11",
+    "moment-timezone": "^0.5.23",
+    "pretty-ms": "^4.0.0",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@types/config": "^0.0.34",
+    "@types/got": "^9.4.0",
+    "@types/lodash": "^4.14.121",
+    "@types/pretty-ms": "^4.0.0",
+    "chai": "^4.2.0",
+    "import-fresh": "^3.0.0",
+    "mocha": "^6.0.2",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^3.3.3333"
   }
 }

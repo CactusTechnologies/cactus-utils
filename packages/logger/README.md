@@ -9,12 +9,12 @@
 
 ## Table of contents
 
--   [Installation](#installation)
--   [Usage](#usage)
--   [API](#api)
--   [Maintainers](#maintainers)
--   [Changelog](#changelog)
--   [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+- [Maintainers](#maintainers)
+- [Changelog](#changelog)
+- [License](#license)
 
 ## Installation
 
@@ -26,20 +26,20 @@ npm install @cactus-technologies/logger
 
 ```javascript
 /* eslint-disable no-console */
-const logger = require('.')
+const logger = require('@cactus-technologies/logger')
 const log = logger('demo')
 log.info('hello world')
 ```
 
 ```json
 {
-    "level": 30,
-    "time": 0000000,
-    "msg": "hello world",
-    "pid": 5218,
-    "hostname": "demo-host",
-    "name": "demo",
-    "v": 1
+  "level": 30,
+  "time": 0000000,
+  "msg": "hello world",
+  "pid": 5218,
+  "hostname": "demo-host",
+  "name": "demo",
+  "v": 1
 }
 ```
 
@@ -49,13 +49,13 @@ log.error('this is at error level')
 
 ```json
 {
-    "level": 50,
-    "time": 0000000,
-    "msg": "this is at error level",
-    "pid": 000,
-    "hostname": "demo-host",
-    "name": "demo",
-    "v": 1
+  "level": 50,
+  "time": 0000000,
+  "msg": "this is at error level",
+  "pid": 000,
+  "hostname": "demo-host",
+  "name": "demo",
+  "v": 1
 }
 ```
 
@@ -67,13 +67,13 @@ log.info('the answer is %d', 42)
 
 ```json
 {
-    "level": 30,
-    "time": 0000000,
-    "msg": "the answer is 42",
-    "pid": 000,
-    "hostname": "demo-host",
-    "name": "demo",
-    "v": 1
+  "level": 30,
+  "time": 0000000,
+  "msg": "the answer is 42",
+  "pid": 000,
+  "hostname": "demo-host",
+  "name": "demo",
+  "v": 1
 }
 ```
 
@@ -85,14 +85,14 @@ log.info({ a: { b: 'c' } }, 'Attachment')
 
 ```json
 {
-    "level": 30,
-    "time": 0000000,
-    "msg": "Nested Attachment",
-    "pid": 000,
-    "hostname": "demo-host",
-    "name": "demo",
-    "a": { "b": "c" },
-    "v": 1
+  "level": 30,
+  "time": 0000000,
+  "msg": "Nested Attachment",
+  "pid": 000,
+  "hostname": "demo-host",
+  "name": "demo",
+  "a": { "b": "c" },
+  "v": 1
 }
 ```
 
@@ -126,14 +126,14 @@ child.info('hello child!')
 
 ```json
 {
-    "level": 30,
-    "time": 0000000,
-    "msg": "hello child!",
-    "pid": 000,
-    "hostname": "demo-host",
-    "name": "demo",
-    "extra": "property",
-    "v": 1
+  "level": 30,
+  "time": 0000000,
+  "msg": "hello child!",
+  "pid": 000,
+  "hostname": "demo-host",
+  "name": "demo",
+  "extra": "property",
+  "v": 1
 }
 ```
 
@@ -141,7 +141,7 @@ child.info('hello child!')
 
 ## Maintainers
 
--   [Jorge Proaño](mailto:jorge@cactus.is)
+- [Jorge Proaño](mailto:jorge@cactus.is)
 
 ## Changelog
 

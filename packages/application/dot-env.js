@@ -1,3 +1,6 @@
+/*!
+ * Copyright 2019 Cactus Technologies, LLC. All rights reserved.
+ */
 'use strict'
 
 const fs = require('fs')
@@ -23,8 +26,6 @@ if (process.versions && process.versions.electron) {
 }
 
 /** Loads .env if exists */
-module.exports = () => {
-  const env = path.resolve(process.cwd(), '.env')
-  if (fs.existsSync(env)) process.stdout.write('Loading .env in to the ENV\n')
-  if (fs.existsSync(env)) dotenv.config({ path: env })
-}
+const env = path.resolve(process.cwd(), '.env')
+if (fs.existsSync(env)) process.stdout.write('Loading .env in to the ENV\n')
+if (fs.existsSync(env)) dotenv.config({ path: env })

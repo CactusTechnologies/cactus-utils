@@ -11,12 +11,12 @@ Is technically just a thin wrapper over random-js
 
 ## Table of contents
 
--   [Installation](#installation)
--   [Usage](#usage)
--   [API](#api)
--   [Maintainers](#maintainers)
--   [Changelog](#changelog)
--   [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+- [Maintainers](#maintainers)
+- [Changelog](#changelog)
+- [License](#license)
 
 ## Installation
 
@@ -30,7 +30,7 @@ npm install @cactus-technologies/uuid
 
 ## Maintainers
 
--   [Jorge Proaño](mailto:jorge@cactus.is)
+- [Jorge Proaño](mailto:jorge@cactus.is)
 
 ## Changelog
 
