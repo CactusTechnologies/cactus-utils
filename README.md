@@ -1,6 +1,6 @@
 # cactus-utils
 
-![hero](assets/hero.png)
+![hero](assets/cactus-hero.png)
 
 > Cactus Utilities monorepo
 
