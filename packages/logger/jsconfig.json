@@ -4,6 +4,7 @@
     "checkJs": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "target": "es2018"
   },
   "exclude": ["node_modules", "**/node_modules/*"]

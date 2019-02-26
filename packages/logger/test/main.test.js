@@ -23,7 +23,7 @@ describe('External Configuration', function () {
   })
 
   // Ensure testing environment is configured
-  it.skip('should be respect env variables', function () {
+  it('should be respect env variables', function () {
     process.env.CACTUS_LOGS_PRETTY = 'y'
     process.env.CACTUS_LOGS_LEVEL = 'trace'
     const config = importFresh('config')
@@ -33,7 +33,7 @@ describe('External Configuration', function () {
   })
 
   describe('logs.pretty', function () {
-    it.skip('should handle non boolean pretty values', function () {
+    it('should handle non boolean pretty values', function () {
       process.env.CACTUS_LOGS_PRETTY = 'd'
       const config = importFresh('config')
       importFresh('..')
@@ -42,28 +42,27 @@ describe('External Configuration', function () {
   })
 
   describe('logs.level', function () {
-    it.skip('should coerce level values', function () {
+    it('should coerce level values', function () {
       process.env.CACTUS_LOGS_LEVEL = 'd'
       const config = importFresh('config')
       importFresh('..')
       expect(config.get('logs.level')).to.equal('info')
     })
 
-    it.skip('should accept non lowercase level values', function () {
+    it('should accept non lowercase level values', function () {
       process.env.CACTUS_LOGS_LEVEL = 'DEBUG'
       const config = importFresh('config')
       importFresh('..')
       expect(config.get('logs.level')).to.equal('debug')
     })
 
-    it.skip('should accept all known level values', function () {
+    it('should accept all known level values', function () {
       testValue('fatal')
       testValue('error')
       testValue('warn')
       testValue('info')
       testValue('debug')
       testValue('trace')
-      testValue('silent')
 
       function testValue (value) {
         process.env.CACTUS_LOGS_LEVEL = value

@@ -8,13 +8,14 @@ const path = require('path')
 const config = require('config')
 const fp = require('lodash/fp')
 const pino = require('pino')
-
+const yn = require('yn')
 // ─────────────────────────────────  Init  ────────────────────────────────────
 
 /* Load the default configuration */
 const configDir = path.resolve(__dirname, '..', 'config')
 const defaultConfig = config.util.loadFileConfigs(configDir)
-config.util.setModuleDefaults('logs', defaultConfig)
+
+config.util.setModuleDefaults('logs', coerceConfig(defaultConfig))
 
 // ───────────────────────────────  Constants  ─────────────────────────────────
 
@@ -181,5 +182,15 @@ function coerceOptions (opts) {
     const current = fp.getOr({}, 'base', opts)
     const extras = fp.omit(BLACKLISTED_FIELDS, opts)
     return Object.assign({}, current, extras)
+  }
+}
+
+function coerceConfig (config = {}) {
+  const accepted = ['fatal', 'error', 'warn', 'info', 'debug', 'trace']
+  if (fp.isString(config.level)) config.level = fp.toLower(config.level.trim())
+  return {
+    ...config,
+    pretty: yn(config.pretty, { default: false }),
+    level: accepted.includes(config.level) ? config.level : 'info'
   }
 }
