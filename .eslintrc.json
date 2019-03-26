@@ -1,3 +1,3 @@
 {
-  "extends": "@hnp"
+  "extends": "eslint-config-hnp"
 }
