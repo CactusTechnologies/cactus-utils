@@ -30,7 +30,7 @@ git clone git@github.com:CactusTechnologies/cactus-utils.git cactus-utils
 
 ## Maintainers
 
-- [Jorge Proaño](mailto:jorge@cactus.is)
+- [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
 
 ## Changelog
 

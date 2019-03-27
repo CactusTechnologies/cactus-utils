@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "codezombiech.gitignore",
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "mikestead.dotenv",
+    "ms-azure-devops.azure-pipelines",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "msjsdiag.debugger-for-chrome",
+    "shinnn.stylelint",
+    "shinnn.stylelint",
+    "streetsidesoftware.code-spell-checker"
+  ],
+  "unwantedRecommendations": []
+}

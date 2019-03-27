@@ -30,7 +30,7 @@ npm install @cactus-technologies/uuid
 
 ## Maintainers
 
-- [Jorge Proaño](mailto:jorge@cactus.is)
+- [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
 
 ## Changelog
 

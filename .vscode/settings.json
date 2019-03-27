@@ -25,11 +25,24 @@
     "todos",
     "unist"
   ],
-  "markdownlint.config": {
-    "MD013": false,
-    "MD030": {
-      "ol_single": 2,
-      "ol_multi": 2
-    }
+  "files.watcherExclude": {
+    "**/build": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "docs": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "docs": true
+  },
+  "cSpell.ignorePaths": ["**/samples/**", "**/package.json"],
+  "files.associations": {
+    ".eslintrc": "json",
+    ".huskyrc": "json",
+    ".prettierrc": "json",
+    ".stylelintrc": "json"
   }
 }

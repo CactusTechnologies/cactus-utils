@@ -1,0 +1,17 @@
+{
+  "extends": "hnp",
+  "rules": {
+    "header/header": [
+      2,
+      "block",
+      [
+        "!",
+        {
+          "pattern": " \\* Copyright \\d{4} Cactus Technologies, LLC. All rights reserved.",
+          "template": " * Copyright 2019 Cactus Technologies, LLC. All rights reserved."
+        },
+        " "
+      ]
+    ]
+  }
+}

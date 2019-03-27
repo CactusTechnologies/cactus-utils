@@ -141,7 +141,13 @@ child.info('hello child!')
 
 ## Maintainers
 
+<<<<<<< HEAD
+
 - [Jorge Proaño](mailto:jorge@cactus.is)
+  ||||||| merged common ancestors
+- # [Jorge Proaño](https://www.hidden-node-problem.com)
+- [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
+  > > > > > > > master
 
 ## Changelog
 

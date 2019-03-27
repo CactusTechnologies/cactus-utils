@@ -17,7 +17,9 @@
     "Jorge Proaño <jorge@cactus.is>"
   ],
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "tools/*",
+    "components/*"
   ],
   "scripts": {
     "compile": "lerna run compile",
@@ -29,33 +31,6 @@
     "test": "lerna run test",
     "todos": "package-scripts todos",
     "verify": "run-s compile test"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run test"
-    }
-  },
-  "lint-staged": {
-    "*.{css,scss}": [
-      "prettier --write",
-      "stylelint --fix",
-      "git add"
-    ],
-    "*.{js,jsx}": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{json,md}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "tslint --fix",
-      "git add"
-    ]
   },
   "config": {
     "commitizen": {

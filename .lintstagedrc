@@ -1,0 +1,10 @@
+{
+  "ignore": ["docs", "**/example.js"],
+  "linters": {
+    "*.{json,md}": ["prettier --write", "git add"],
+    "*.{js, jsx}": ["prettier --write", "eslint --fix", "git add"],
+    "*.{ts, tsx}": ["prettier --write", "tslint --fix", "git add"],
+    "*.css": ["prettier --write", "stylelint --fix", "git add"],
+    "*.scss": ["prettier --write", "stylelint --syntax=scss --fix", "git add"]
+  }
+}

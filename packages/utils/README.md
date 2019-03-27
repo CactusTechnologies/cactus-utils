@@ -28,7 +28,7 @@ npm install @cactus-technologies/utils
 
 ## Maintainers
 
-- [Jorge Proaño](mailto:jorge@cactus.is)
+- [Jorge Proaño](mailto:jorge@hiddennodeproblem.com)
 
 ## Changelog
 
