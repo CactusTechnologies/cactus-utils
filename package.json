@@ -47,6 +47,9 @@
       "uuid"
     ]
   },
+  "dependencies": {
+    "@types/node": "^12.7.4"
+  },
   "devDependencies": {
     "@hnp/cz": "^1.0.8",
     "@hnp/package-scripts": "^1.0.11",
