@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/notifier",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "Slack Notifications Manager",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/modules/notifier#readme",
