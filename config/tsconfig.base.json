@@ -1,7 +1,0 @@
-{
-  "extends": "./tsconfig.core.json",
-  "compilerOptions": {
-    "downlevelIteration": true, // Provide full support for iterables in for..of, spread and destructuring when targeting ES5
-    "importHelpers": true // Import emit helpers (e.g. __extends, __rest, etc..) from tslib (*Requires tslib on your code*)
-  }
-}
