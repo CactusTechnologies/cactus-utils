@@ -22,9 +22,6 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist/*",
-    "precompile": "npm run clean",
-    "compile": "run-p -sc compile:*",
-    "compile:ts": "tsc -b tsconfig.json",
     "predev": "npm run clean",
     "dev": "run-p -sc compile:* -- --watch",
     "fix": "run-s -sc fix:*",
@@ -32,7 +29,6 @@
     "fix:prettier": "prettier '{src,test}/*' --write",
     "lint": "run-p -sc lint:*",
     "lint:ts": "tslint -p tsconfig.json",
-    "prepublishOnly": "npm run compile",
     "test": "exit 0"
   },
   "dependencies": {

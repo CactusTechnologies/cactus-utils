@@ -19,9 +19,6 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "clean": "rm -rf dist/*",
-    "precompile": "npm run clean",
-    "compile": "tsc -b tsconfig.json",
     "predev": "npm run clean",
     "dev": "tsc --watch",
     "fix": "run-s -sc fix:*",
@@ -30,7 +27,6 @@
     "lint": "run-p -sc lint:*",
     "lint:js": "eslint .",
     "lint:ts": "tslint -p tsconfig.json",
-    "prepublishOnly": "npm run compile",
     "pretest": "npm run compile",
     "test": "mocha -Sb --exit; exit 0",
     "test:watch": "mocha -S --watch"
