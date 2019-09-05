@@ -1,7 +1,7 @@
 {
   "name": "@cactus-technologies/logger",
   "private": true,
-  "version": "2.2.4",
+  "version": "2.3.0",
   "description": "Customized Pino Logger for Cactus projects",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/logger#readme",
   "bugs": {
