@@ -2,7 +2,7 @@
  * Copyright 2019 Cactus Technologies, LLC. All rights reserved.
  */
 
-import Random from 'random-js'
+import { createEntropy, MersenneTwister19937, Random } from 'random-js'
 import adjectives from './dictionaries/adjectives.json'
 import damnTable from './dictionaries/damn-table.json'
 import english from './dictionaries/english.json'
@@ -15,23 +15,24 @@ import pokemons from './dictionaries/pokemon.json'
  * Random Engine: https://en.wikipedia.org/wiki/Mersenne_Twister
  * This is the random engine that powers the entire UUID module.
  */
-const ENGINE: Random.MT19937 = Random.engines.mt19937()
+const seed = process.env.NODE_ENV === 'test' ? [12345] : createEntropy() // tslint:disable-line: no-magic-numbers
+const ENGINE = MersenneTwister19937.seedWithArray(seed)
 
-/* Seed the engine */
-ENGINE.autoSeed()
+// ─────────────────────────────────  Random  ──────────────────────────────────
+export const random = new Random(ENGINE)
 
 // ────────────────────────────────  Methods  ──────────────────────────────────
 
 /**
  * Creates a 'UUID4 Random String'
  */
-export const v4 = (): string => Random.uuid4(ENGINE)
+export const v4 = (): string => random.uuid4()
 
 /**
  * Produce a random string comprised of numbers or the characters ABCDEF of
  * length 'length'
  */
-export const hex = (length = 6): string => Random.hex()(ENGINE, length)
+export const hex = (length = 6): string => random.hex(length)
 /**
  * Creates a 'Numeric Random String' with the last digit being used as a
  * CheckDigit using the Damn algorithm.
@@ -39,7 +40,7 @@ export const hex = (length = 6): string => Random.hex()(ENGINE, length)
 export function numeric(digits = 10) {
   const totalDigits = digits - 1
   const max = maxNumber(totalDigits)
-  const num = Random.integer(0, max)(ENGINE)
+  const num = random.integer(0, max)
   const base = String(num)
   const padded = base.padStart(totalDigits, '0')
   const hashed = generateCheckDigit(padded)
@@ -63,7 +64,7 @@ export const shortStamp = () => String(Math.floor(Date.now() / 1000)) // tslint:
  * Outputs a Random Pokemon Name, ONLY FROM THE ORIGINAL 151
  */
 export function pokemon(addHex = true) {
-  const poke = Random.pick(ENGINE, pokemons)
+  const poke = random.pick(pokemons)
   if (!addHex) return poke
 
   return `${poke}-${hex()}`
@@ -73,7 +74,7 @@ export function pokemon(addHex = true) {
  * Generate Heroku-like random names
  */
 export function heroku(addHex = true) {
-  const parts = [Random.pick(ENGINE, adjectives), Random.pick(ENGINE, nouns)]
+  const parts = [random.pick(adjectives), random.pick(nouns)]
   if (addHex) parts.push(hex())
 
   return parts.join('-')
@@ -83,7 +84,7 @@ export function heroku(addHex = true) {
  * Generates a Humanized String delimited by '.'
  */
 export function humanized(words = 6) {
-  return Random.sample(ENGINE, english, words).join('.')
+  return random.sample(english, words).join('.')
 }
 
 // ────────────────────────────────  Private  ──────────────────────────────────
