@@ -1,6 +1,6 @@
 {
   "hooks": {
     "pre-commit": "package-scripts compile; lint-staged",
-    "pre-push": "npm test"
+    "pre-push": "yarn test"
   }
 }
