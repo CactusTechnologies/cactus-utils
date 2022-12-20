@@ -1,6 +1,6 @@
 {
   "name": "@cactus-technologies/server",
-  "private": true,
+  "private": false,
   "version": "1.4.1",
   "description": "Basic Server for Cactus Webservices",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils/tree/master/packages/server#readme",

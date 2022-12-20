@@ -1,7 +1,7 @@
 {
   "name": "cactus-utils",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.2",
+  "private": false,
   "description": "Cactus Utilities monorepo",
   "homepage": "https://github.com/CactusTechnologies/cactus-utils#readme",
   "bugs": {
